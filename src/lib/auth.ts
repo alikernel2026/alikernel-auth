@@ -8,9 +8,7 @@ const libsqlClient = createClient({
 });
 
 export const auth = betterAuth({
-    database: libsqlAdapter(libsqlClient, {
-        provider: "libsql",
-    }),
+    database: libsqlAdapter(libsqlClient),
     baseURL: process.env.BETTER_AUTH_URL, 
     socialProviders: {
         google: {
