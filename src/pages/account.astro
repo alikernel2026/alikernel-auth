@@ -1,0 +1,108 @@
+---
+// 1. استيراد المكتبات وتصميمكِ الأصلي
+import '/style.css';
+import { auth } from "../lib/auth";
+
+// 2. فحص الجلسة في السيرفر (حماية الصفحة)
+const session = await auth.api.getSession({
+    headers: Astro.request.headers
+});
+
+// إذا لم يسجل المستخدم دخوله، يتم توجيهه لصفحة تسجيل الدخول فوراً
+if (!session) {
+    return Astro.redirect('/login');
+}
+
+const user = session.user;
+
+// 3. تنسيق التاريخ باللغة العربية بنفس الطريقة التي كنتِ تفضلينها
+const date = new Date(user.createdAt);
+const formattedJoinedDate = date.toLocaleString('ar-u-nu-latn', {
+    year: 'numeric', month: 'numeric', day: 'numeric',
+    hour: 'numeric', minute: 'numeric', hour12: true
+}).replace('ص', 'صباحاً').replace('م', 'مساءً');
+---
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حسابي - علي كيرنل</title>
+    <link rel="icon" type="image/x-icon" href="https://www.alikernel.com/favicon.ico">
+</head>
+<body data-theme="dark">
+
+    <div class="page-wrapper">
+        
+        <header class="site-header">
+            <div class="header-content">
+                <a href="https://www.alikernel.com" class="header-logo-link">
+                    <svg class="header-logo-icon" viewBox="0 0 124 124" fill="none">
+                        <rect width="124" height="124" rx="24" fill="#F97316"/>
+                        <path d="M19.375 36.782v63.843a4 4 0 0 0 4 4h63.843c3.564 0 5.348-4.309 2.829-6.828L26.203 33.953c-2.52-2.52-6.828-.735-6.828 2.829" fill="#fff"/>
+                        <circle cx="63.211" cy="37.539" r="18.164" fill="#000"/>
+                        <rect opacity=".4" x="81.133" y="80.72" width="17.569" height="17.388" rx="4" transform="rotate(-45 81.133 80.72)" fill="#FDBA74"/>
+                    </svg>
+                    <span>علي كيرنل</span>
+                </a>
+            </div>
+        </header>
+
+        <main class="page-content">
+            <div class="account-container">
+                
+                <div class="account-header">
+                    <h2>حساب</h2>
+                    <p>عرض وإدارة حسابك</p>
+                </div>
+
+                <section class="user-details">
+                    <div class="user-info">
+                        <h3 id="account-name">{user.name}</h3>
+                        <p id="account-email">{user.email}</p>
+                        <p id="account-joined-date">انضم في: {formattedJoinedDate}</p>
+                    </div>
+                    <img id="account-avatar" src={user.image || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} alt="صورة المستخدم">
+                </section>
+
+                <div class="sessions-title">الأجهزة المتصلة</div>
+                <div class="sessions-list" id="sessions-list">
+                    <div class="loading-text">جاري جلب بيانات الأجهزة...</div>
+                </div>
+
+                <div class="account-actions">
+                    <button class="account-btn primary" id="logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
+                        <span>الخروج</span>
+                    </button>
+                    <a href="https://www.alikernel.com" class="account-btn secondary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        <span>الرئيسية</span>
+                    </a>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <script>
+        import { createAuthClient } from "better-auth/client";
+        const authClient = createAuthClient();
+
+        // تفعيل زر الخروج
+        document.getElementById('logout-btn').onclick = async () => {
+            await authClient.signOut({
+                fetchOptions: {
+                    onSuccess: () => {
+                        window.location.href = "/login";
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
