@@ -11,7 +11,7 @@
     "db:push": "better-auth push"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^12.3.0",
+    "@astrojs/vercel": "^latest",
     "@libsql/client": "^0.14.0",
     "astro": "^5.1.0",
     "better-auth": "1.2.0"
