@@ -1,15 +1,19 @@
 {
   "rewrites": [
     {
+      "source": "/api/auth/:path*",
+      "destination": "/api/auth/:path*"
+    },
+    {
       "source": "/login",
       "destination": "/login"
     },
     {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
+      "source": "/account",
+      "destination": "/account"
     },
     {
-      "source": "/:path*",
+      "source": "/:path((?!api|login|account).*)",
       "destination": "https://alikernel.blogspot.com/:path*"
     }
   ]
