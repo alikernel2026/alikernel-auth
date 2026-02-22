@@ -1,15 +1,6 @@
 {
   "name": "alikernel-auth",
   "type": "module",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "db:gen": "better-auth generate",
-    "db:push": "better-auth push"
-  },
   "dependencies": {
     "@astrojs/vercel": "^latest",
     "@libsql/client": "^0.14.0",
