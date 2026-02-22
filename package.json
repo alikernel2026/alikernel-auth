@@ -1,7 +1,6 @@
 {
   "name": "alikernel-auth",
   "type": "module",
-  "version": "1.0.0",
   "dependencies": {
     "@astrojs/vercel": "^latest",
     "@libsql/client": "^0.14.0",
