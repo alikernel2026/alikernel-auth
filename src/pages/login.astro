@@ -1,5 +1,5 @@
 ---
-// استيراد ملف التنسيق
+// 1. استيراد ملف التنسيق
 import '../styles/style.css';
 ---
 
@@ -41,35 +41,99 @@ import '../styles/style.css';
         </div>
     </div>
 
+    <script is:inline>
+        (function() {
+            try {
+                var photoURL = localStorage.getItem("userPhotoURL");
+                var lastUid = localStorage.getItem("last_uid");
+                var userAvatarIcon = document.getElementById("user-avatar-icon");
+                var profileIcon = document.getElementById("profile-icon");
+
+                if (lastUid && photoURL && photoURL !== "null") {
+                    if (userAvatarIcon) { 
+                        userAvatarIcon.src = photoURL; 
+                        userAvatarIcon.style.setProperty('display', 'block', 'important'); 
+                    }
+                    if (profileIcon) { 
+                        profileIcon.style.setProperty('display', 'none', 'important'); 
+                    }
+                }
+            } catch (e) {}
+        })();
+    </script>
+
     <script>
         import { createAuthClient } from "better-auth/client";
 
-        // إعداد العميل البسيط
-        const authClient = createAuthClient({
-            baseURL: "https://www.alikernel.com"
-        });
-
-        // تشغيل زر جوجل
-        const googleBtn = document.getElementById('google-signin-btn');
-        if (googleBtn) {
-            googleBtn.onclick = async () => {
-                await authClient.signIn.social({
-                    provider: "google",
-                    callbackURL: "/account" 
+        class BetterAuthManager {
+            constructor() {
+                this.client = createAuthClient({
+                    baseURL: "https://www.alikernel.com"
                 });
-            };
+                this.config = {
+                    apiUrl: "https://alikernel-auth.vercel.app/api/auth",
+                    paths: { home: "/", account: "/account" }
+                };
+                this.init();
+                this.bindActions();
+            }
+
+            async init() {
+                try {
+                    // جلب الجلسة الحالية
+                    const { data: session } = await this.client.getSession();
+                    
+                    if (session && session.user) {
+                        this.cacheUser(session.user);
+                        // إذا كان في صفحة login وهو مسجل دخول، انقله للرئيسية
+                        if (window.location.pathname.includes('/login')) {
+                            window.location.href = this.config.paths.home;
+                        }
+                    } else {
+                        this.clearCache();
+                    }
+                } catch (e) {
+                    console.error("Auth Init Error", e);
+                }
+            }
+
+            cacheUser(user) {
+                localStorage.setItem("userPhotoURL", user.image || "");
+                localStorage.setItem("userDisplayName", user.name || "");
+                localStorage.setItem("last_uid", user.id);
+            }
+
+            clearCache() {
+                localStorage.removeItem("userPhotoURL");
+                localStorage.removeItem("last_uid");
+            }
+
+            bindActions() {
+                const googleBtn = document.getElementById('google-signin-btn');
+                const githubBtn = document.getElementById('github-signin-btn');
+
+                if (googleBtn) {
+                    googleBtn.onclick = async () => {
+                        await this.client.signIn.social({
+                            provider: "google",
+                            callbackURL: this.config.paths.account
+                        });
+                    };
+                }
+
+                if (githubBtn) {
+                    githubBtn.onclick = async () => {
+                        await this.client.signIn.social({
+                            provider: "github",
+                            callbackURL: this.config.paths.account
+                        });
+                    };
+                }
+            }
         }
 
-        // تشغيل زر جيت هاب
-        const githubBtn = document.getElementById('github-signin-btn');
-        if (githubBtn) {
-            githubBtn.onclick = async () => {
-                await authClient.signIn.social({
-                    provider: "github",
-                    callbackURL: "/account"
-                });
-            };
-        }
+        // تشغيل المدير
+        new BetterAuthManager();
     </script>
 </body>
 </html>
