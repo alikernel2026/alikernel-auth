@@ -42,12 +42,13 @@ import '../styles/style.css';
     </div>
 
     <script>
-// ========================================================
-// Better Auth Manager مع Pusher للخروج الفوري
-// ========================================================
-// سكربت الاستعادة الفوري (لمنع وميض الهيدر)
-// ========================================================
+// Better Auth Manager — بدون Pusher (BroadcastChannel + storage + polling)
+// استعادة فورية لمنع وميض الهيدر + مزامنة عبر علامات التبويب
+
 (function() {
+    // ========================================================
+    // الاستعادة الفورية من التخزين المحلي
+    // ========================================================
     try {
         var photoURL = localStorage.getItem("userPhotoURL");
         var lastUid = localStorage.getItem("last_uid");
@@ -100,12 +101,10 @@ import '../styles/style.css';
             sessionsList.innerHTML = cachedSessions;
         }
     } catch (e) {}
-})();
 
-// ========================================================
-// الكود الرئيسي - Better Auth Manager
-// ========================================================
-(function() {
+    // ========================================================
+    // المدير الرئيسي — بدون Pusher
+    // ========================================================
     class BetterAuthManager {
         constructor() {
             window.betterAuth = this;
@@ -113,6 +112,7 @@ import '../styles/style.css';
             this._deletingSession = false;
             this._isSigningIn = false;
             this.sessionCheckInterval = null;
+            this.pollingIntervalMs = 30000; // فحص كل 30 ثانية (قابل للتعديل)
 
             this.config = {
                 apiUrl: "https://alikernel-auth.vercel.app/api/auth",
@@ -131,6 +131,9 @@ import '../styles/style.css';
                 globe: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"></path><path d="M7.99998 3H8.99998C7.04998 8.84 7.04998 15.16 8.99998 21H7.99998"></path><path d="M15 3C16.95 8.84 16.95 15.16 15 21"></path><path d="M3 16V15C8.84 16.95 15.16 16.95 21 15V16"></path><path d="M3 9.0001C8.84 7.0501 15.16 7.0501 21 9.0001"></path></svg>',
                 check: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4L9 15"></path><path d="M21 19L3 19"></path><path d="M9 15L4 10"></path></svg>'
             };
+
+            // قناة للبث بين النوافذ (أفضل من الاعتماد على storage فقط)
+            this.bc = typeof BroadcastChannel !== 'undefined' ? new BroadcastChannel('better-auth') : null;
 
             this.setupCrossTabSync();
             this.setupBeforeUnload();
@@ -173,7 +176,8 @@ import '../styles/style.css';
         getCurrentSession() {
             var self = this;
             return fetch(self.config.apiUrl + '/get-session', {
-                credentials: 'include'
+                credentials: 'include',
+                cache: 'no-store'
             }).then(function(res) {
                 if (!res.ok) return null;
                 return res.json();
@@ -270,8 +274,8 @@ import '../styles/style.css';
             var self = this;
             var list = document.getElementById("sessions-list");
             if (!list) return;
-            fetch(self.config.apiUrl + '/list-sessions', { credentials: 'include' })
-                .then(function(res) { return res.json(); })
+            fetch(self.config.apiUrl + '/list-sessions', { credentials: 'include', cache: 'no-store' })
+                .then(function(res) { if (!res.ok) return { sessions: [] }; return res.json(); })
                 .then(function(data) {
                     var sessions = data.sessions || [];
                     if (sessions.length > 0) {
@@ -309,7 +313,31 @@ import '../styles/style.css';
 
         setupCrossTabSync() {
             var self = this;
+
+            // استقبال من BroadcastChannel (إذا متاح)
+            if (this.bc) {
+                this.bc.onmessage = function(ev) {
+                    if (!ev || !ev.data) return;
+                    var data = ev.data;
+                    if (data.type === 'session_deleted') {
+                        if (data.sessionId === localStorage.getItem("betterAuthSessionId")) {
+                            self.forceLogout();
+                        } else {
+                            // تحديث واجهة الجلسات إن كنا في صفحة الحساب
+                            self.getCurrentSession().then(function(session) {
+                                if (session && session.user) self.refreshSessionsUI(session.user);
+                            });
+                        }
+                    }
+                    if (data.type === 'force_reload') {
+                        location.reload();
+                    }
+                };
+            }
+
+            // fallback إلى أحداث التخزين
             window.addEventListener('storage', function(event) {
+                if (!event.key) return;
                 if (event.key === 'last_uid') {
                     if (!event.newValue && event.oldValue) self.showGuestUI();
                     else if (event.newValue !== event.oldValue) location.reload();
@@ -317,9 +345,21 @@ import '../styles/style.css';
                 if (event.key === 'session_deleted') {
                     if (event.newValue === localStorage.getItem("betterAuthSessionId")) {
                         self.forceLogout();
+                    } else {
+                        // تحديث الجلسات عند حدوث حذف في تبويب آخر
+                        self.getCurrentSession().then(function(session) {
+                            if (session && session.user) self.refreshSessionsUI(session.user);
+                        });
                     }
                 }
             });
+        }
+
+        broadcastMessage(obj) {
+            try {
+                if (this.bc) this.bc.postMessage(obj);
+                try { localStorage.setItem('better_auth_broadcast', JSON.stringify({ t: Date.now(), d: obj })); localStorage.removeItem('better_auth_broadcast'); } catch(e){}
+            } catch(e){}
         }
 
         setupBeforeUnload() {
@@ -379,11 +419,15 @@ import '../styles/style.css';
             fetch(self.config.apiUrl + '/sign-out', {
                 method: 'POST',
                 credentials: 'include',
-                headers: { 'Content-Type': 'application/json' }
+                headers: { 'Content-Type': 'application/json' },
+                cache: 'no-store'
             }).then(function() {
                 self.finishLogout();
+                // نعلم التبويبات الأخرى بالخروج
+                self.broadcastMessage({ type: 'force_reload' });
             }).catch(function() {
                 self.finishLogout();
+                self.broadcastMessage({ type: 'force_reload' });
             });
         }
 
@@ -391,7 +435,7 @@ import '../styles/style.css';
             var self = this;
             this.clearCache();
             this.showGuestUI();
-            fetch(self.config.apiUrl + '/sign-out', { method: 'POST', credentials: 'include' })
+            fetch(self.config.apiUrl + '/sign-out', { method: 'POST', credentials: 'include', cache: 'no-store' })
                 .then(function() { self.doRedirect(); })
                 .catch(function() { self.doRedirect(); });
         }
@@ -419,21 +463,31 @@ import '../styles/style.css';
                     method: 'POST',
                     credentials: 'include',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ fingerprint: fingerprint, os: os, ip: ip, domain: window.location.hostname })
+                    body: JSON.stringify({ fingerprint: fingerprint, os: os, ip: ip, domain: window.location.hostname }),
+                    cache: 'no-store'
                 }).then(function(res) { return res.json(); })
                 .then(function(data) {
-                    if (data.sessionId) localStorage.setItem("betterAuthSessionId", data.sessionId);
+                    if (data && data.sessionId) localStorage.setItem("betterAuthSessionId", data.sessionId);
                 }).catch(function() {});
             });
         }
 
         startSessionPolling() {
             var self = this;
+            if (this.sessionCheckInterval) clearInterval(this.sessionCheckInterval);
             this.sessionCheckInterval = setInterval(function() {
                 self.getCurrentSession().then(function(session) {
-                    if (!session) self.forceLogout();
+                    if (!session) {
+                        // إذا حذف السيرفر الجلسة، نفعل الخروج فوراً
+                        self.forceLogout();
+                    } else {
+                        // تحديث الجلسات بشكل دوري
+                        if (window.location.pathname.includes('/account')) {
+                            self.refreshSessionsUI(session.user);
+                        }
+                    }
                 });
-            }, 30000);
+            }, this.pollingIntervalMs);
         }
 
         handleDeleteSession(id) {
@@ -446,17 +500,37 @@ import '../styles/style.css';
                 if (self._deletingSession) return;
                 self._deletingSession = true;
                 if (isCurrent) {
-                    self.localLogout();
+                    // حذف الجلسة الحالية يؤدي إلى تسجيل الخروج
+                    fetch(self.config.apiUrl + '/delete-session', {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ sessionId: id }),
+                        cache: 'no-store'
+                    }).then(function() {
+                        // أخبر بقية التبويبات أن هذه الجلسة حذفت
+                        self.broadcastMessage({ type: 'session_deleted', sessionId: id });
+                        localStorage.setItem('session_deleted', id);
+                        setTimeout(function() { localStorage.removeItem('session_deleted'); }, 200);
+                        self._deletingSession = false;
+                        self.forceLogout();
+                    }).catch(function() {
+                        self._deletingSession = false;
+                        self.forceLogout();
+                    });
                 } else {
                     fetch(self.config.apiUrl + '/delete-session', {
                         method: 'POST',
                         credentials: 'include',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ sessionId: id })
+                        body: JSON.stringify({ sessionId: id }),
+                        cache: 'no-store'
                     }).then(function() {
+                        // إخطار التبويبات الأخرى وتحديث UI
+                        self.broadcastMessage({ type: 'session_deleted', sessionId: id });
                         localStorage.setItem('session_deleted', id);
-                        setTimeout(function() { localStorage.removeItem('session_deleted'); }, 100);
-                        setTimeout(function() { self._deletingSession = false; }, 1000);
+                        setTimeout(function() { localStorage.removeItem('session_deleted'); }, 200);
+                        setTimeout(function() { self._deletingSession = false; }, 500);
                         self.getCurrentSession().then(function(session) {
                             if (session && session.user) self.refreshSessionsUI(session.user);
                         });
@@ -468,7 +542,7 @@ import '../styles/style.css';
         fetchIP() {
             return new Promise(function(resolve) {
                 var controller = new AbortController();
-                setTimeout(function() { controller.abort(); }, 3000);
+                setTimeout(function() { try { controller.abort(); } catch(e){} }, 3000);
                 fetch('https://api.ipify.org?format=json', { signal: controller.signal })
                     .then(function(res) { return res.json(); })
                     .then(function(data) { resolve(data.ip || "Unknown"); })
@@ -593,15 +667,19 @@ import '../styles/style.css';
     }
 
     // تحميل Google SDK ثم تشغيل المدير
-    var googleScript = document.createElement('script');
-    googleScript.src = 'https://accounts.google.com/gsi/client';
-    googleScript.async = true;
-    googleScript.defer = true;
-    document.body.appendChild(googleScript);
+    (function appendGoogleSdk() {
+        if (document.querySelector('script[src="https://accounts.google.com/gsi/client"]')) return;
+        var googleScript = document.createElement('script');
+        googleScript.src = 'https://accounts.google.com/gsi/client';
+        googleScript.async = true;
+        googleScript.defer = true;
+        document.body.appendChild(googleScript);
+    })();
 
     new BetterAuthManager();
 })();
 </script>
 </body>
 </html>
+
 
