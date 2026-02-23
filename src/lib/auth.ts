@@ -1,11 +1,14 @@
 import { betterAuth } from "better-auth";
+import { LibsqlDialect } from "@libsql/kysely-libsql";
 
 export const auth = betterAuth({
     database: {
-        provider: "libsql",
-        // هنا تم التعديل ليتطابق مع اسم المتغير في فيرسل
-        url: process.env.TURSO_CONNECTION_URL || "", 
-        authToken: process.env.TURSO_AUTH_TOKEN || "",
+        // هنا نستخدم المترجم الصحيح للاتصال بـ Turso
+        dialect: new LibsqlDialect({
+            url: process.env.TURSO_CONNECTION_URL || "", 
+            authToken: process.env.TURSO_AUTH_TOKEN || "",
+        }),
+        type: "sqlite" // نخبر النظام أن نوع القاعدة هو SQLite
     },
     baseURL: process.env.BETTER_AUTH_URL,
     socialProviders: {
