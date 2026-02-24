@@ -1,26 +1,5 @@
 ---
-// 1. استيراد المكتبات وتصميمكِ الأصلي
 import '../styles/style.css';
-import { auth } from "../lib/auth";
-
-// 2. فحص الجلسة في السيرفر (حماية الصفحة)
-const session = await auth.api.getSession({
-    headers: Astro.request.headers
-});
-
-// إذا لم يسجل المستخدم دخوله، يتم توجيهه لصفحة تسجيل الدخول فوراً
-if (!session) {
-    return Astro.redirect('/login');
-}
-
-const user = session.user;
-
-// 3. تنسيق التاريخ باللغة العربية بنفس الطريقة التي كنتِ تفضلينها
-const date = new Date(user.createdAt);
-const formattedJoinedDate = date.toLocaleString('ar-u-nu-latn', {
-    year: 'numeric', month: 'numeric', day: 'numeric',
-    hour: 'numeric', minute: 'numeric', hour12: true
-}).replace('ص', 'صباحاً').replace('م', 'مساءً');
 ---
 
 <!DOCTYPE html>
@@ -29,80 +8,75 @@ const formattedJoinedDate = date.toLocaleString('ar-u-nu-latn', {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حسابي - علي كيرنل</title>
-    <link rel="icon" type="image/x-icon" href="https://www.alikernel.com/favicon.ico">
 </head>
-<body data-theme="dark">
-
+<body>
     <div class="page-wrapper">
-        
-        <header class="site-header">
-            <div class="header-content">
-                <a href="https://www.alikernel.com" class="header-logo-link">
-                    <svg class="header-logo-icon" viewBox="0 0 124 124" fill="none">
-                        <rect width="124" height="124" rx="24" fill="#F97316"/>
-                        <path d="M19.375 36.782v63.843a4 4 0 0 0 4 4h63.843c3.564 0 5.348-4.309 2.829-6.828L26.203 33.953c-2.52-2.52-6.828-.735-6.828 2.829" fill="#fff"/>
-                        <circle cx="63.211" cy="37.539" r="18.164" fill="#000"/>
-                        <rect opacity=".4" x="81.133" y="80.72" width="17.569" height="17.388" rx="4" transform="rotate(-45 81.133 80.72)" fill="#FDBA74"/>
-                    </svg>
-                    <span>علي كيرنل</span>
-                </a>
-            </div>
-        </header>
-
-        <main class="page-content">
+        <div class="page-content">
             <div class="account-container">
                 
-                <div class="account-header">
-                    <h2>حساب</h2>
-                    <p>عرض وإدارة حسابك</p>
-                </div>
+                <div id="loading" class="loading-text">جاري جلب بيانات الحساب...</div>
 
-                <section class="user-details">
-                    <div class="user-info">
-                        <h3 id="account-name">{user.name}</h3>
-                        <p id="account-email">{user.email}</p>
-                        <p id="account-joined-date">انضم في: {formattedJoinedDate}</p>
+                <div id="account-content" class="hidden">
+                    <div class="account-header">
+                        <h2>إدارة الحساب</h2>
                     </div>
-                    <img id="account-avatar" src={user.image || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"} alt="صورة المستخدم">
-                </section>
+                    
+                    <div class="user-details">
+                        <img id="account-avatar" src="" alt="صورة المستخدم">
+                        <div class="user-info">
+                            <h3 id="account-name">--</h3>
+                            <p id="account-email">--</p>
+                        </div>
+                    </div>
 
-                <div class="sessions-title">الأجهزة المتصلة</div>
-                <div class="sessions-list" id="sessions-list">
-                    <div class="loading-text">جاري جلب بيانات الأجهزة...</div>
-                </div>
-
-                <div class="account-actions">
-                    <button class="account-btn primary" id="logout-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
-                        <span>الخروج</span>
-                    </button>
-                    <a href="https://www.alikernel.com" class="account-btn secondary">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                            <polyline points="9 22 9 12 15 12 15 22"/>
-                        </svg>
-                        <span>الرئيسية</span>
-                    </a>
+                    <div class="account-actions">
+                        <button id="logout-btn" class="account-btn primary">
+                            تسجيل الخروج
+                        </button>
+                    </div>
                 </div>
 
             </div>
-        </main>
+        </div>
     </div>
 
     <script>
         import { createAuthClient } from "better-auth/client";
+
         const authClient = createAuthClient();
 
-        // تفعيل زر الخروج
-        document.getElementById('logout-btn').onclick = async () => {
-            await authClient.signOut({
-                fetchOptions: {
-                    onSuccess: () => {
-                        window.location.href = "/login";
-                    }
+        async function initAccount() {
+            try {
+                // جلب الجلسة الحالية
+                const { data, error } = await authClient.getSession();
+
+                if (data && data.user) {
+                    document.getElementById('loading').classList.add('hidden');
+                    document.getElementById('account-content').classList.remove('hidden');
+
+                    document.getElementById('account-name').textContent = data.user.name || "مستخدم";
+                    document.getElementById('account-email').textContent = data.user.email || "";
+                    document.getElementById('account-avatar').src = data.user.image || "https://www.gravatar.com/avatar/?d=mp";
+                    
+                    // حفظ الصورة للاستخدام السريع في الهيدر (لو أردتِ)
+                    localStorage.setItem("userPhotoURL", data.user.image || "");
+                } else {
+                    // طرد المستخدم إلى صفحة الدخول إذا لم يكن مسجلاً
+                    window.location.href = "/login";
                 }
-            });
-        };
+            } catch (err) {
+                console.error("خطأ:", err);
+            }
+        }
+
+        // الخروج
+        document.getElementById('logout-btn').addEventListener('click', async () => {
+            await authClient.signOut();
+            localStorage.clear();
+            window.location.href = "/";
+        });
+
+        initAccount();
     </script>
 </body>
 </html>
