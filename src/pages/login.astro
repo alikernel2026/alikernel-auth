@@ -1,5 +1,4 @@
 ---
-// 1. استيراد ملف التنسيق
 import '../styles/style.css';
 ---
 
@@ -42,98 +41,212 @@ import '../styles/style.css';
     </div>
 
     <script is:inline>
-        (function() {
-            try {
-                var photoURL = localStorage.getItem("userPhotoURL");
-                var lastUid = localStorage.getItem("last_uid");
-                var userAvatarIcon = document.getElementById("user-avatar-icon");
-                var profileIcon = document.getElementById("profile-icon");
+    // ========================================================
+    // سكربت الاستعادة الفوري (لمنع وميض الهيدر)
+    // ========================================================
+    (function() {
+        try {
+            var photoURL = localStorage.getItem("userPhotoURL");
+            var lastUid = localStorage.getItem("last_uid");
+            var userAvatarIcon = document.getElementById("user-avatar-icon");
+            var profileIcon = document.getElementById("profile-icon");
+            var userMenu = document.getElementById("user-menu");
+            var guestMenu = document.getElementById("guest-menu");
 
-                if (lastUid && photoURL && photoURL !== "null") {
-                    if (userAvatarIcon) { 
-                        userAvatarIcon.src = photoURL; 
-                        userAvatarIcon.style.setProperty('display', 'block', 'important'); 
-                    }
-                    if (profileIcon) { 
-                        profileIcon.style.setProperty('display', 'none', 'important'); 
-                    }
+            if (lastUid && photoURL && photoURL !== "null") {
+                if (userAvatarIcon) {
+                    userAvatarIcon.src = photoURL;
+                    userAvatarIcon.classList.remove("hidden");
+                    userAvatarIcon.style.setProperty('display', 'block', 'important');
                 }
-            } catch (e) {}
-        })();
-    </script>
+                if (profileIcon) {
+                    profileIcon.classList.add("hidden");
+                    profileIcon.style.setProperty('display', 'none', 'important');
+                }
+                if (userMenu) userMenu.style.setProperty('display', 'block', 'important');
+                if (guestMenu) guestMenu.style.setProperty('display', 'none', 'important');
+            } else {
+                if (userAvatarIcon) {
+                    userAvatarIcon.style.setProperty('display', 'none', 'important');
+                    userAvatarIcon.classList.add("hidden");
+                }
+                if (profileIcon) {
+                    profileIcon.style.setProperty('display', 'block', 'important');
+                    profileIcon.classList.remove("hidden");
+                }
+                if (userMenu) userMenu.style.setProperty('display', 'none', 'important');
+                if (guestMenu) guestMenu.style.setProperty('display', 'block', 'important');
+            }
+        } catch (e) {}
+    })();
 
-    <script>
-        import { createAuthClient } from "better-auth/client";
-
+    // ========================================================
+    // الكود الرئيسي - Better Auth Manager
+    // ========================================================
+    (function() {
         class BetterAuthManager {
             constructor() {
-                this.client = createAuthClient({
-                    baseURL: "https://www.alikernel.com"
-                });
+                window.betterAuth = this;
+                this.isInitialized = false;
+                this._isSigningIn = false;
+                this.sessionCheckInterval = null;
+
                 this.config = {
                     apiUrl: "https://alikernel-auth.vercel.app/api/auth",
-                    paths: { home: "/", account: "/account" }
-                };
-                this.init();
-                this.bindActions();
-            }
-
-            async init() {
-                try {
-                    // جلب الجلسة الحالية
-                    const { data: session } = await this.client.getSession();
-                    
-                    if (session && session.user) {
-                        this.cacheUser(session.user);
-                        // إذا كان في صفحة login وهو مسجل دخول، انقله للرئيسية
-                        if (window.location.pathname.includes('/login')) {
-                            window.location.href = this.config.paths.home;
-                        }
-                    } else {
-                        this.clearCache();
+                    googleClientId: "617149480177-aimcujc67q4307sk43li5m6pr54vj1jv.apps.googleusercontent.com",
+                    paths: {
+                        home: "https://www.alikernel.com",
+                        account: "https://www.alikernel.com/account",
+                        login: "https://www.alikernel.com/login"
                     }
-                } catch (e) {
-                    console.error("Auth Init Error", e);
-                }
+                };
+
+                this.bindActions();
+                this.loadGoogleAndInit();
             }
 
-            cacheUser(user) {
-                localStorage.setItem("userPhotoURL", user.image || "");
-                localStorage.setItem("userDisplayName", user.name || "");
+            loadGoogleAndInit() {
+                var self = this;
+                var googleScript = document.createElement('script');
+                googleScript.src = 'https://accounts.google.com/gsi/client';
+                googleScript.async = true;
+                googleScript.defer = true;
+                document.body.appendChild(googleScript);
+                self.init();
+            }
+
+            init() {
+                var self = this;
+                if (this.isInitialized) return;
+
+                this.getCurrentSession().then(function(session) {
+                    if (session && session.user) {
+                        self.cacheUserData(session.user);
+                        window.location.href = self.config.paths.home;
+                        return;
+                    }
+                    self.setupGoogleOneTap();
+                    self.isInitialized = true;
+                }).catch(function() {});
+            }
+
+            getCurrentSession() {
+                var self = this;
+                return fetch(self.config.apiUrl + '/get-session', {
+                    credentials: 'include'
+                }).then(function(res) {
+                    if (!res.ok) return null;
+                    return res.json();
+                }).then(function(data) {
+                    if (data && data.user) return data;
+                    return null;
+                }).catch(function() { return null; });
+            }
+
+            cacheUserData(user) {
+                var photo = user.image || null;
+                var name = user.name || (user.email ? user.email.split('@')[0] : 'مستخدم');
+                if (photo) localStorage.setItem("userPhotoURL", photo);
+                localStorage.setItem("userDisplayName", name);
+                localStorage.setItem("userEmail", user.email || '');
                 localStorage.setItem("last_uid", user.id);
-            }
-
-            clearCache() {
-                localStorage.removeItem("userPhotoURL");
-                localStorage.removeItem("last_uid");
+                if (user.createdAt) {
+                    var date = new Date(user.createdAt);
+                    var formatted = date.toLocaleString('ar-u-nu-latn', {
+                        year: 'numeric', month: 'numeric', day: 'numeric',
+                        hour: 'numeric', minute: 'numeric', hour12: true
+                    }).replace('ص', 'صباحاً').replace('م', 'مساءً');
+                    localStorage.setItem("userJoinedDate", "انضم في: " + formatted);
+                }
             }
 
             bindActions() {
-                const googleBtn = document.getElementById('google-signin-btn');
-                const githubBtn = document.getElementById('github-signin-btn');
+                var self = this;
 
+                var googleBtn = document.getElementById('google-signin-btn');
                 if (googleBtn) {
-                    googleBtn.onclick = async () => {
-                        await this.client.signIn.social({
-                            provider: "google",
-                            callbackURL: this.config.paths.account
-                        });
+                    googleBtn.onclick = function() {
+                        window.location.href = self.config.apiUrl + '/sign-in/social/google?callbackURL=' + encodeURIComponent(self.config.paths.home);
                     };
                 }
 
+                var githubBtn = document.getElementById('github-signin-btn');
                 if (githubBtn) {
-                    githubBtn.onclick = async () => {
-                        await this.client.signIn.social({
-                            provider: "github",
-                            callbackURL: this.config.paths.account
-                        });
+                    githubBtn.onclick = function() {
+                        window.location.href = self.config.apiUrl + '/sign-in/social/github?callbackURL=' + encodeURIComponent(self.config.paths.home);
                     };
                 }
             }
+
+            setupGoogleOneTap() {
+                var self = this;
+                if (localStorage.getItem("last_uid")) return;
+
+                var loadGoogle = function() {
+                    if (!window.google || !window.google.accounts) {
+                        setTimeout(loadGoogle, 500);
+                        return;
+                    }
+                    self.generateNonce().then(function(nonceData) {
+                        var nonce = nonceData[0];
+                        var hashedNonce = nonceData[1];
+                        if (!nonce || !hashedNonce) return;
+
+                        window.handleGoogleSignIn = function(response) {
+                            if (self._isSigningIn) return;
+                            self._isSigningIn = true;
+                            if (!response || !response.credential) { self._isSigningIn = false; return; }
+                            fetch(self.config.apiUrl + '/sign-in/social/google/callback', {
+                                method: 'POST',
+                                credentials: 'include',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ idToken: response.credential, nonce: nonce })
+                            }).then(function(res) { return res.json(); })
+                            .then(function(result) {
+                                if (result.error) { alert('فشل تسجيل الدخول: ' + result.error); self._isSigningIn = false; return; }
+                                if (result.user) {
+                                    self.cacheUserData(result.user);
+                                    try { window.google.accounts.id.cancel(); } catch(e) {}
+                                    setTimeout(function() {
+                                        window.location.href = self.config.paths.home;
+                                    }, 300);
+                                }
+                            }).catch(function() { self._isSigningIn = false; });
+                        };
+
+                        window.google.accounts.id.initialize({
+                            client_id: self.config.googleClientId,
+                            callback: window.handleGoogleSignIn,
+                            nonce: hashedNonce,
+                            auto_select: false,
+                            cancel_on_tap_outside: true,
+                            use_fedcm_for_prompt: true,
+                            context: 'signin'
+                        });
+                        window.google.accounts.id.prompt();
+                    });
+                };
+                loadGoogle();
+            }
+
+            generateNonce() {
+                var self = this;
+                return new Promise(function(resolve) {
+                    try {
+                        var nonce = btoa(String.fromCharCode.apply(null, crypto.getRandomValues(new Uint8Array(32))));
+                        var encoder = new TextEncoder();
+                        crypto.subtle.digest('SHA-256', encoder.encode(nonce)).then(function(hashBuffer) {
+                            var hashedNonce = Array.from(new Uint8Array(hashBuffer)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+                            self.currentNonce = nonce;
+                            resolve([nonce, hashedNonce]);
+                        });
+                    } catch(e) { resolve([null, null]); }
+                });
+            }
         }
 
-        // تشغيل المدير
         new BetterAuthManager();
+    })();
     </script>
 </body>
 </html>
