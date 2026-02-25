@@ -4,16 +4,14 @@ import { LibsqlDialect } from "@libsql/kysely-libsql";
 export const auth = betterAuth({
     database: {
         dialect: new LibsqlDialect({
-            url: process.env.TURSO_CONNECTION_URL || "",
+            // استخدمت الاسم الموجود في صورتك بالضبط
+            url: process.env.TURSO_DATABASE_URL || "", 
             authToken: process.env.TURSO_AUTH_TOKEN || "",
         }),
         type: "sqlite"
     },
     baseURL: "https://www.alikernel.com",
-    trustedOrigins: [
-        "https://www.alikernel.com",
-        "https://alikernel.com"
-    ],
+    trustedOrigins: ["https://www.alikernel.com"],
     socialProviders: {
         google: {
             clientId: process.env.GOOGLE_CLIENT_ID || "",
