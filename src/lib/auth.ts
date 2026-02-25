@@ -1,16 +1,16 @@
 import { betterAuth } from "better-auth";
-import { LibsqlDialect } from "@libsql/kysely-libsql";
+import { createClient } from "@libsql/client";
+
+const client = createClient({
+    url: import.meta.env.TURSO_DATABASE_URL || "",
+    authToken: import.meta.env.TURSO_AUTH_TOKEN || "",
+});
 
 export const auth = betterAuth({
     database: {
-        dialect: new LibsqlDialect({
-            // نستخدم الأسماء التي في صورتك بالضبط
-            url: import.meta.env.TURSO_DATABASE_URL || "", 
-            authToken: import.meta.env.TURSO_AUTH_TOKEN || "",
-        }),
+        db: client,
         type: "sqlite"
     },
-    // الرابط الأساسي يجب أن يكون الدومين الخاص بكِ
     baseURL: "https://www.alikernel.com",
     trustedOrigins: ["https://www.alikernel.com"],
     socialProviders: {
@@ -22,5 +22,9 @@ export const auth = betterAuth({
             clientId: import.meta.env.GITHUB_CLIENT_ID || "",
             clientSecret: import.meta.env.GITHUB_CLIENT_SECRET || "",
         },
-    }
+    },
+    session: {
+        expiresIn: 60 * 60 * 24 * 7,
+        updateAge: 60 * 60 * 24,
+    },
 });
