@@ -6,14 +6,14 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview",
-    "db:gen": "better-auth generate",
-    "db:push": "better-auth push"
+    "preview": "astro preview"
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.0.0",
     "@libsql/client": "^0.14.0",
+    "@libsql/kysely-libsql": "^0.4.1",
     "astro": "^5.1.0",
-    "better-auth": "1.2.0"
+    "better-auth": "1.2.0",
+    "kysely": "^0.27.3"
   }
 }
