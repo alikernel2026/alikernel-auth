@@ -1,7 +1,6 @@
 ---
 import '../styles/style.css';
 ---
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -13,70 +12,132 @@ import '../styles/style.css';
     <div class="page-wrapper">
         <div class="page-content">
             <div class="account-container">
-                
                 <div id="loading" class="loading-text">جاري جلب بيانات الحساب...</div>
-
                 <div id="account-content" class="hidden">
                     <div class="account-header">
                         <h2>إدارة الحساب</h2>
                     </div>
-                    
                     <div class="user-details">
                         <img id="account-avatar" src="" alt="صورة المستخدم">
                         <div class="user-info">
                             <h3 id="account-name">--</h3>
                             <p id="account-email">--</p>
+                            <p id="account-joined-date"></p>
                         </div>
                     </div>
-
                     <div class="account-actions">
-                        <button id="logout-btn" class="account-btn primary">
-                            تسجيل الخروج
-                        </button>
+                        <button id="logout-btn" class="account-btn primary">تسجيل الخروج</button>
+                    </div>
+                    <div class="sessions-section">
+                        <h3>الأجهزة المتصلة</h3>
+                        <div id="sessions-list"></div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <script>
-        import { createAuthClient } from "better-auth/client";
+    <script is:inline>
+    (function() {
+        var API = "/api/auth";
+        var LOGIN = "/login";
 
-        const authClient = createAuthClient();
+        // استعادة فورية
+        try {
+            var photoURL = localStorage.getItem("userPhotoURL");
+            var lastUid = localStorage.getItem("last_uid");
+            var av = document.getElementById("account-avatar");
+            if (lastUid && photoURL && av) av.src = photoURL;
+            var cachedName = localStorage.getItem("userDisplayName");
+            var cachedEmail = localStorage.getItem("userEmail");
+            var cachedJoined = localStorage.getItem("userJoinedDate");
+            if (cachedName) document.getElementById("account-name").textContent = cachedName;
+            if (cachedEmail) document.getElementById("account-email").textContent = cachedEmail;
+            if (cachedJoined) document.getElementById("account-joined-date").textContent = cachedJoined;
+        } catch(e) {}
 
-        async function initAccount() {
-            try {
-                // جلب الجلسة الحالية
-                const { data, error } = await authClient.getSession();
-
-                if (data && data.user) {
-                    document.getElementById('loading').classList.add('hidden');
-                    document.getElementById('account-content').classList.remove('hidden');
-
-                    document.getElementById('account-name').textContent = data.user.name || "مستخدم";
-                    document.getElementById('account-email').textContent = data.user.email || "";
-                    document.getElementById('account-avatar').src = data.user.image || "https://www.gravatar.com/avatar/?d=mp";
-                    
-                    // حفظ الصورة للاستخدام السريع في الهيدر (لو أردتِ)
-                    localStorage.setItem("userPhotoURL", data.user.image || "");
-                } else {
-                    // طرد المستخدم إلى صفحة الدخول إذا لم يكن مسجلاً
-                    window.location.href = "/login";
+        fetch(API + "/get-session", { credentials: "include" })
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                if (!data || !data.user) {
+                    window.location.href = LOGIN;
+                    return;
                 }
-            } catch (err) {
-                console.error("خطأ:", err);
-            }
+                var user = data.user;
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('account-content').classList.remove('hidden');
+                document.getElementById('account-name').textContent = user.name || "مستخدم";
+                document.getElementById('account-email').textContent = user.email || "";
+                if (user.image) {
+                    document.getElementById('account-avatar').src = user.image;
+                    localStorage.setItem("userPhotoURL", user.image);
+                }
+                localStorage.setItem("userDisplayName", user.name || "");
+                localStorage.setItem("userEmail", user.email || "");
+                localStorage.setItem("last_uid", user.id);
+                if (user.createdAt) {
+                    var date = new Date(user.createdAt);
+                    var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
+                        year: 'numeric', month: 'numeric', day: 'numeric',
+                        hour: 'numeric', minute: 'numeric', hour12: true
+                    }).replace('ص', 'صباحاً').replace('م', 'مساءً');
+                    document.getElementById('account-joined-date').textContent = formatted;
+                    localStorage.setItem("userJoinedDate", formatted);
+                }
+                loadSessions();
+            })
+            .catch(function() { window.location.href = LOGIN; });
+
+        function loadSessions() {
+            var list = document.getElementById("sessions-list");
+            if (!list) return;
+            fetch(API + "/list-sessions", { credentials: "include" })
+                .then(function(r) { return r.json(); })
+                .then(function(sessions) {
+                    if (!sessions || sessions.length === 0) {
+                        list.innerHTML = '<p style="text-align:center;color:#888;">لا توجد جلسات نشطة</p>';
+                        return;
+                    }
+                    list.innerHTML = sessions.map(function(s) {
+                        var time = new Date(s.createdAt).toLocaleString('ar-u-nu-latn', {
+                            hour: 'numeric', minute: 'numeric', hour12: true
+                        });
+                        return '<div class="session-item">' +
+                            '<div class="session-details">' +
+                                '<div class="session-detail-line"><span>الوقت: ' + time + '</span></div>' +
+                                '<div class="session-detail-line"><span>IP: ' + (s.ipAddress || 'غير معروف') + '</span></div>' +
+                            '</div>' +
+                            '<button class="terminate-btn icon-terminate" onclick="deleteSession(\'' + s.token + '\')"></button>' +
+                        '</div>';
+                    }).join('');
+                })
+                .catch(function() {
+                    list.innerHTML = '<p style="text-align:center;color:#888;">تعذر تحميل الجلسات</p>';
+                });
         }
 
-        // الخروج
-        document.getElementById('logout-btn').addEventListener('click', async () => {
-            await authClient.signOut();
-            localStorage.clear();
-            window.location.href = "/";
-        });
+        window.deleteSession = function(token) {
+            if (!confirm("هل تريد إزالة هذا الجهاز؟")) return;
+            fetch(API + "/revoke-session", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ token: token })
+            }).then(function() { loadSessions(); });
+        };
 
-        initAccount();
+        document.getElementById('logout-btn').addEventListener('click', function() {
+            fetch(API + "/sign-out", {
+                method: "POST",
+                credentials: "include",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({})
+            }).then(function() {
+                localStorage.clear();
+                window.location.href = "/";
+            });
+        });
+    })();
     </script>
 </body>
 </html>
