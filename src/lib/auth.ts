@@ -1,5 +1,5 @@
 import { betterAuth } from "better-auth";
-import { createClient } from "@libsql/client";
+import { createClient } from "@libsql/client/web";
 
 const client = createClient({
     url: import.meta.env.TURSO_DATABASE_URL || "",
