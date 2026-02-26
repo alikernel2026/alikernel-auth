@@ -11,8 +11,15 @@ export const auth = betterAuth({
         db: client,
         type: "sqlite"
     },
+    // التعديل: ربط الكود بالمفتاح السري لمنع انهيار السيرفر (Error 500)
+    secret: import.meta.env.BETTER_AUTH_SECRET, 
     baseURL: "https://www.alikernel.com",
-    trustedOrigins: ["https://www.alikernel.com"],
+    // التعديل: إضافة كل الروابط الموثوقة لضمان عمل الأزرار في كل مكان
+    trustedOrigins: [
+        "https://www.alikernel.com",
+        "https://alikernel.com",
+        "https://alikernel-auth.pages.dev"
+    ],
     socialProviders: {
         google: {
             clientId: import.meta.env.GOOGLE_CLIENT_ID || "",
