@@ -12,10 +12,7 @@ export const auth = betterAuth({
         type: "sqlite"
     },
     baseURL: "https://www.alikernel.com",
-    trustedOrigins: [
-        "https://www.alikernel.com",
-        "https://alikernel.com"
-    ],
+    trustedOrigins: ["https://www.alikernel.com"],
     socialProviders: {
         google: {
             clientId: import.meta.env.GOOGLE_CLIENT_ID || "",
