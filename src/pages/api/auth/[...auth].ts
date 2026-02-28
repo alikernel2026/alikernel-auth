@@ -2,7 +2,8 @@ import { auth } from "../../../lib/auth";
 import type { APIRoute } from "astro";
 
 export const ALL: APIRoute = async (ctx) => {
-    return await auth.handler(ctx.request);
+    const db = (ctx.locals as any).runtime.env.DB;
+    return await auth(db).handler(ctx.request);
 };
 
 export const prerender = false;
