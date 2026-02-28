@@ -1,8 +1,10 @@
 import { betterAuth } from "better-auth";
-import { d1 } from "@better-auth/d1";
 
 export const auth = (db: any) => betterAuth({
-    database: d1(db),
+    database: {
+        db: db,
+        type: "sqlite"
+    },
     baseURL: "https://www.alikernel.com",
     trustedOrigins: ["https://www.alikernel.com"],
     socialProviders: {
