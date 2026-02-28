@@ -1,3 +1,12 @@
+name = "alikernel-auth"
+compatibility_date = "2024-12-01"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
+
+[[kv_namespaces]]
+binding = "SESSION"
+id = "8099cb330a0c4296bdea5e163aa42e72"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "alikernel-db"
