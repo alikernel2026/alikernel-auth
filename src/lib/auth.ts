@@ -1,10 +1,8 @@
 import { betterAuth } from "better-auth";
+import { d1 } from "@better-auth/d1";
 
-export const auth = betterAuth({
-    database: {
-        url: import.meta.env.TURSO_DATABASE_URL || "",
-        authToken: import.meta.env.TURSO_AUTH_TOKEN || "",
-    },
+export const auth = (db: any) => betterAuth({
+    database: d1(db),
     baseURL: "https://www.alikernel.com",
     trustedOrigins: ["https://www.alikernel.com"],
     socialProviders: {
