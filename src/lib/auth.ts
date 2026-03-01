@@ -9,17 +9,10 @@ export function createAuth(env: any) {
 
   return betterAuth({
     baseURL: "https://www.alikernel.com",
-    secret: env.BETTER_AUTH_SECRET,
+    secret: env.BETTER_AUTH_SECRET, 
     database: drizzleAdapter(db, {
       provider: "sqlite",
     }),
-    // هذا الجزء هو المسؤول عن "مشاكل الصور" والدخول
-    session: {
-      cookieCache: {
-        enabled: true,
-        maxAge: 5 * 60,
-      },
-    },
     socialProviders: {
       google: {
         clientId: env.GOOGLE_CLIENT_ID,
@@ -30,7 +23,6 @@ export function createAuth(env: any) {
         clientSecret: env.GITHUB_CLIENT_SECRET,
       },
     },
-    // ضروري جداً للربط مع بلوجر
-    trustedOrigins: ["https://www.alikernel.com", "https://alikernel.com"],
+    trustedOrigins: ["https://www.alikernel.com"],
   });
 }
