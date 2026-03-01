@@ -10,7 +10,7 @@ export default defineConfig({
   }),
   vite: {
     ssr: {
-      external: ['better-auth']
+      noExternal: ['better-auth']
     }
   }
 });
