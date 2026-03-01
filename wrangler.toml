@@ -1,5 +1,5 @@
 name = "alikernel-auth"
-main = "./dist/_worker.js/index.js" # هذا المسار الصحيح لـ Astro على Cloudflare
+main = "./dist/_worker.js/index.js"
 compatibility_date = "2024-12-01"
 compatibility_flags = ["nodejs_compat"]
 
@@ -8,7 +8,6 @@ binding = "DB"
 database_name = "alikernel-db"
 database_id = "6b363976-b0af-48bd-b328-e92949d88a16"
 
-# إذا كنت لا تستخدم KV حالياً في الكود، يمكنك حذف هذا الجزء لتقليل التعقيد
 [[kv_namespaces]]
 binding = "SESSION"
 id = "8099cb330a0c4296bdea5e163aa42e72"
