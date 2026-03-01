@@ -7,30 +7,42 @@ import '../styles/style.css';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حسابي - علي كيرنل</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
     <div class="page-wrapper">
         <div class="page-content">
             <div class="account-container">
+                <a href="/" class="modal-close-btn" title="رجوع">
+                    <svg viewBox="0 0 24 24"><path d="M9.57 5.92993L3.5 11.9999L9.57 18.0699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M20.5 12H3.67004" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+                </a>
+
                 <div id="loading" class="loading-text">جاري جلب بيانات الحساب...</div>
+
                 <div id="account-content" class="hidden">
-                    <div class="account-header">
-                        <h2>إدارة الحساب</h2>
-                    </div>
                     <div class="user-details">
-                        <img id="account-avatar" src="" alt="صورة المستخدم">
                         <div class="user-info">
                             <h3 id="account-name">--</h3>
                             <p id="account-email">--</p>
                             <p id="account-joined-date"></p>
                         </div>
+                        <img id="account-avatar" src="" alt="صورة المستخدم">
                     </div>
-                    <div class="account-actions">
-                        <button id="logout-btn" class="account-btn primary">تسجيل الخروج</button>
-                    </div>
+
                     <div class="sessions-section">
-                        <h3>الأجهزة المتصلة</h3>
+                        <h3>الجلسات النشطة</h3>
                         <div id="sessions-list"></div>
+                    </div>
+
+                    <div class="account-actions">
+                        <button id="logout-btn" class="account-btn secondary">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.44 14.62 20 12.06 17.44 9.5m-7.68 2.56h10.17M11.76 20c-4.42 0-8-3-8-8s3.58-8 8-8"/></svg>
+                            الخروج
+                        </button>
+                        <a href="/" class="account-btn primary">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.02 2.84L3.63 7.04C2.73 7.74 2 9.23 2 10.36v7.41C2 20.1 4.1 22 6.56 22h10.88C19.9 22 22 20.1 22 17.77V10.5c0-1.2-.81-2.75-1.8-3.45l-6.18-4.33c-1.4-.98-3.65-.93-5 .12z" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 18v-3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            الرئيسيه
+                        </a>
                     </div>
                 </div>
             </div>
@@ -42,7 +54,6 @@ import '../styles/style.css';
         var API = "/api/auth";
         var LOGIN = "/login";
 
-        // استعادة فورية
         try {
             var photoURL = localStorage.getItem("userPhotoURL");
             var lastUid = localStorage.getItem("last_uid");
@@ -80,13 +91,23 @@ import '../styles/style.css';
                     var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
                         year: 'numeric', month: 'numeric', day: 'numeric',
                         hour: 'numeric', minute: 'numeric', hour12: true
-                    }).replace('ص', 'صباحاً').replace('م', 'مساءً');
+                    });
                     document.getElementById('account-joined-date').textContent = formatted;
                     localStorage.setItem("userJoinedDate", formatted);
                 }
                 loadSessions();
             })
             .catch(function() { window.location.href = LOGIN; });
+
+        function getOS(userAgent) {
+            if (!userAgent) return "غير معروف";
+            if (userAgent.indexOf("Windows") !== -1) return "ويندوز";
+            if (userAgent.indexOf("Mac") !== -1) return "ماك";
+            if (userAgent.indexOf("Android") !== -1) return "أندرويد";
+            if (userAgent.indexOf("iPhone") !== -1 || userAgent.indexOf("iPad") !== -1) return "iOS";
+            if (userAgent.indexOf("Linux") !== -1) return "لينكس";
+            return "غير معروف";
+        }
 
         function loadSessions() {
             var list = document.getElementById("sessions-list");
@@ -102,12 +123,20 @@ import '../styles/style.css';
                         var time = new Date(s.createdAt).toLocaleString('ar-u-nu-latn', {
                             hour: 'numeric', minute: 'numeric', hour12: true
                         });
-                        return '<div class="session-item">' +
+                        var os = getOS(s.userAgent);
+                        var isCurrentBadge = s.isCurrent ? '<span class="current-session-badge">✓ جلستك الحالية</span>' : '';
+                        var actionBtn = s.isCurrent
+                            ? '<button class="session-action-btn session-current-btn" title="جلستك الحالية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></button>'
+                            : '<button class="session-action-btn session-delete-btn" onclick="deleteSession(\'' + s.token + '\')" title="إنهاء الجلسة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button>';
+                        return '<div class="session-item' + (s.isCurrent ? ' current' : '') + '">' +
                             '<div class="session-details">' +
-                                '<div class="session-detail-line"><span>الوقت: ' + time + '</span></div>' +
-                                '<div class="session-detail-line"><span>IP: ' + (s.ipAddress || 'غير معروف') + '</span></div>' +
+                                '<div class="session-detail-line">الوقت: ' + time + '</div>' +
+                                '<div class="session-detail-line">نظام التشغيل: ' + os + '</div>' +
+                                '<div class="session-detail-line">العنوان: ' + (s.ipAddress || 'غير معروف') + '</div>' +
+                                '<div class="session-detail-line">الموقع: ' + (s.origin || 'غير معروف') + '</div>' +
+                                (s.isCurrent ? '<div class="session-detail-line">' + isCurrentBadge + '</div>' : '') +
                             '</div>' +
-                            '<button class="terminate-btn icon-terminate" onclick="deleteSession(\'' + s.token + '\')"></button>' +
+                            actionBtn +
                         '</div>';
                     }).join('');
                 })
