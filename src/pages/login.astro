@@ -6,6 +6,7 @@ layout: null
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول | Alikernel</title>
     <link rel="stylesheet" href="/src/styles/global.css"> 
 </head>
@@ -21,11 +22,13 @@ layout: null
                 <h2>تسجيل الدخول</h2>
                 <p>اختر الطريقة المناسبة للدخول إلى حسابك</p>
 
-                <button id="google-login" class="social-btn">
+                <button id="google-login" class="social-btn google">
+                    <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="">
                     سجل الدخول بواسطة جوجل
                 </button>
 
-                <button id="github-login" class="social-btn">
+                <button id="github-login" class="social-btn github">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="" style="width:20px;">
                     سجل الدخول بواسطة جيثب
                 </button>
             </div>
@@ -33,34 +36,26 @@ layout: null
     </div>
 
     <script>
-        // هذا هو الجزء الذي سيجعل الأزرار "تعمل" وتنتقل لصفحة جوجل/جيثب
+        // هذا السطر هو الذي سيجعل الأزرار تعمل فعلياً
         import { createAuthClient } from "better-auth/client";
         
         const authClient = createAuthClient({
-            baseURL: "https://www.alikernel.com"
+            baseURL: window.location.origin
         });
 
-        // تشغيل زر جوجل
-        const googleBtn = document.getElementById('google-login');
-        if (googleBtn) {
-            googleBtn.onclick = async () => {
-                await authClient.signIn.social({ 
-                    provider: "google", 
-                    callbackURL: "https://www.alikernel.com" 
-                });
-            };
-        }
+        document.getElementById('google-login').onclick = async () => {
+            await authClient.signIn.social({ 
+                provider: "google", 
+                callbackURL: "https://www.alikernel.com" 
+            });
+        };
 
-        // تشغيل زر جيثب
-        const githubBtn = document.getElementById('github-login');
-        if (githubBtn) {
-            githubBtn.onclick = async () => {
-                await authClient.signIn.social({ 
-                    provider: "github", 
-                    callbackURL: "https://www.alikernel.com" 
-                });
-            };
-        }
+        document.getElementById('github-login').onclick = async () => {
+            await authClient.signIn.social({ 
+                provider: "github", 
+                callbackURL: "https://www.alikernel.com" 
+            });
+        };
     </script>
 </body>
 </html>
