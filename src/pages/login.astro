@@ -42,9 +42,9 @@ import '../styles/style.css';
     <script>
         import { createAuthClient } from "better-auth/client";
 
-        const authClient = cconst authClient = createAuthClient({
-    baseURL: "https://www.alikernel.com"
-});reateAuthClient();
+        const authClient = createAuthClient({
+            baseURL: "https://www.alikernel.com"
+        });
 
         authClient.useSession.subscribe(({ data }) => {
             if (data && data.user) {
@@ -76,4 +76,3 @@ import '../styles/style.css';
     </script>
 </body>
 </html>
-
