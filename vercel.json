@@ -1,7 +1,0 @@
-{
-  "rewrites": [
-    { "source": "/login", "destination": "/login" },
-    { "source": "/account", "destination": "/account" },
-    { "source": "/api/auth/:path*", "destination": "/api/auth/:path*" }
-  ]
-}
