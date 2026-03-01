@@ -1,4 +1,5 @@
 ---
+// src/pages/login.astro
 layout: null
 ---
 <!DOCTYPE html>
@@ -7,6 +8,7 @@ layout: null
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول | Alikernel</title>
+    
     <link rel="stylesheet" href="/src/styles/global.css">
 </head>
 <body>
@@ -41,15 +43,17 @@ layout: null
     </div>
 
     <script>
-        // هذا الجزء هو الوحيد الذي قمت بإصلاحه لكي تعمل الأزرار (تفعيلها)
+        // هذا الجزء هو المسؤول عن تشغيل الأزرار دون كسر الـ Build
         import { createAuthClient } from "better-auth/client";
-        const authClient = createAuthClient({ baseURL: window.location.origin });
+        const authClient = createAuthClient({
+            baseURL: "https://www.alikernel.com"
+        });
 
-        document.getElementById('google-login').addEventListener('click', async () => {
+        document.getElementById('google-login')?.addEventListener('click', async () => {
             await authClient.signIn.social({ provider: "google", callbackURL: "/" });
         });
 
-        document.getElementById('github-login').addEventListener('click', async () => {
+        document.getElementById('github-login')?.addEventListener('click', async () => {
             await authClient.signIn.social({ provider: "github", callbackURL: "/" });
         });
     </script>
