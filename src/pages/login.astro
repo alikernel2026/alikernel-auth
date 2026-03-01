@@ -1,7 +1,6 @@
-// استيراد التنسيق بهذه الطريقة لكي يقوم Astro بدمجه وضغطه تلقائياً (هذا يحل مشكلة فايرفوكس وأوبرا)
+---
 import '../styles/style.css';
 ---
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -37,21 +36,17 @@ import '../styles/style.css';
         </div>
     </div>
 
-    <!-- كود Astro المدمج (لا حاجة لـ type module هنا لأن Astro يعالجها كـ Bundler) -->
     <script>
         import { createAuthClient } from "better-auth/client";
 
-        // بما أن النظام محمول على Vercel، Astro سيتكفل بربط المكتبة
         const authClient = createAuthClient();
 
-        // التوجيه التلقائي إذا كان مسجلاً للدخول بالفعل
         authClient.useSession.subscribe(({ data }) => {
             if (data && data.user) {
                 window.location.href = "/account"; 
             }
         });
 
-        // تشغيل زر جوجل
         const googleBtn = document.getElementById('google-signin-btn');
         if (googleBtn) {
             googleBtn.addEventListener('click', async () => {
@@ -63,7 +58,6 @@ import '../styles/style.css';
             });
         }
 
-        // تشغيل زر جيت هاب
         const githubBtn = document.getElementById('github-signin-btn');
         if (githubBtn) {
             githubBtn.addEventListener('click', async () => {
