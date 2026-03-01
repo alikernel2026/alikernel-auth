@@ -9,8 +9,12 @@ export function createAuth(env: any) {
 
   return betterAuth({
     baseURL: "https://www.alikernel.com",
-    trustedOrigins: ["https://www.alikernel.com"],
-    database: drizzleAdapter(db),
+    // هذا السطر ضروري جداً ولولاه سيفشل المشروع
+    secret: env.BETTER_AUTH_SECRET, 
+    
+    database: drizzleAdapter(db, {
+      provider: "sqlite", // لأن D1 تعمل بنظام sqlite
+    }),
 
     socialProviders: {
       google: {
@@ -22,5 +26,7 @@ export function createAuth(env: any) {
         clientSecret: env.GITHUB_CLIENT_SECRET,
       },
     },
+    // لإصلاح مشاكل الكوكيز في النطاقات المخصصة
+    trustedOrigins: ["https://www.alikernel.com"],
   });
 }
