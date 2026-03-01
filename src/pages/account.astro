@@ -8,52 +8,184 @@ import '../styles/style.css';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>حسابي - علي كيرنل</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <script is:inline>
+        (function() {
+            var theme = localStorage.getItem('theme') || 'default';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
-<body>
+<body data-theme="dark">
+
     <div class="page-wrapper">
-        <div class="page-content">
-            <div class="account-container">
-                <a href="/" class="modal-close-btn" title="رجوع">
-                    <svg viewBox="0 0 24 24"><path d="M9.57 5.92993L3.5 11.9999L9.57 18.0699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M20.5 12H3.67004" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
+
+        <!-- Header -->
+        <header class="site-header">
+            <div class="header-content">
+                <a href="https://www.alikernel.com" class="header-logo-link">
+                    <svg class="header-logo-icon" viewBox="0 0 124 124" fill="none">
+                        <rect width="124" height="124" rx="24" fill="#F97316"/>
+                        <path d="M19.375 36.782v63.843a4 4 0 0 0 4 4h63.843c3.564 0 5.348-4.309 2.829-6.828L26.203 33.953c-2.52-2.52-6.828-.735-6.828 2.829" fill="#fff"/>
+                        <circle cx="63.211" cy="37.539" r="18.164" fill="#000"/>
+                        <rect opacity=".4" x="81.133" y="80.72" width="17.569" height="17.388" rx="4" transform="rotate(-45 81.133 80.72)" fill="#FDBA74"/>
+                    </svg>
+                    <span>علي كيرنل</span>
                 </a>
+            </div>
+        </header>
 
-                <div id="loading" class="loading-text">جاري جلب بيانات الحساب...</div>
+        <!-- Main Content -->
+        <main class="page-content">
+            <div class="account-container">
 
-                <div id="account-content" class="hidden">
-                    <div class="user-details">
-                        <div class="user-info">
-                            <h3 id="account-name">--</h3>
-                            <p id="account-email">--</p>
-                            <p id="account-joined-date"></p>
-                        </div>
-                        <img id="account-avatar" src="" alt="صورة المستخدم">
-                    </div>
-
-                    <div class="sessions-section">
-                        <h3>الجلسات النشطة</h3>
-                        <div id="sessions-list"></div>
-                    </div>
-
-                    <div class="account-actions">
-                        <button id="logout-btn" class="account-btn secondary">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17.44 14.62 20 12.06 17.44 9.5m-7.68 2.56h10.17M11.76 20c-4.42 0-8-3-8-8s3.58-8 8-8"/></svg>
-                            الخروج
-                        </button>
-                        <a href="/" class="account-btn primary">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9.02 2.84L3.63 7.04C2.73 7.74 2 9.23 2 10.36v7.41C2 20.1 4.1 22 6.56 22h10.88C19.9 22 22 20.1 22 17.77V10.5c0-1.2-.81-2.75-1.8-3.45l-6.18-4.33c-1.4-.98-3.65-.93-5 .12z" stroke-linecap="round" stroke-linejoin="round"/><path d="M12 18v-3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            الرئيسيه
-                        </a>
-                    </div>
+                <!-- Account Header -->
+                <div class="account-header">
+                    <h2>حساب</h2>
+                    <p>عرض وإدارة حسابك</p>
                 </div>
+
+                <!-- User Details -->
+                <section class="user-details">
+                    <div class="user-info">
+                        <h3 id="account-name">...</h3>
+                        <p id="account-email"></p>
+                        <p id="account-joined-date"></p>
+                    </div>
+                    <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
+                </section>
+
+                <!-- Sessions -->
+                <div class="sessions-title">الأجهزة المتصلة</div>
+                <div class="sessions-list" id="sessions-list">
+                    <div class="loading-text">جاري التحميل...</div>
+                </div>
+
+                <!-- Actions -->
+                <div class="account-actions">
+                    <button class="account-btn primary" id="logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
+                        <span>الخروج</span>
+                    </button>
+                    <a href="https://www.alikernel.com" class="account-btn secondary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        <span>الرئيسية</span>
+                    </a>
+                </div>
+
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <a href="https://www.alikernel.com" class="footer-logo-link">
+                        <svg class="footer-logo-icon" viewBox="0 0 124 124" fill="none">
+                            <rect width="124" height="124" rx="24" fill="#F97316"/>
+                            <path d="M19.375 36.782v63.843a4 4 0 0 0 4 4h63.843c3.564 0 5.348-4.309 2.829-6.828L26.203 33.953c-2.52-2.52-6.828-.735-6.828 2.829" fill="#fff"/>
+                            <circle cx="63.211" cy="37.539" r="18.164" fill="#000"/>
+                            <rect opacity=".4" x="81.133" y="80.72" width="17.569" height="17.388" rx="4" transform="rotate(-45 81.133 80.72)" fill="#FDBA74"/>
+                        </svg>
+                        <span>علي كيرنل</span>
+                    </a>
+                    <a href="https://www.alikernel.com/p/privacy.html">الخصوصية</a>
+                    <a href="https://www.alikernel.com/p/terms.html">الشروط</a>
+                </div>
+
+                <div class="theme-controls">
+                    <button class="theme-btn" id="theme-btn-dark" onclick="setTheme('dark')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/></svg>
+                        <div class="tooltip-box">مظلم<div class="tooltip-arrow"></div></div>
+                    </button>
+                    <button class="theme-btn" id="theme-btn-light" onclick="setTheme('light')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                        <div class="tooltip-box">نهار<div class="tooltip-arrow"></div></div>
+                    </button>
+                    <button class="theme-btn" id="theme-btn-system" onclick="setTheme('default')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <div class="tooltip-box">تلقائي<div class="tooltip-arrow"></div></div>
+                    </button>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Confirm Modal -->
+    <div id="custom-confirm-modal" class="custom-modal-overlay hidden">
+        <div class="custom-modal-content">
+            <h2 id="modal-title">هل أنت متأكد؟</h2>
+            <p id="custom-modal-text"></p>
+            <div class="custom-modal-actions">
+                <button id="custom-modal-cancel-btn" class="modal-btn secondary">إلغاء</button>
+                <button id="custom-modal-confirm-btn" class="modal-btn primary">استمرار</button>
             </div>
         </div>
     </div>
 
     <script is:inline>
+    // Theme
+    function setTheme(theme) {
+        document.body.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+        document.querySelectorAll('.theme-btn').forEach(function(btn) { btn.classList.remove('active'); });
+        if (theme === 'dark') document.getElementById('theme-btn-dark').classList.add('active');
+        else if (theme === 'light') document.getElementById('theme-btn-light').classList.add('active');
+        else document.getElementById('theme-btn-system').classList.add('active');
+    }
+    var savedTheme = localStorage.getItem('theme') || 'default';
+    setTheme(savedTheme);
+
+    // Icons
+    var icons = {
+        clock: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>',
+        device: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg>',
+        location: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+        globe: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M7.99998 3H8.99998C7.04998 8.84 7.04998 15.16 8.99998 21H7.99998"></path><path d="M15 3C16.95 8.84 16.95 15.16 15 21"></path><path d="M3 16V15C8.84 16.95 15.16 16.95 21 15V16"></path><path d="M3 9C8.84 7.05 15.16 7.05 21 9"></path></svg>',
+        check: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4L9 15"></path><path d="M21 19L3 19"></path><path d="M9 15L4 10"></path></svg>'
+    };
+
+    function getOS(userAgent) {
+        if (!userAgent) return "غير معروف";
+        if (/Android/i.test(userAgent)) return "أندرويد";
+        if (/iPhone/i.test(userAgent)) return "آيفون";
+        if (/iPad/i.test(userAgent)) return "آيباد";
+        if (/Windows/i.test(userAgent)) return "ويندوز";
+        if (/Mac/i.test(userAgent)) return "ماك";
+        if (/Linux/i.test(userAgent)) return "لينكس";
+        return "غير معروف";
+    }
+
+    function escapeHtml(text) {
+        var div = document.createElement('div');
+        div.textContent = text || '';
+        return div.innerHTML;
+    }
+
+    function showModal(msg, cb) {
+        var modal = document.getElementById("custom-confirm-modal");
+        var text = document.getElementById("custom-modal-text");
+        var confirmBtn = document.getElementById("custom-modal-confirm-btn");
+        var cancelBtn = document.getElementById("custom-modal-cancel-btn");
+        if (!modal) { if (confirm(msg) && cb) cb(); return; }
+        text.textContent = msg;
+        modal.classList.remove("hidden");
+        var newC = confirmBtn.cloneNode(true);
+        var newX = cancelBtn.cloneNode(true);
+        confirmBtn.parentNode.replaceChild(newC, confirmBtn);
+        cancelBtn.parentNode.replaceChild(newX, cancelBtn);
+        newC.onclick = function() { modal.classList.add("hidden"); if (cb) cb(); };
+        newX.onclick = function() { modal.classList.add("hidden"); };
+    }
+
     (function() {
         var API = "/api/auth";
         var LOGIN = "/login";
 
+        // استعادة فورية من الكاش
         try {
             var photoURL = localStorage.getItem("userPhotoURL");
             var lastUid = localStorage.getItem("last_uid");
@@ -62,52 +194,41 @@ import '../styles/style.css';
             var cachedName = localStorage.getItem("userDisplayName");
             var cachedEmail = localStorage.getItem("userEmail");
             var cachedJoined = localStorage.getItem("userJoinedDate");
+            var cachedSessions = localStorage.getItem("userSessionsHTMLCache");
             if (cachedName) document.getElementById("account-name").textContent = cachedName;
             if (cachedEmail) document.getElementById("account-email").textContent = cachedEmail;
             if (cachedJoined) document.getElementById("account-joined-date").textContent = cachedJoined;
+            if (cachedSessions) document.getElementById("sessions-list").innerHTML = cachedSessions;
         } catch(e) {}
 
         fetch(API + "/get-session", { credentials: "include" })
             .then(function(r) { return r.json(); })
             .then(function(data) {
-                if (!data || !data.user) {
-                    window.location.href = LOGIN;
-                    return;
-                }
+                if (!data || !data.user) { window.location.href = LOGIN; return; }
                 var user = data.user;
-                document.getElementById('loading').classList.add('hidden');
-                document.getElementById('account-content').classList.remove('hidden');
-                document.getElementById('account-name').textContent = user.name || "مستخدم";
-                document.getElementById('account-email').textContent = user.email || "";
+                var name = user.name || "مستخدم";
+                var email = user.email || "";
+                document.getElementById('account-name').textContent = name;
+                document.getElementById('account-email').textContent = email;
                 if (user.image) {
                     document.getElementById('account-avatar').src = user.image;
                     localStorage.setItem("userPhotoURL", user.image);
                 }
-                localStorage.setItem("userDisplayName", user.name || "");
-                localStorage.setItem("userEmail", user.email || "");
+                localStorage.setItem("userDisplayName", name);
+                localStorage.setItem("userEmail", email);
                 localStorage.setItem("last_uid", user.id);
                 if (user.createdAt) {
                     var date = new Date(user.createdAt);
                     var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
                         year: 'numeric', month: 'numeric', day: 'numeric',
                         hour: 'numeric', minute: 'numeric', hour12: true
-                    });
+                    }).replace('ص', 'صباحاً').replace('م', 'مساءً');
                     document.getElementById('account-joined-date').textContent = formatted;
                     localStorage.setItem("userJoinedDate", formatted);
                 }
                 loadSessions();
             })
             .catch(function() { window.location.href = LOGIN; });
-
-        function getOS(userAgent) {
-            if (!userAgent) return "غير معروف";
-            if (userAgent.indexOf("Windows") !== -1) return "ويندوز";
-            if (userAgent.indexOf("Mac") !== -1) return "ماك";
-            if (userAgent.indexOf("Android") !== -1) return "أندرويد";
-            if (userAgent.indexOf("iPhone") !== -1 || userAgent.indexOf("iPad") !== -1) return "iOS";
-            if (userAgent.indexOf("Linux") !== -1) return "لينكس";
-            return "غير معروف";
-        }
 
         function loadSessions() {
             var list = document.getElementById("sessions-list");
@@ -119,51 +240,67 @@ import '../styles/style.css';
                         list.innerHTML = '<p style="text-align:center;color:#888;">لا توجد جلسات نشطة</p>';
                         return;
                     }
-                    list.innerHTML = sessions.map(function(s) {
+                    var currentToken = null;
+                    // نعرف الجلسة الحالية من أحدث جلسة
+                    var htmlContent = sessions.map(function(s, i) {
+                        var isCurr = i === 0; // الجلسة الأولى هي الحالية
                         var time = new Date(s.createdAt).toLocaleString('ar-u-nu-latn', {
                             hour: 'numeric', minute: 'numeric', hour12: true
-                        });
+                        }).replace('ص', 'AM').replace('م', 'PM');
                         var os = getOS(s.userAgent);
-                        var isCurrentBadge = s.isCurrent ? '<span class="current-session-badge">✓ جلستك الحالية</span>' : '';
-                        var actionBtn = s.isCurrent
-                            ? '<button class="session-action-btn session-current-btn" title="جلستك الحالية"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg></button>'
-                            : '<button class="session-action-btn session-delete-btn" onclick="deleteSession(\'' + s.token + '\')" title="إنهاء الجلسة"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg></button>';
-                        return '<div class="session-item' + (s.isCurrent ? ' current' : '') + '">' +
+                        var domainLine = s.userAgent ? 
+                            '<div class="session-detail-line">' + icons.globe + ' <span>الموقع: ' + escapeHtml(window.location.hostname) + '</span></div>' : '';
+
+                        return '<div class="session-item" id="session-' + escapeHtml(s.token) + '">' +
                             '<div class="session-details">' +
-                                '<div class="session-detail-line">الوقت: ' + time + '</div>' +
-                                '<div class="session-detail-line">نظام التشغيل: ' + os + '</div>' +
-                                '<div class="session-detail-line">العنوان: ' + (s.ipAddress || 'غير معروف') + '</div>' +
-                                '<div class="session-detail-line">الموقع: ' + (s.origin || 'غير معروف') + '</div>' +
-                                (s.isCurrent ? '<div class="session-detail-line">' + isCurrentBadge + '</div>' : '') +
+                                '<div class="session-detail-line">' + icons.clock + ' <span>الوقت: ' + time + '</span></div>' +
+                                '<div class="session-detail-line">' + icons.device + ' <span>نظام التشغيل: ' + os + '</span></div>' +
+                                '<div class="session-detail-line">' + icons.location + ' <span>العنوان: ' + escapeHtml(s.ipAddress || 'غير معروف') + '</span></div>' +
+                                domainLine +
+                                (isCurr ? '<div class="session-detail-line current-session-indicator">' + icons.check + ' <span>جلستك الحالية</span></div>' : '') +
                             '</div>' +
-                            actionBtn +
+                            '<button class="terminate-btn ' + (isCurr ? 'icon-current' : 'icon-terminate') + '" onclick="deleteSession(\'' + escapeHtml(s.token) + '\', ' + isCurr + ')"></button>' +
                         '</div>';
                     }).join('');
+
+                    localStorage.setItem("userSessionsHTMLCache", htmlContent);
+                    list.innerHTML = htmlContent;
                 })
                 .catch(function() {
                     list.innerHTML = '<p style="text-align:center;color:#888;">تعذر تحميل الجلسات</p>';
                 });
         }
 
-        window.deleteSession = function(token) {
-            if (!confirm("هل تريد إزالة هذا الجهاز؟")) return;
-            fetch(API + "/revoke-session", {
-                method: "POST",
-                credentials: "include",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ token: token })
-            }).then(function() { loadSessions(); });
+        window.deleteSession = function(token, isCurrent) {
+            var msg = isCurrent ? "سيتم تسجيل خروجك من هذا الجهاز فوراً." : "هل تريد إزالة هذا الجهاز من قائمة الأجهزة المتصلة؟";
+            showModal(msg, function() {
+                fetch(API + "/revoke-session", {
+                    method: "POST",
+                    credentials: "include",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ token: token })
+                }).then(function() {
+                    if (isCurrent) {
+                        localStorage.clear();
+                        window.location.href = LOGIN;
+                    } else {
+                        loadSessions();
+                    }
+                });
+            });
         };
 
         document.getElementById('logout-btn').addEventListener('click', function() {
-            fetch(API + "/sign-out", {
-                method: "POST",
-                credentials: "include",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({})
-            }).then(function() {
-                localStorage.clear();
-                window.location.href = "/";
+            showModal("هل تريد تسجيل الخروج؟", function() {
+                fetch(API + "/sign-out", {
+                    method: "POST",
+                    credentials: "include",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({})
+                }).then(function() {
+                    localStorage.clear();
+                    window.location.href = "/";
+                });
             });
         });
     })();
