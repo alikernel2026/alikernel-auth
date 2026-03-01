@@ -11,9 +11,8 @@
   },
   "dependencies": {
     "@astrojs/cloudflare": "^12.1.1",
+    "@libsql/client": "^0.14.0",
     "astro": "^5.1.0",
-    "better-auth": "latest",
-    "drizzle-orm": "latest",
-    "@better-auth/utils": "latest"
+    "better-auth": "latest"
   }
 }
