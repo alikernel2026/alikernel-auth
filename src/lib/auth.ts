@@ -4,10 +4,7 @@ export function createAuth(env: any) {
   return betterAuth({
     baseURL: "https://www.alikernel.com",
     secret: env.BETTER_AUTH_SECRET,
-    database: {
-      db: env.DB,
-      type: "sqlite",
-    },
+    database: env.DB,
     socialProviders: {
       google: {
         clientId: env.GOOGLE_CLIENT_ID,
