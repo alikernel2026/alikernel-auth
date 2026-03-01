@@ -1,5 +1,5 @@
----
-// لا حاجة لتغيير أي شيء هنا
+// استيراد التنسيق بهذه الطريقة لكي يقوم Astro بدمجه وضغطه تلقائياً (هذا يحل مشكلة فايرفوكس وأوبرا)
+import '../styles/style.css';
 ---
 
 <!DOCTYPE html>
@@ -8,58 +8,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول - علي كيرنل</title>
-    <style>
-        /* التنسيق الذي يعيد "المربع" وشكل الموقع الأصلي */
-        :root { --primary: #f97316; --bg: #f8fafc; }
-        body { margin: 0; font-family: system-ui, sans-serif; background: var(--bg); }
-        .fullscreen-modal { 
-            display: flex; align-items: center; justify-content: center; 
-            min-height: 100vh; padding: 20px; box-sizing: border-box;
-        }
-        .login-container { 
-            background: white; width: 100%; max-width: 400px; 
-            padding: 40px; border-radius: 24px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); text-align: center;
-            position: relative;
-        }
-        .modal-close-btn { 
-            position: absolute; top: 20px; right: 20px; color: #64748b; 
-            text-decoration: none; width: 32px; height: 32px;
-        }
-        .login-header { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 30px; }
-        .site-logo-placeholder { width: 40px; height: 40px; }
-        .login-header span { font-weight: bold; font-size: 1.2rem; color: #1e293b; }
-        .login-card h2 { margin: 0 0 10px; color: #1e293b; font-size: 1.5rem; }
-        .login-card p { color: #64748b; font-size: 0.9rem; margin-bottom: 30px; }
-        .social-btn { 
-            display: flex; align-items: center; justify-content: center; gap: 12px;
-            width: 100%; padding: 12px; margin-bottom: 12px; border: 1px solid #e2e8f0;
-            border-radius: 12px; background: white; cursor: pointer; transition: 0.2s;
-            font-weight: 500; font-size: 1rem; color: #334155;
-        }
-        .social-btn:hover { background: #f1f5f9; }
-        .social-btn svg { width: 20px; height: 20px; }
-        .login-footer { margin-top: 30px; font-size: 0.8rem; color: #94a3b8; line-height: 1.5; }
-        .login-footer a { color: var(--primary); text-decoration: none; }
-    </style>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 <body>
     <div class="fullscreen-modal">
-        <a href="https://www.alikernel.com" class="modal-close-btn" title="إغلاق">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        <a href="/" class="modal-close-btn" title="إغلاق">
+            <svg viewBox="0 0 24 24"><path d="M9.57 5.92993L3.5 11.9999L9.57 18.0699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M20.5 12H3.67004" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
         </a>
-        
         <div class="login-container">
             <div class="login-header">
-                <svg class="site-logo-placeholder" viewBox="0 0 124 124" fill="none"><rect width="124" height="124" rx="24" fill="#f97316"/><path d="M19.375 36.782v63.843a4 4 0 0 0 4 4h63.843c3.564 0 5.348-4.309 2.829-6.828L26.203 33.953c-2.52-2.52-6.828-.735-6.828 2.829" fill="#fff"/><circle cx="63.211" cy="37.539" r="18.164" fill="#000"/></svg>
+                <svg class="site-logo-placeholder" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 124 124" fill="none"><rect width="124" height="124" rx="24" fill="#f97316"/><path d="M19.375 36.782v63.843a4 4 0 0 0 4 4h63.843c3.564 0 5.348-4.309 2.829-6.828L26.203 33.953c-2.52-2.52-6.828-.735-6.828 2.829" fill="#fff"/><circle cx="63.211" cy="37.539" r="18.164" fill="#000"/><rect opacity=".4" x="81.133" y="80.72" width="17.569" height="17.388" rx="4" transform="rotate(-45 81.133 80.72)" fill="#fdba74"/></svg>
                 <span>علي كيرنل</span>
             </div>
-
             <div class="login-card">
                 <h2>أهلاً بعودتك</h2>
                 <p>سجل دخولك باستخدام حسابك الاجتماعي</p>
                 
-                <button class="social-btn" id="google-signin-btn-popup">
+                <button class="social-btn" id="google-signin-btn">
                     <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"></path></svg>
                     <span>الدخول باستخدام Google</span>
                 </button>
@@ -69,22 +34,46 @@
                     <span>الدخول باستخدام GitHub</span>
                 </button>
             </div>
-            <div class="login-footer">
-                <p>بالنقر على "متابعة"، فإنك توافق على <a href="#">شروط الخدمة</a> و <a href="#">سياسة الخصوصية</a>.</p>
-            </div>
         </div>
     </div>
 
+    <!-- كود Astro المدمج (لا حاجة لـ type module هنا لأن Astro يعالجها كـ Bundler) -->
     <script>
         import { createAuthClient } from "better-auth/client";
-        const authClient = createAuthClient({ baseURL: "https://www.alikernel.com" });
 
-        document.getElementById('google-signin-btn-popup').onclick = async () => {
-            await authClient.signIn.social({ provider: "google", callbackURL: "/account" });
-        };
-        document.getElementById('github-signin-btn').onclick = async () => {
-            await authClient.signIn.social({ provider: "github", callbackURL: "/account" });
-        };
+        // بما أن النظام محمول على Vercel، Astro سيتكفل بربط المكتبة
+        const authClient = createAuthClient();
+
+        // التوجيه التلقائي إذا كان مسجلاً للدخول بالفعل
+        authClient.useSession.subscribe(({ data }) => {
+            if (data && data.user) {
+                window.location.href = "/account"; 
+            }
+        });
+
+        // تشغيل زر جوجل
+        const googleBtn = document.getElementById('google-signin-btn');
+        if (googleBtn) {
+            googleBtn.addEventListener('click', async () => {
+                googleBtn.style.opacity = "0.5";
+                await authClient.signIn.social({
+                    provider: "google",
+                    callbackURL: "/account" 
+                });
+            });
+        }
+
+        // تشغيل زر جيت هاب
+        const githubBtn = document.getElementById('github-signin-btn');
+        if (githubBtn) {
+            githubBtn.addEventListener('click', async () => {
+                githubBtn.style.opacity = "0.5";
+                await authClient.signIn.social({
+                    provider: "github",
+                    callbackURL: "/account"
+                });
+            });
+        }
     </script>
 </body>
 </html>
