@@ -6,9 +6,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   if (url.pathname.startsWith('/login') || 
       url.pathname.startsWith('/account') || 
       url.pathname.startsWith('/api') ||
-      url.pathname.startsWith('/_astro') ||
-      url.pathname.endsWith('.js') ||
-      url.pathname.endsWith('.css')) {
+      url.pathname.startsWith('/_astro')) {
     return next();
   }
 
@@ -24,13 +22,9 @@ export const onRequest = defineMiddleware(async (context, next) => {
   let html = await response.text();
   html = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
 
-  const logoutScript = '<script src="/logout.js"></script>';
-  
-  if (html.includes('</head>')) {
-    html = html.replace('</head>', logoutScript + '</head>');
-  } else if (html.includes('</body>')) {
-    html = html.replace('</body>', logoutScript + '</body>');
-  }
+  const logoutScript = '<script>document.addEventListener("click",function(e){var t=e.target.closest("#logout-btn");if(!t)return;e.preventDefault();fetch("/api/auth/sign-out",{method:"POST",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify({})}).then(function(){localStorage.clear();window.location.href="/login"}).catch(function(){localStorage.clear();window.location.href="/login"})});</script>';
+
+  html = html.replace('</head>', logoutScript + '</head>');
 
   return new Response(html, {
     headers: { "content-type": "text/html; charset=utf-8" }
