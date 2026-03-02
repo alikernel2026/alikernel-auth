@@ -22,16 +22,12 @@ export const onRequest = defineMiddleware(async (context, next) => {
   let html = await response.text();
   html = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
 
-  const logoutScript = '<script>document.addEventListener("click",function(e){var t=e.target.closest("#logout-btn");if(!t)return;e.preventDefault();fetch("/api/auth/sign-out",{method:"POST",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify({})}).then(function(){localStorage.clear();window.location.href="/login"}).catch(function(){localStorage.clear();window.location.href="/login"})});</script>';
+  const logoutScript = '<script>document.addEventListener("click",function(e){var t=e.target.closest("#logout-btn");if(t){e.preventDefault();fetch("/api/auth/sign-out",{method:"POST",credentials:"include"}).then(function(){localStorage.clear();window.location.href="/login"}).catch(function(){localStorage.clear();window.location.href="/login"})}});</script>';
 
-  // جرب </head> بأي حالة
-  if (html.toLowerCase().includes('</head>')) {
-    html = html.replace(/<\/head>/i, logoutScript + '</head>');
-  } else if (html.toLowerCase().includes('</body>')) {
-    html = html.replace(/<\/body>/i, logoutScript + '</body>');
-  } else {
-    html = logoutScript + html;
-  }
+  // إضافة بعد <body> مباشرة
+  html = html.replace(/<body[^>]*>/i, function(match) {
+    return match + logoutScript;
+  });
 
   return new Response(html, {
     headers: { "content-type": "text/html; charset=utf-8" }
