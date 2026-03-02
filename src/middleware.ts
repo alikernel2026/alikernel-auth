@@ -24,7 +24,14 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   const logoutScript = '<script>document.addEventListener("click",function(e){var t=e.target.closest("#logout-btn");if(!t)return;e.preventDefault();fetch("/api/auth/sign-out",{method:"POST",credentials:"include",headers:{"Content-Type":"application/json"},body:JSON.stringify({})}).then(function(){localStorage.clear();window.location.href="/login"}).catch(function(){localStorage.clear();window.location.href="/login"})});</script>';
 
-  html = html.replace('</head>', logoutScript + '</head>');
+  // جرب </head> بأي حالة
+  if (html.toLowerCase().includes('</head>')) {
+    html = html.replace(/<\/head>/i, logoutScript + '</head>');
+  } else if (html.toLowerCase().includes('</body>')) {
+    html = html.replace(/<\/body>/i, logoutScript + '</body>');
+  } else {
+    html = logoutScript + html;
+  }
 
   return new Response(html, {
     headers: { "content-type": "text/html; charset=utf-8" }
