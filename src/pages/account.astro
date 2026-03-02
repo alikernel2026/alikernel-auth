@@ -240,13 +240,15 @@ import '../styles/style.css';
                         list.innerHTML = '<p style="text-align:center;color:#888;">لا توجد جلسات نشطة</p>';
                         return;
                     }
+                    var currentToken = null;
+                    // نعرف الجلسة الحالية من أحدث جلسة
                     var htmlContent = sessions.map(function(s, i) {
-                        var isCurr = i === 0;
+                        var isCurr = i === 0; // الجلسة الأولى هي الحالية
                         var time = new Date(s.createdAt).toLocaleString('ar-u-nu-latn', {
                             hour: 'numeric', minute: 'numeric', hour12: true
                         }).replace('ص', 'AM').replace('م', 'PM');
                         var os = getOS(s.userAgent);
-                        var domainLine = s.userAgent ?
+                        var domainLine = s.userAgent ? 
                             '<div class="session-detail-line">' + icons.globe + ' <span>الموقع: ' + escapeHtml(window.location.hostname) + '</span></div>' : '';
 
                         return '<div class="session-item" id="session-' + escapeHtml(s.token) + '">' +
@@ -284,13 +286,6 @@ import '../styles/style.css';
                     } else {
                         loadSessions();
                     }
-                }).catch(function() {
-                    if (isCurrent) {
-                        localStorage.clear();
-                        window.location.href = LOGIN;
-                    } else {
-                        loadSessions();
-                    }
                 });
             });
         };
@@ -302,12 +297,7 @@ import '../styles/style.css';
                     credentials: "include",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({})
-                })
-                .then(function() {
-                    localStorage.clear();
-                    window.location.href = "/";
-                })
-                .catch(function() {
+                }).then(function() {
                     localStorage.clear();
                     window.location.href = "/";
                 });
