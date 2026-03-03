@@ -246,8 +246,10 @@ body[data-theme="light"] .site-header {
 }
 
 @media (max-width: 768px) {
-    .sessions-list {
+    .sessions-list, .session-item {
         grid-template-columns: 1fr;
+        display: block;
+        margin-bottom: 15px;
     }
 }
 
@@ -746,6 +748,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
         justify-content: center;
     }
 }
+
 
 
 
