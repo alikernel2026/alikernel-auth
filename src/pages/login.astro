@@ -1,15 +1,5 @@
 ---
 import '../styles/style.css';
-import { createAuth } from '../lib/auth';
-
-export const prerender = false;
-
-const env = (Astro.locals as any).runtime.env;
-const auth = createAuth(env);
-const session = await auth.api.getSession({ headers: Astro.request.headers });
-if (session?.user) {
-  return Astro.redirect('/');
-}
 ---
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
