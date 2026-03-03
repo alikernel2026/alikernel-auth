@@ -127,7 +127,6 @@ import '../styles/style.css';
     </div>
 
     <script is:inline>
-    // Theme
     function setTheme(theme) {
         document.body.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
@@ -139,7 +138,6 @@ import '../styles/style.css';
     var savedTheme = localStorage.getItem('theme') || 'default';
     setTheme(savedTheme);
 
-    // Icons
     var icons = {
         clock: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>',
         device: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg>',
@@ -185,7 +183,14 @@ import '../styles/style.css';
         var API = "/api/auth";
         var LOGIN = "/login";
 
-        // استعادة فورية من الكاش
+        // مزامنة تسجيل الخروج عبر التبويبات
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'auth_event' && (e.newValue || '').startsWith('signout')) {
+                localStorage.clear();
+                window.location.href = LOGIN;
+            }
+        });
+
         try {
             var photoURL = localStorage.getItem("userPhotoURL");
             var lastUid = localStorage.getItem("last_uid");
@@ -240,10 +245,8 @@ import '../styles/style.css';
                         list.innerHTML = '<p style="text-align:center;color:#888;">لا توجد جلسات نشطة</p>';
                         return;
                     }
-                    var currentToken = null;
-                    // نعرف الجلسة الحالية من أحدث جلسة
                     var htmlContent = sessions.map(function(s, i) {
-                        var isCurr = i === 0; // الجلسة الأولى هي الحالية
+                        var isCurr = i === 0;
                         var time = new Date(s.createdAt).toLocaleString('ar-u-nu-latn', {
                             hour: 'numeric', minute: 'numeric', hour12: true
                         }).replace('ص', 'AM').replace('م', 'PM');
@@ -281,6 +284,7 @@ import '../styles/style.css';
                     body: JSON.stringify({ token: token })
                 }).then(function() {
                     if (isCurrent) {
+                        localStorage.setItem('auth_event', 'signout_' + Date.now());
                         localStorage.clear();
                         window.location.href = LOGIN;
                     } else {
@@ -298,8 +302,9 @@ import '../styles/style.css';
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({})
                 }).then(function() {
+                    localStorage.setItem('auth_event', 'signout_' + Date.now());
                     localStorage.clear();
-                    window.location.href = "/";
+                    window.location.href = LOGIN;
                 });
             });
         });
