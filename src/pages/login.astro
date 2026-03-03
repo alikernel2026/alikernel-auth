@@ -48,7 +48,13 @@ import '../styles/style.css';
 
         authClient.getSession().then(({ data }) => {
             if (data && data.user) {
-                window.location.href = "/account";
+                window.location.href = "/";
+            }
+        });
+
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'auth_event' && (e.newValue || '').startsWith('signin')) {
+                window.location.href = '/';
             }
         });
 
@@ -58,7 +64,7 @@ import '../styles/style.css';
                 googleBtn.style.opacity = "0.5";
                 await authClient.signIn.social({
                     provider: "google",
-                    callbackURL: "/account" 
+                    callbackURL: "/?auth=1"
                 });
             });
         }
@@ -69,7 +75,7 @@ import '../styles/style.css';
                 githubBtn.style.opacity = "0.5";
                 await authClient.signIn.social({
                     provider: "github",
-                    callbackURL: "/account"
+                    callbackURL: "/?auth=1"
                 });
             });
         }
