@@ -266,7 +266,6 @@ body[data-theme="light"] .site-header {
     border: 1px solid var(--sideBd-color);
     border-radius: 10px;
     background-color: transparent;
-    margin-bottom: 10px;
     flex-wrap: wrap;
     gap: 10px;
 }
@@ -747,5 +746,6 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
         justify-content: center;
     }
 }
+
 
 
