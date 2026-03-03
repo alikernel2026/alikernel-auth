@@ -26,7 +26,29 @@ export const onRequest = defineMiddleware(async (context, next) => {
   let html = await response.text();
   
   // تبديل كل الروابط لتبقى داخل www.alikernel.com
-  const cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
+  let cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
+
+  // حقن سكريبت تسجيل الخروج في كل صفحة
+  const logoutScript = `<script>
+(function() {
+  var logoutBtn = document.getElementById('logout-btn');
+  if (!logoutBtn) return;
+  logoutBtn.addEventListener('click', function(e) {
+    e.preventDefault();
+    fetch('/api/auth/sign-out', {
+      method: 'POST',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({})
+    }).then(function() {
+      ['userDisplayName','userEmail','userPhotoURL','last_uid','userJoinedDate','userSessionsHTMLCache'].forEach(function(k) { localStorage.removeItem(k); });
+      window.location.href = '/login';
+    });
+  });
+})();
+<\/script>`;
+
+  cleanHtml = cleanHtml.replace('</body>', logoutScript + '</body>');
 
   return new Response(cleanHtml, {
     headers: { "content-type": "text/html; charset=utf-8" }
