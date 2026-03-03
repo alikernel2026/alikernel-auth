@@ -1,11 +1,19 @@
 ---
 export const prerender = false;
-import { createAuth } from '../lib/auth';
 
-const env = (Astro.locals as any).runtime.env;
-const auth = createAuth(env);
+const signOut = await fetch(new URL('/api/auth/sign-out', Astro.request.url), {
+  method: 'POST',
+  headers: Astro.request.headers,
+  body: JSON.stringify({})
+});
 
-await auth.api.signOut({ headers: Astro.request.headers });
-
-return Astro.redirect('/login');
+const headers = new Headers();
+const setCookie = signOut.headers.get('set-cookie');
+if (setCookie) headers.set('set-cookie', setCookie);
+headers.set('content-type', 'text/html');
 ---
+<script>
+localStorage.setItem('auth_event', 'signout_' + Date.now());
+['userDisplayName','userEmail','userPhotoURL','last_uid','userJoinedDate','userSessionsHTMLCache'].forEach(function(k){localStorage.removeItem(k);});
+window.location.href = '/login';
+</script>
