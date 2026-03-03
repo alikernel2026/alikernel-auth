@@ -737,7 +737,6 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     }
     .footer-content,
     .site-footer > .maxC {
-        flex-direction: column;
         gap: 15px;
     }
     .footer-logo-section {
@@ -745,3 +744,4 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
         justify-content: center;
     }
 }
+
