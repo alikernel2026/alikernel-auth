@@ -1,5 +1,15 @@
 ---
 import '../styles/style.css';
+import { createAuth } from '../lib/auth';
+
+export const prerender = false;
+
+const env = (Astro.locals as any).runtime.env;
+const auth = createAuth(env);
+const session = await auth.api.getSession({ headers: Astro.request.headers });
+if (session?.user) {
+  return Astro.redirect('/');
+}
 ---
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -44,12 +54,6 @@ import '../styles/style.css';
 
         const authClient = createAuthClient({
             baseURL: "https://www.alikernel.com"
-        });
-
-        authClient.getSession().then(({ data }) => {
-            if (data && data.user) {
-                window.location.href = "/";
-            }
         });
 
         window.addEventListener('storage', function(e) {
