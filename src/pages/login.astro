@@ -46,9 +46,9 @@ import '../styles/style.css';
             baseURL: "https://www.alikernel.com"
         });
 
-        authClient.useSession.subscribe(({ data }) => {
+        authClient.getSession().then(({ data }) => {
             if (data && data.user) {
-                window.location.href = "/account"; 
+                window.location.href = "/account";
             }
         });
 
