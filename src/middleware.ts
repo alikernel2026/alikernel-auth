@@ -24,6 +24,22 @@ export const onRequest = defineMiddleware(async (context, next) => {
   let cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
   cleanHtml = cleanHtml.replace("href='#' id='logout-btn'", "href='/logout' id='logout-btn'");
 
+  const syncScript = `<script>
+(function() {
+  if (new URLSearchParams(location.search).get('auth') === '1') {
+    localStorage.setItem('auth_event', 'signin_' + Date.now());
+    history.replaceState({}, '', location.pathname);
+  }
+  window.addEventListener('storage', function(e) {
+    if (e.key !== 'auth_event') return;
+    if ((e.newValue || '').startsWith('signout')) window.location.href = '/login';
+    else if ((e.newValue || '').startsWith('signin')) window.location.reload();
+  });
+})();
+<\/script>`;
+
+  cleanHtml = cleanHtml.replace('</body>', syncScript + '</body>');
+
   return new Response(cleanHtml, {
     headers: { "content-type": "text/html; charset=utf-8" }
   });
