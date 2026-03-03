@@ -19,7 +19,6 @@ import '../styles/style.css';
 
     <div class="page-wrapper">
 
-        <!-- Header -->
         <header class="site-header">
             <div class="header-content">
                 <a href="https://www.alikernel.com" class="header-logo-link">
@@ -34,17 +33,14 @@ import '../styles/style.css';
             </div>
         </header>
 
-        <!-- Main Content -->
         <main class="page-content">
             <div class="account-container">
 
-                <!-- Account Header -->
                 <div class="account-header">
                     <h2>حساب</h2>
                     <p>عرض وإدارة حسابك</p>
                 </div>
 
-                <!-- User Details -->
                 <section class="user-details">
                     <div class="user-info">
                         <h3 id="account-name">...</h3>
@@ -54,13 +50,11 @@ import '../styles/style.css';
                     <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
                 </section>
 
-                <!-- Sessions -->
                 <div class="sessions-title">الأجهزة المتصلة</div>
                 <div class="sessions-list" id="sessions-list">
                     <div class="loading-text">جاري التحميل...</div>
                 </div>
 
-                <!-- Actions -->
                 <div class="account-actions">
                     <button class="account-btn primary" id="logout-btn">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
@@ -78,7 +72,6 @@ import '../styles/style.css';
             </div>
         </main>
 
-        <!-- Footer -->
         <footer class="site-footer">
             <div class="footer-content">
                 <div class="footer-logo-section">
@@ -114,7 +107,6 @@ import '../styles/style.css';
 
     </div>
 
-    <!-- Confirm Modal -->
     <div id="custom-confirm-modal" class="custom-modal-overlay hidden">
         <div class="custom-modal-content">
             <h2 id="modal-title">هل أنت متأكد؟</h2>
@@ -182,8 +174,8 @@ import '../styles/style.css';
     (function() {
         var API = "/api/auth";
         var LOGIN = "/login";
+        var currentSessionToken = null;
 
-        // مزامنة تسجيل الخروج عبر التبويبات
         window.addEventListener('storage', function(e) {
             if (e.key === 'auth_event' && (e.newValue || '').startsWith('signout')) {
                 localStorage.clear();
@@ -211,6 +203,7 @@ import '../styles/style.css';
             .then(function(data) {
                 if (!data || !data.user) { window.location.href = LOGIN; return; }
                 var user = data.user;
+                currentSessionToken = data.session ? data.session.token : null;
                 var name = user.name || "مستخدم";
                 var email = user.email || "";
                 document.getElementById('account-name').textContent = name;
@@ -245,13 +238,13 @@ import '../styles/style.css';
                         list.innerHTML = '<p style="text-align:center;color:#888;">لا توجد جلسات نشطة</p>';
                         return;
                     }
-                    var htmlContent = sessions.map(function(s, i) {
-                        var isCurr = i === 0;
+                    var htmlContent = sessions.map(function(s) {
+                        var isCurr = s.token === currentSessionToken;
                         var time = new Date(s.createdAt).toLocaleString('ar-u-nu-latn', {
                             hour: 'numeric', minute: 'numeric', hour12: true
                         }).replace('ص', 'AM').replace('م', 'PM');
                         var os = getOS(s.userAgent);
-                        var domainLine = s.userAgent ? 
+                        var domainLine = s.userAgent ?
                             '<div class="session-detail-line">' + icons.globe + ' <span>الموقع: ' + escapeHtml(window.location.hostname) + '</span></div>' : '';
 
                         return '<div class="session-item" id="session-' + escapeHtml(s.token) + '">' +
