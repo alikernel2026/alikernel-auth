@@ -1,0 +1,11 @@
+---
+export const prerender = false;
+import { createAuth } from '../lib/auth';
+
+const env = (Astro.locals as any).runtime.env;
+const auth = createAuth(env);
+
+await auth.api.signOut({ headers: Astro.request.headers });
+
+return Astro.redirect('/login');
+---
