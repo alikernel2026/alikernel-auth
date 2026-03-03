@@ -46,9 +46,9 @@ import '../styles/style.css';
             baseURL: "https://www.alikernel.com"
         });
 
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'auth_event' && (e.newValue || '').startsWith('signin')) {
-                window.location.href = '/';
+        authClient.getSession().then(({ data }) => {
+            if (data && data.user) {
+                window.location.href = "/account";
             }
         });
 
@@ -58,7 +58,7 @@ import '../styles/style.css';
                 googleBtn.style.opacity = "0.5";
                 await authClient.signIn.social({
                     provider: "google",
-                    callbackURL: "/?auth=1"
+                    callbackURL: "/account" 
                 });
             });
         }
@@ -69,7 +69,7 @@ import '../styles/style.css';
                 githubBtn.style.opacity = "0.5";
                 await authClient.signIn.social({
                     provider: "github",
-                    callbackURL: "/?auth=1"
+                    callbackURL: "/account"
                 });
             });
         }
