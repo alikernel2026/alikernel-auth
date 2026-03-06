@@ -296,7 +296,6 @@ body[data-theme="light"] .site-header {
 
 .current-session-indicator {
     color: var(--themeLink);
-    font-weight: 600;
 }
 
 /* Terminate Button */
@@ -748,6 +747,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
         justify-content: center;
     }
 }
+
 
 
 
