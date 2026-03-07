@@ -7,8 +7,7 @@ if (url.pathname.startsWith('/login') ||
       url.pathname.startsWith('/logout') ||
       url.pathname.startsWith('/account') || 
       url.pathname.startsWith('/api') ||
-      url.pathname.startsWith('/_astro') ||
-      url.pathname === '/') {
+      url.pathname.startsWith('/_astro')) {
   return next();
   }
 
