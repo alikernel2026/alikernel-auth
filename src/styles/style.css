@@ -426,7 +426,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
 
 .footer-logo-section a:not(.footer-logo-link) {
     font-size: 12px;
-    color: var(--themeC-alt);
+    opacity: .85;
 }
 
 .footer-logo-section a:not(.footer-logo-link):hover {
@@ -747,6 +747,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
         justify-content: center;
     }
 }
+
 
 
 
