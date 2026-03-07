@@ -467,7 +467,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
 }
 
 .theme-btn:hover {
-    color: var(--themeC);
+    color: var(--alikernelBg);
 }
 
 .theme-btn.active {
@@ -747,6 +747,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
         justify-content: center;
     }
 }
+
 
 
 
