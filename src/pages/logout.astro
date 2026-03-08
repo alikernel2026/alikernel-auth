@@ -6,6 +6,19 @@ const env = (Astro.locals as any).runtime.env;
 const auth = createAuth(env);
 
 await auth.api.signOut({ headers: Astro.request.headers });
-
-return Astro.redirect('https://www.alikernel.com');
 ---
+<!DOCTYPE html>
+<html>
+<head>
+<script>
+localStorage.removeItem("userPhotoURL");
+localStorage.removeItem("userDisplayName");
+localStorage.removeItem("userEmail");
+localStorage.removeItem("userJoinedDate");
+localStorage.removeItem("userSessionsHTMLCache");
+localStorage.removeItem("last_uid");
+window.location.href = "https://www.alikernel.com";
+</script>
+</head>
+<body></body>
+</html>
