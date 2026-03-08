@@ -1,4 +1,3 @@
-
 ---
 export const prerender = false;
 import { createAuth } from '../lib/auth';
@@ -8,5 +7,5 @@ const auth = createAuth(env);
 
 await auth.api.signOut({ headers: Astro.request.headers });
 
-return Astro.redirect('/login');
+return Astro.redirect('https://www.alikernel.com');
 ---
