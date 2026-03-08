@@ -5,7 +5,16 @@ import { createAuth } from '../lib/auth';
 const env = (Astro.locals as any).runtime.env;
 const auth = createAuth(env);
 
-await auth.api.signOut({ headers: Astro.request.headers });
+const signOutRes = await auth.api.signOut({
+    headers: Astro.request.headers,
+    asResponse: true
+});
+
+signOutRes.headers.forEach((value, key) => {
+    if (key.toLowerCase() === 'set-cookie') {
+        Astro.response.headers.append('set-cookie', value);
+    }
+});
 
 return Astro.redirect('/login');
 ---
