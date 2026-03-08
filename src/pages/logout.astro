@@ -11,13 +11,16 @@ await auth.api.signOut({ headers: Astro.request.headers });
 <html>
 <head>
 <script>
-localStorage.removeItem("userPhotoURL");
-localStorage.removeItem("userDisplayName");
-localStorage.removeItem("userEmail");
-localStorage.removeItem("userJoinedDate");
-localStorage.removeItem("userSessionsHTMLCache");
-localStorage.removeItem("last_uid");
-window.location.href = "https://www.alikernel.com";
+localStorage.setItem('auth_event', 'signout_' + Date.now());
+setTimeout(function() {
+  localStorage.removeItem("userPhotoURL");
+  localStorage.removeItem("userDisplayName");
+  localStorage.removeItem("userEmail");
+  localStorage.removeItem("userJoinedDate");
+  localStorage.removeItem("userSessionsHTMLCache");
+  localStorage.removeItem("last_uid");
+  window.location.href = "https://www.alikernel.com";
+}, 300);
 </script>
 </head>
 <body></body>
