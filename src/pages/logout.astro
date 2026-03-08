@@ -5,7 +5,16 @@ import { createAuth } from '../lib/auth';
 const env = (Astro.locals as any).runtime.env;
 const auth = createAuth(env);
 
-await auth.api.signOut({ headers: Astro.request.headers });
+// 1. الخروج من جهة السيرفر (حذف الكوكيز والتوكن)
+await auth.api.signOut({ 
+    headers: Astro.request.headers 
+});
 
+// 2. التوجيه لصفحة تسجيل الدخول
 return Astro.redirect('/login');
 ---
+<script>
+    // 3. مسح بيانات المتصفح (localStorage) لزيادة الأمان
+    localStorage.clear();
+    sessionStorage.clear();
+</script>
