@@ -212,13 +212,9 @@ import '../styles/style.css';
                     document.getElementById('account-avatar').src = user.image;
                     localStorage.setItem("userPhotoURL", user.image);
                 }
-                var prevUid = localStorage.getItem("last_uid");
                 localStorage.setItem("userDisplayName", name);
                 localStorage.setItem("userEmail", email);
                 localStorage.setItem("last_uid", user.id);
-                if (!prevUid) {
-                    localStorage.setItem('auth_event', 'signin_' + Date.now());
-                }
                 if (user.createdAt) {
                     var date = new Date(user.createdAt);
                     var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
@@ -300,10 +296,8 @@ import '../styles/style.css';
                     body: JSON.stringify({})
                 }).then(function() {
                     localStorage.setItem('auth_event', 'signout_' + Date.now());
-                    setTimeout(function() {
-                        localStorage.clear();
-                        window.location.href = 'https://www.alikernel.com';
-                    }, 300);
+                    localStorage.clear();
+                    window.location.href = LOGIN;
                 });
             });
         });
