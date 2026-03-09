@@ -15,10 +15,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   const response = await fetch(bloggerUrl);
   
   const contentType = response.headers.get("content-type") || "";
-  
-  if (!contentType.includes("text/html")) {
-    return response;
-  }
+  if (!contentType.includes("text/html")) { return response; }
 
   let html = await response.text();
   let cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
@@ -34,30 +31,27 @@ function updateHeaderUI() {
   var guestMenu = document.getElementById('guest-menu');
   if (lastUid && photoURL) {
     if (avatarIcon) { avatarIcon.src = photoURL; avatarIcon.style.setProperty('display','block','important'); avatarIcon.classList.remove('hidden'); }
-    if (profileIcon) { profileIcon.style.setProperty('display','none','important'); profileIcon.classList.add('hidden'); }
+    if (profileIcon) { profileIcon.style.setProperty('display','none','important'); }
     if (userMenu) userMenu.style.setProperty('display','block','important');
     if (guestMenu) guestMenu.style.setProperty('display','none','important');
   } else {
-    if (avatarIcon) { avatarIcon.style.setProperty('display','none','important'); avatarIcon.classList.add('hidden'); }
-    if (profileIcon) { profileIcon.style.setProperty('display','block','important'); profileIcon.classList.remove('hidden'); }
+    if (avatarIcon) { avatarIcon.style.setProperty('display','none','important'); }
+    if (profileIcon) { profileIcon.style.setProperty('display','block','important'); }
     if (userMenu) userMenu.style.setProperty('display','none','important');
     if (guestMenu) guestMenu.style.setProperty('display','block','important');
   }
 }
 updateHeaderUI();
+try {
+  var bc = new BroadcastChannel('auth_sync');
+  bc.onmessage = function(e) { updateHeaderUI(); };
+} catch(err) {}
 window.addEventListener('storage', function(e) {
-  if (e.key === 'auth_event') {
-    if ((e.newValue || '').startsWith('signin')) {
-      setTimeout(updateHeaderUI, 200);
-    } else {
-      updateHeaderUI();
-    }
-  }
+  if (e.key === 'auth_event') { updateHeaderUI(); }
 });
 <\/script>`;
 
   cleanHtml = cleanHtml.replace('</body>', syncScript + '</body>');
-
   return new Response(cleanHtml, {
     headers: { "content-type": "text/html; charset=utf-8" }
   });
