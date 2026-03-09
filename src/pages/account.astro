@@ -12,6 +12,9 @@ import '../styles/style.css';
         (function() {
             var theme = localStorage.getItem('theme') || 'default';
             document.documentElement.setAttribute('data-theme', theme);
+            if (!localStorage.getItem('last_uid')) {
+                document.documentElement.style.visibility = 'hidden';
+            }
         })();
     </script>
 </head>
@@ -212,13 +215,13 @@ import '../styles/style.css';
                     document.getElementById('account-avatar').src = user.image;
                     localStorage.setItem("userPhotoURL", user.image);
                 }
+                var prevUid = localStorage.getItem("last_uid");
                 localStorage.setItem("userDisplayName", name);
                 localStorage.setItem("userEmail", email);
-                var prevUid = localStorage.getItem("last_uid");
                 localStorage.setItem("last_uid", user.id);
                 if (!prevUid) {
                     localStorage.setItem('auth_event', 'signin_' + Date.now());
-                    setTimeout(function() { window.location.href = 'https://www.alikernel.com'; }, 600);
+                    window.location.href = 'https://www.alikernel.com';
                     return;
                 }
                 if (user.createdAt) {
