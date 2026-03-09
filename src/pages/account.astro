@@ -215,8 +215,6 @@ import '../styles/style.css';
                 localStorage.setItem("userDisplayName", name);
                 localStorage.setItem("userEmail", email);
                 localStorage.setItem("last_uid", user.id);
-                localStorage.setItem('auth_event', 'signin_' + Date.now());
-                try { new BroadcastChannel('auth_sync').postMessage('signin'); } catch(err) {}
                 if (user.createdAt) {
                     var date = new Date(user.createdAt);
                     var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
@@ -298,7 +296,6 @@ import '../styles/style.css';
                     body: JSON.stringify({})
                 }).then(function() {
                     localStorage.setItem('auth_event', 'signout_' + Date.now());
-                    try { new BroadcastChannel('auth_sync').postMessage('signout'); } catch(err) {}
                     localStorage.clear();
                     window.location.href = LOGIN;
                 });
