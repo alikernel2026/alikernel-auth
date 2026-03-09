@@ -212,9 +212,13 @@ import '../styles/style.css';
                     document.getElementById('account-avatar').src = user.image;
                     localStorage.setItem("userPhotoURL", user.image);
                 }
+                var prevUid = localStorage.getItem("last_uid");
                 localStorage.setItem("userDisplayName", name);
                 localStorage.setItem("userEmail", email);
                 localStorage.setItem("last_uid", user.id);
+                if (!prevUid) {
+                    localStorage.setItem('auth_event', 'signin_' + Date.now());
+                }
                 if (user.createdAt) {
                     var date = new Date(user.createdAt);
                     var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
