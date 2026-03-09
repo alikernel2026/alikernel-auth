@@ -24,16 +24,6 @@ export const onRequest = defineMiddleware(async (context, next) => {
   let cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
   cleanHtml = cleanHtml.replace("href='#' id='logout-btn'", "href='/logout' id='logout-btn'");
 
-  const syncScript = `<script>
-window.addEventListener('storage', function(e) {
-  if (e.key === 'auth_event') {
-    window.location.reload();
-  }
-});
-</script>`;
-
-  cleanHtml = cleanHtml.replace('</body>', syncScript + '</body>');
-
   return new Response(cleanHtml, {
     headers: { "content-type": "text/html; charset=utf-8" }
   });
