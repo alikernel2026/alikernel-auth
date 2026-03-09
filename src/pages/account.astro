@@ -216,7 +216,7 @@ import '../styles/style.css';
                 localStorage.setItem("userDisplayName", name);
                 localStorage.setItem("userEmail", email);
                 localStorage.setItem("last_uid", user.id);
-                if (!prevUid || prevUid !== user.id) {
+                if (!prevUid) {
                     localStorage.setItem('auth_event', 'signin_' + Date.now());
                 }
                 if (user.createdAt) {
@@ -300,8 +300,10 @@ import '../styles/style.css';
                     body: JSON.stringify({})
                 }).then(function() {
                     localStorage.setItem('auth_event', 'signout_' + Date.now());
-                    localStorage.clear();
-                    window.location.href = LOGIN;
+                    setTimeout(function() {
+                        localStorage.clear();
+                        window.location.href = 'https://www.alikernel.com';
+                    }, 300);
                 });
             });
         });
