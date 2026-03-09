@@ -47,7 +47,11 @@ function updateHeaderUI() {
 updateHeaderUI();
 window.addEventListener('storage', function(e) {
   if (e.key === 'auth_event') {
-    updateHeaderUI();
+    if ((e.newValue || '').startsWith('signin')) {
+      setTimeout(updateHeaderUI, 200);
+    } else {
+      updateHeaderUI();
+    }
   }
 });
 <\/script>`;
