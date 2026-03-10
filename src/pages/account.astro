@@ -12,6 +12,9 @@ import '../styles/style.css';
         (function() {
             var theme = localStorage.getItem('theme') || 'default';
             document.documentElement.setAttribute('data-theme', theme);
+            if (!localStorage.getItem('last_uid')) {
+                document.documentElement.style.visibility = 'hidden';
+            }
         })();
     </script>
 </head>
@@ -306,6 +309,7 @@ import '../styles/style.css';
                         localStorage.clear();
                         window.location.href = LOGIN;
                     }, 300);
+                    window.location.href = LOGIN;
                 });
             });
         });
