@@ -123,14 +123,6 @@ import '../styles/style.css';
     </div>
 
     <script is:inline>
-    var _themeClickX = window.innerWidth/2;
-    var _themeClickY = window.innerHeight/2;
-    document.querySelectorAll('.theme-btn').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-            _themeClickX = e.clientX || window.innerWidth/2;
-            _themeClickY = e.clientY || window.innerHeight/2;
-        });
-    });
     function setTheme(theme, animate) {
         function applyTheme() {
             document.body.setAttribute('data-theme', theme);
@@ -143,14 +135,18 @@ import '../styles/style.css';
         }
         if (!animate || !document.startViewTransition) { applyTheme(); return; }
         try {
-            var radius = Math.hypot(
-                Math.max(_themeClickX, window.innerWidth - _themeClickX),
-                Math.max(_themeClickY, window.innerHeight - _themeClickY)
-            );
+            var btn = document.activeElement;
+            var x = window.innerWidth/2, y = window.innerHeight/2;
+            if (btn && btn.classList && btn.classList.contains('theme-btn')) {
+                var r = btn.getBoundingClientRect();
+                x = r.left + r.width/2;
+                y = r.top + r.height/2;
+            }
+            var radius = Math.hypot(Math.max(x, window.innerWidth-x), Math.max(y, window.innerHeight-y));
             var transition = document.startViewTransition(applyTheme);
             transition.ready.then(function() {
                 document.documentElement.animate(
-                    { clipPath: ['circle(0px at '+_themeClickX+'px '+_themeClickY+'px)', 'circle('+radius+'px at '+_themeClickX+'px '+_themeClickY+'px)'] },
+                    { clipPath: ['circle(0px at '+x+'px '+y+'px)', 'circle('+radius+'px at '+x+'px '+y+'px)'] },
                     { duration: 800, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
                 );
             });
