@@ -9,7 +9,13 @@ import '../styles/style.css';
     <title>تسجيل الدخول - علي كيرنل</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
-<body>
+<body id="nB" class="nB">
+    <script is:inline>
+        (function() {
+            var theme = localStorage.getItem('theme') || 'default';
+            document.body.setAttribute('data-theme', theme);
+        })();
+    </script>
     <div class="fullscreen-modal">
         <a href="/" class="modal-close-btn" title="إغلاق">
             <svg viewBox="0 0 24 24"><path d="M9.57 5.92993L3.5 11.9999L9.57 18.0699" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path><path d="M20.5 12H3.67004" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"></path></svg>
