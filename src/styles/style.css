@@ -674,7 +674,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
 .login-card p {
     font-size: 14px;
     color: var(--themeC-alt);
-    margin: 0 0 25px 0;
+    margin: 0 0 20px 0;
 }
 
 .social-btn {
