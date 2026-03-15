@@ -43,15 +43,7 @@ function updateHeaderUI() {
 }
 updateHeaderUI();
 window.addEventListener('storage', function(e) {
-  if (e.key === 'auth_event') {
-    updateHeaderUI();
-  }
-  if (e.key === 'last_uid') {
-    updateHeaderUI();
-  }
-  if (e.key === 'userPhotoURL') {
-    updateHeaderUI();
-  }
+  if (e.key === 'auth_event') { updateHeaderUI(); }
 });
 <\/script>`;
 
