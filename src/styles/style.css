@@ -686,10 +686,11 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     padding: 10px;
     margin-bottom: 16px;
     border: 1px solid var(--sideBd-color);
+    color: var(--alikernelBg);
     border-radius: 8px;
     cursor: pointer;
     font-size: 13px;
-    font-weight: 600;
+    font-weight: 500;
     transition: background-color 0.2s ease;
 }
 .social-btn:hover {
