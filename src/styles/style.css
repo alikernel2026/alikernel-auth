@@ -687,6 +687,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     margin-bottom: 16px;
     border: 1px solid var(--sideBd-color);
     color: var(--alikernelBg);
+    background-color: var(--contentBg-sec);
     border-radius: 8px;
     cursor: pointer;
     font-size: 13px;
