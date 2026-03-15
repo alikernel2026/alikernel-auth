@@ -657,7 +657,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
 .login-card {
     width: 100%;
     background-color: var(--postBg);
-    padding: 24px;
+    padding: 22px;
     border-radius: 12px;
     border: 1px solid var(--sideBd-color);
     text-align: center;
