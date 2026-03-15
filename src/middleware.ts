@@ -44,14 +44,12 @@ function updateHeaderUI() {
 updateHeaderUI();
 window.addEventListener('storage', function(e) {
   if (e.key === 'auth_event') {
-    var val = e.newValue || '';
-    if (val.startsWith('signout')) {
-      localStorage.removeItem('last_uid');
-      localStorage.removeItem('userPhotoURL');
-    }
     updateHeaderUI();
   }
-  if (e.key === 'last_uid' && !e.newValue) {
+  if (e.key === 'last_uid') {
+    updateHeaderUI();
+  }
+  if (e.key === 'userPhotoURL') {
     updateHeaderUI();
   }
 });
