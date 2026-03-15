@@ -690,7 +690,6 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
-    color: var(--themeC);
     font-weight: 600;
     transition: background-color 0.2s ease;
 }
