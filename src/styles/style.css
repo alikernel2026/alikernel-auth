@@ -682,13 +682,13 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 36px;
-    padding: 0 15px;
+    height: 32px;
+    padding: 10px;
     margin-bottom: 16px;
     border: 1px solid var(--sideBd-color);
     border-radius: 8px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 600;
     transition: background-color 0.2s ease;
 }
