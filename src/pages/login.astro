@@ -15,6 +15,11 @@ import '../styles/style.css';
             var theme = localStorage.getItem('theme') || 'default';
             document.body.setAttribute('data-theme', theme);
         })();
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'theme' && e.newValue) {
+                document.body.setAttribute('data-theme', e.newValue);
+            }
+        });
     </script>
     <div class="fullscreen-modal">
         <a href="/" class="modal-close-btn" title="إغلاق">
