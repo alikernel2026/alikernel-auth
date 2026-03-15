@@ -646,7 +646,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     font-weight: 700;
     font-size: 16px;
     margin-bottom: 25px;
-    color: var(--themeC);
+    color: var(--alikernelBg);
 }
 
 .site-logo-placeholder {
@@ -667,7 +667,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     font-size: 20px;
     font-weight: 500;
     margin: 0 0 10px 0;
-    color: var(--themeC);
+    color: var(--alikernelBg);
      margin-top: -5px;
 }
 
