@@ -244,12 +244,12 @@ import '../styles/style.css';
                 localStorage.setItem("userDisplayName", name);
                 localStorage.setItem("userEmail", email);
                 localStorage.setItem("last_uid", user.id);
-                document.documentElement.style.visibility = 'visible';
                 if (!prevUid) {
                     localStorage.setItem('auth_event', 'signin_' + Date.now());
                     setTimeout(function() { window.location.href = 'https://www.alikernel.com'; }, 300);
                     return;
                 }
+                document.documentElement.style.visibility = 'visible';
                 if (user.createdAt) {
                     var date = new Date(user.createdAt);
                     var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
