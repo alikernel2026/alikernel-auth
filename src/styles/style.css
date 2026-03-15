@@ -686,14 +686,15 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     padding: 0 15px;
     margin-bottom: 16px;
     border: 1px solid var(--sideBd-color);
-    background-color: var(--contentBg-sec);
     border-radius: 8px;
     cursor: pointer;
     font-size: 14px;
     font-weight: 600;
     transition: background-color 0.2s ease;
 }
-
+.social-btn:hover {
+    background-color: var(--contentBg-sec);
+}
 .social-btn:last-child {
     margin-bottom: 0;
 }
