@@ -89,7 +89,6 @@ body {
     color: var(--themeC);
     direction: rtl;
     min-height: 100vh;
-    line-height: 1.6;
 }
 
 a { text-decoration: none; color: inherit; }
