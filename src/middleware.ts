@@ -45,21 +45,6 @@ updateHeaderUI();
 window.addEventListener('storage', function(e) {
   if (e.key === 'auth_event') { updateHeaderUI(); }
 });
-if (!localStorage.getItem('last_uid')) {
-  var s = document.createElement('script');
-  s.src = 'https://accounts.google.com/gsi/client';
-  s.async = true;
-  s.onload = function() {
-    window.google.accounts.id.initialize({
-      client_id: '617149480177-aimcujc67q4307sk43li5m6pr54vj1jv.apps.googleusercontent.com',
-      callback: function() { window.location.href = '/login'; },
-      auto_select: false,
-      cancel_on_tap_outside: true
-    });
-    window.google.accounts.id.prompt();
-  };
-  document.head.appendChild(s);
-}
 <\/script>`;
 
   cleanHtml = cleanHtml.replace('</body>', syncScript + '</body>');
