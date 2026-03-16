@@ -3,12 +3,17 @@ import { defineMiddleware } from "astro:middleware";
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
 
-  if (url.pathname.startsWith('/login') || 
-      url.pathname.startsWith('/logout') ||
-      url.pathname.startsWith('/account') || 
-      url.pathname.startsWith('/api') ||
-      url.pathname.startsWith('/_astro')) {
-    return next();
+if (url.pathname.startsWith('/login') || 
+    url.pathname.startsWith('/logout') ||
+    url.pathname.startsWith('/account') || 
+    url.pathname.startsWith('/api') ||
+    url.pathname.startsWith('/_astro') ||
+    url.pathname.startsWith('/about') ||
+    url.pathname.startsWith('/privacy') ||
+    url.pathname.startsWith('/terms') ||
+    url.pathname.startsWith('/content-transfer') ||
+    url.pathname.startsWith('/content-center')) {
+  return next();
   }
 
   const bloggerUrl = `https://alikernel.blogspot.com${url.pathname}${url.search}`;
