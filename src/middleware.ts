@@ -43,18 +43,7 @@ function updateHeaderUI() {
 }
 updateHeaderUI();
 window.addEventListener('storage', function(e) {
-  if (e.key === 'auth_event') {
-    var val = e.newValue || '';
-    if (val.startsWith('signout')) {
-      localStorage.removeItem('last_uid');
-      localStorage.removeItem('userPhotoURL');
-      localStorage.removeItem('userDisplayName');
-      localStorage.removeItem('userEmail');
-      localStorage.removeItem('userJoinedDate');
-      localStorage.removeItem('userSessionsHTMLCache');
-    }
-    updateHeaderUI();
-  }
+  if (e.key === 'auth_event') { updateHeaderUI(); }
 });
 <\/script>`;
 
