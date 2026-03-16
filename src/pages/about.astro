@@ -1,0 +1,55 @@
+---
+import '../layouts/Layout.astro';
+const Layout = (await import('../layouts/Layout.astro')).default;
+---
+<Layout title="نبذة عن الكاتب">
+    <div class="static-page-content">
+        <div class="about-author">
+            <div class="about-cont">
+                <img src="https://i.imgur.com/3V4JZG3.png" alt="علي الأسدي" />
+                <p>مرحباً، أنا <strong>علي الأسدي</strong>، متخصص في التكنولوجيا ومطور أكواد لمنصات بلوجر. أنا من بغداد، العراق، وأقيم حالياً في سان خوسيه، كاليفورنيا، قلب وادي السيليكون، حيث تنبض أحدث ابتكارات عالم التكنولوجيا.</p>
+                <p>أعمل على تقديم آخر الأخبار في مجال التكنولوجيا، وأشارك خبراتي ومعرفتي من خلال مدونتي. كما أنني مهتم بتطوير وتحسين أكواد بلوجر، مما يساعد في إنشاء مواقع أكثر فعالية وجاذبية.</p>
+                <p>بالإضافة إلى ذلك، أقدم حلولاً عملية لمشاكل الكمبيوتر والهواتف الذكية، مما يسهل على المستخدمين التغلب على التحديات التقنية اليومية.</p>
+                <p>مع خبرة واسعة في عالم التكنولوجيا والبرمجة، أهدف إلى جعل المعلومات التقنية في متناول الجميع، سواء كانوا محترفين أو هواة.</p>
+                <div class="about-btn">
+                    <a href="https://draft.blogger.com/profile/16158558893347429492" target="_blank" class="profile-btn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="4"/><path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5"/></svg>
+                        الملف الشخصي
+                    </a>
+                </div>
+            </div>
+        </div>
+        <h2 style="text-align:center; margin-top: 40px;">إحصائيات المدونة</h2>
+        <div class="stats-website">
+            <div class="stats-cont">
+                <div class="stats-inner">
+                    <div class="stats-name">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                        المواضيع
+                    </div>
+                    <div class="stats-number" id="posts-count">...</div>
+                </div>
+            </div>
+            <div class="stats-cont">
+                <div class="stats-inner">
+                    <div class="stats-name">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        التعليقات
+                    </div>
+                    <div class="stats-number" id="comments-count">...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script is:inline>
+    function loadStats() {
+        fetch('https://www.alikernel.com/feeds/posts/summary?alt=json&max-results=1')
+            .then(function(r) { return r.json(); })
+            .then(function(data) { var el = document.getElementById('posts-count'); if (el) el.textContent = data.feed.openSearch$totalResults.$t; }).catch(function() {});
+        fetch('https://www.alikernel.com/feeds/comments/default?alt=json&max-results=1')
+            .then(function(r) { return r.json(); })
+            .then(function(data) { var el = document.getElementById('comments-count'); if (el) el.textContent = data.feed.openSearch$totalResults.$t; }).catch(function() {});
+    }
+    loadStats();
+    </script>
+</Layout>
