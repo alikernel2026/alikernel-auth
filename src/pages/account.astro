@@ -246,7 +246,7 @@ import '../styles/style.css';
                 localStorage.setItem("last_uid", user.id);
                 if (!prevUid) {
                     localStorage.setItem('auth_event', 'signin_' + Date.now());
-                    setTimeout(function() { window.location.href = 'https://www.alikernel.com'; }, 300);
+                    setTimeout(function() { window.location.href = 'https://www.alikernel.com'; }, 800);
                     return;
                 }
                 document.documentElement.style.visibility = 'visible';
@@ -313,8 +313,7 @@ import '../styles/style.css';
                 }).then(function() {
                     if (isCurrent) {
                         localStorage.setItem('auth_event', 'signout_' + Date.now());
-                        localStorage.clear();
-                        window.location.href = LOGIN;
+                        setTimeout(function() { localStorage.clear(); window.location.href = LOGIN; }, 500);
                     } else {
                         loadSessions();
                     }
@@ -331,10 +330,7 @@ import '../styles/style.css';
                     body: JSON.stringify({})
                 }).then(function() {
                     localStorage.setItem('auth_event', 'signout_' + Date.now());
-                    setTimeout(function() {
-                        localStorage.clear();
-                        window.location.href = LOGIN;
-                    }, 300);
+                    setTimeout(function() { localStorage.clear(); window.location.href = LOGIN; }, 500);
                 });
             });
         });
