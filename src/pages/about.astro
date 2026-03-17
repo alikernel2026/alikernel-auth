@@ -1,54 +1,118 @@
 ---
-import '../layouts/Layout.astro';
-const Layout = (await import('../layouts/Layout.astro')).default;
+import Layout from '../layouts/Layout.astro';
 ---
 <Layout title="نبذة عن الكاتب">
     <div class="static-page-content">
-        <div class="about-author">
-            <div class="about-cont">
-                <img src="https://i.imgur.com/3V4JZG3.png" alt="علي الأسدي" />
+        <div class="aboutAuthor">
+            <div class="aboutCont">
+                <img alt="الصورة" src="https://i.imgur.com/3V4JZG3.png" />
                 <p>مرحباً، أنا <strong>علي الأسدي</strong>، متخصص في التكنولوجيا ومطور أكواد لمنصات بلوجر. أنا من بغداد، العراق، وأقيم حالياً في سان خوسيه، كاليفورنيا، قلب وادي السيليكون، حيث تنبض أحدث ابتكارات عالم التكنولوجيا.</p>
                 <p>أعمل على تقديم آخر الأخبار في مجال التكنولوجيا، وأشارك خبراتي ومعرفتي من خلال مدونتي. كما أنني مهتم بتطوير وتحسين أكواد بلوجر، مما يساعد في إنشاء مواقع أكثر فعالية وجاذبية.</p>
                 <p>بالإضافة إلى ذلك، أقدم حلولاً عملية لمشاكل الكمبيوتر والهواتف الذكية، مما يسهل على المستخدمين التغلب على التحديات التقنية اليومية.</p>
-                <p>مع خبرة واسعة في عالم التكنولوجيا والبرمجة، أهدف إلى جعل المعلومات التقنية في متناول الجميع، سواء كانوا محترفين أو هواة.</p>
-                <div class="about-btn">
-                    <a href="https://draft.blogger.com/profile/16158558893347429492" target="_blank" class="profile-btn">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="6" r="4"/><path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5"/></svg>
+                <p>مع خبرة واسعة في عالم التكنولوجيا والبرمجة، أهدف إلى جعل المعلومات التقنية في متناول الجميع، سواء كانوا محترفين أو هواة. انضم إليّ في هذه الرحلة التقنية لاكتشاف أحدث التطورات والابتكارات في عالم التكنولوجيا.</p>
+                <div class="athrBtn">
+                    <a class="athr-btn" href="https://draft.blogger.com/profile/16158558893347429492" target="_blank">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <circle cx="12" cy="6" r="4"/>
+                            <path d="M20 17.5c0 2.485 0 4.5-8 4.5s-8-2.015-8-4.5S7.582 13 12 13s8 2.015 8 4.5"/>
+                        </svg>
                         الملف الشخصي
                     </a>
                 </div>
             </div>
         </div>
-        <h2 style="text-align:center; margin-top: 40px;">إحصائيات المدونة</h2>
-        <div class="stats-website">
-            <div class="stats-cont">
-                <div class="stats-inner">
-                    <div class="stats-name">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+
+        <h3 class="statsHeading">إحصائيات المدونة</h3>
+
+        <div class="statsWebsite">
+            <div class="statsCont">
+                <div class="stats">
+                    <div class="statsName">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                        </svg>
                         المواضيع
                     </div>
-                    <div class="stats-number" id="posts-count">...</div>
+                    <div class="statsNumber" id="posts-count">...</div>
                 </div>
             </div>
-            <div class="stats-cont">
-                <div class="stats-inner">
-                    <div class="stats-name">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <div class="statsCont">
+                <div class="stats">
+                    <div class="statsName">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
                         التعليقات
                     </div>
-                    <div class="stats-number" id="comments-count">...</div>
+                    <div class="statsNumber" id="comments-count">...</div>
                 </div>
             </div>
         </div>
     </div>
+
+    <style>
+        .aboutAuthor { padding: 60px 0 20px 0; }
+        .aboutCont {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            margin: auto;
+            padding: 80px 30px 95px 30px;
+            background-color: var(--postBg);
+            border: var(--sideBd-line) solid var(--sideBd-color);
+            border-radius: 8px;
+            gap: 10px;
+        }
+        .aboutCont img {
+            box-shadow: 0 5px 20px rgba(0,0,0,.2);
+            border: 7px solid var(--postBg);
+            width: 120px;
+            height: 120px;
+            position: absolute;
+            border-radius: 50%;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            object-fit: cover;
+        }
+        .aboutCont p { margin: 0; text-align: justify; font-size: 15px; color: var(--themeC-alt); line-height: 1.8; }
+        .athrBtn { text-align: center; position: absolute; bottom: 0; left: 0; right: 0; }
+        .athr-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            border-radius: 8px; margin: 0 0 30px;
+            padding: 8px 20px;
+            background-color: var(--alikernelBg); color: var(--alikernelC);
+            font-size: 14px; font-weight: 600;
+            border: 1px solid var(--sideBd-color);
+            transition: opacity 0.2s;
+        }
+        .athr-btn:hover { opacity: 0.85; }
+        .statsHeading { text-align: center; margin-top: 32px; margin-bottom: 12px; font-size: 18px; color: var(--themeC); }
+        .statsWebsite { display: flex; gap: 15px; flex-wrap: wrap; margin: 12px auto 40px auto; }
+        .statsCont { background-color: var(--postBg); display: flex; justify-content: center; padding: 8px; border: var(--sideBd-line) solid var(--sideBd-color); border-radius: 8px; flex-grow: 1; }
+        .stats { height: 80px; width: 200px; display: flex; align-items: center; justify-content: center; flex-direction: column; margin: 0 35px; }
+        .statsName { display: inline-flex; align-items: center; font-size: 14px; color: var(--themeC-alt); }
+        .statsName svg { margin-left: 9px; width: 20px; height: 20px; }
+        .statsNumber { font-size: 27px; margin-top: 5px; font-weight: 600; color: var(--themeLink); }
+        @media screen and (min-width: 400px) { .statsCont { min-width: 200px; } }
+    </style>
+
     <script is:inline>
     function loadStats() {
         fetch('https://www.alikernel.com/feeds/posts/summary?alt=json&max-results=1')
             .then(function(r) { return r.json(); })
-            .then(function(data) { var el = document.getElementById('posts-count'); if (el) el.textContent = data.feed.openSearch$totalResults.$t; }).catch(function() {});
+            .then(function(data) {
+                var el = document.getElementById('posts-count');
+                if (el) el.textContent = data.feed.openSearch$totalResults.$t;
+            }).catch(function() {});
         fetch('https://www.alikernel.com/feeds/comments/default?alt=json&max-results=1')
             .then(function(r) { return r.json(); })
-            .then(function(data) { var el = document.getElementById('comments-count'); if (el) el.textContent = data.feed.openSearch$totalResults.$t; }).catch(function() {});
+            .then(function(data) {
+                var el = document.getElementById('comments-count');
+                if (el) el.textContent = data.feed.openSearch$totalResults.$t;
+            }).catch(function() {});
     }
     loadStats();
     </script>
