@@ -30,7 +30,7 @@ const { title } = Astro.props;
         .header-logo-link a { color: var(--themeC); }
         .header-logo-icon { width: 32px; height: 32px; }
         .page-content { flex: 1; }
-        .static-page-content { margin-inline: auto; padding-inline: var(--contentPadding); max-width: var(--content-maxWidth); margin-block-start: var(--contentPadding); }
+        .static-page-content { width: 100%; max-width: var(--content-maxWidth); margin-inline: auto; padding: var(--contentPadding); }
         .static-page-content h1 { font-size: 26px; font-weight: 700; margin-bottom: 30px; padding-bottom: 15px; border-bottom: 1px solid var(--sideBd-color); color: var(--themeC); }
         .static-page-content h2 { font-size: 17px; font-weight: 700; margin-top: 32px; margin-bottom: 10px; color: var(--themeC); }
         .static-page-content p { font-size: 15px; color: var(--themeC-alt); margin-bottom: 12px; text-align: justify; }
@@ -75,7 +75,7 @@ const { title } = Astro.props;
         @media (max-width: 768px) { .footer-content { flex-direction: column; gap: 15px; } }
 
         /* Breadcrumb */
-        .ak-breadcrumb-container { display: flex; align-items: center; direction: rtl; gap: 12px; margin-bottom: 15px; }
+        .ak-breadcrumb-container { display: flex; align-items: center; direction: rtl; gap: 12px; margin-bottom: 8px; width: 100%; max-width: var(--content-maxWidth); margin-inline: auto; padding: var(--contentPadding) var(--contentPadding) 0; }
         .ak-breadcrumb-item { display: flex; align-items: center; gap: 12px; }
         .ak-link { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; font-size: 14px; font-weight: 700; }
         .ak-breadcrumb-container svg { fill: none; stroke: currentColor; stroke-width: 1.5; flex-shrink: 0; }
@@ -136,8 +136,8 @@ const { title } = Astro.props;
                         </div>
                     </div>
                 </div>
+                <slot />
             </div>
-            <slot />
         </main>
 
         <footer class="site-footer">
