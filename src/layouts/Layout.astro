@@ -25,8 +25,8 @@ const { title } = Astro.props;
         .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: center; height: 65px; border-bottom: 1px solid var(--sideBd-color); background-color: oklch(0.25 0 0 / 0.4); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
         body[data-theme="light"] .site-header { background-color: rgba(255,255,255,0.4); }
         @media (prefers-color-scheme: light) { body[data-theme="default"] .site-header { background-color: rgba(255,255,255,0.4); } }
-        .header-content { width: 100%; max-width: var(--content-maxWidth); margin-inline: auto; padding-inline: var(--contentPadding); display: flex; align-items: center; justify-content: flex-start; gap: 12px; }
-        .header-logo-link { display: flex; align-items: center; color: var(--themeC); font-weight: 700; font-size: 18px; }
+        .header-content { width: 100%; max-width: var(--content-maxWidth); margin-inline: auto; padding-inline: var(--contentPadding); display: flex; align-items: center; justify-content: flex-start; }
+        .header-logo-link { display: flex; align-items: center; gap: 12px; color: var(--themeC); font-weight: 700; font-size: 18px; }
         .header-logo-link a { color: var(--themeC); }
         .header-logo-icon { width: 32px; height: 32px; }
         .page-content { flex: 1; }
@@ -75,8 +75,7 @@ const { title } = Astro.props;
         @media (max-width: 768px) { .footer-content { flex-direction: column; gap: 15px; } }
 
         /* Breadcrumb */
-        .ak-breadcrumb-wrapper { max-width: var(--content-maxWidth); margin-inline: auto; padding-inline: var(--contentPadding); padding-top: 20px; }
-        .ak-breadcrumb-container { display: flex; align-items: center; direction: rtl; gap: 12px; }
+        .ak-breadcrumb-container { display: flex; align-items: center; direction: rtl; gap: 12px; margin-bottom: 15px; }
         .ak-breadcrumb-item { display: flex; align-items: center; gap: 12px; }
         .ak-link { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; font-size: 14px; font-weight: 700; }
         .ak-breadcrumb-container svg { fill: none; stroke: currentColor; stroke-width: 1.5; flex-shrink: 0; }
@@ -114,7 +113,7 @@ const { title } = Astro.props;
         </header>
 
         <main class="page-content">
-            <div class="ak-breadcrumb-wrapper">
+            <div class="static-page-content">
                 <div class="ak-breadcrumb-container">
                     <a class="ak-home-link" href="https://www.alikernel.com" title="الرئيسية">
                         <svg fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24">
