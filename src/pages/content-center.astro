@@ -68,9 +68,9 @@ import Layout from '../layouts/Layout.astro';
                 renderTabs();
             }
             fetch(blogUrl + '/feeds/posts/summary?alt=json&max-results=999')
-                .then(response => response.json())
-                .then(json => processData(json))
-                .catch(err => console.error("فشل التحديث من الخادم:", err));
+                .then(function(response) { return response.json(); })
+                .then(function(json) { processData(json); })
+                .catch(function(err) { console.error("فشل التحديث من الخادم:", err); });
         }
 
         function processData(json) {
@@ -112,7 +112,7 @@ import Layout from '../layouts/Layout.astro';
                 li.innerHTML = '<span>' + cat + '</span> <span class="count-badge">' + labelCounts[cat] + '</span>';
                 li.setAttribute('data-label', cat);
                 li.onclick = function() {
-                    document.querySelectorAll('#tab-list li').forEach(el => el.classList.remove('active'));
+                    document.querySelectorAll('#tab-list li').forEach(function(el) { el.classList.remove('active'); });
                     this.classList.add('active');
                     renderPosts(this.getAttribute('data-label'));
                 };
@@ -142,7 +142,6 @@ import Layout from '../layouts/Layout.astro';
             });
         }
 
-        // ✅ التعديل الوحيد: فحص جاهزية الصفحة
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', loadSitemap);
         } else {
