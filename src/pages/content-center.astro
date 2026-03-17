@@ -22,87 +22,233 @@ import Layout from '../layouts/Layout.astro';
         </div>
     </div>
     <style>
-        #sitemap-wrapper { direction: rtl; }
-        #sitemap-container { display: flex; border: var(--sideBd-line) solid var(--sideBd-color); min-height: 500px; border-radius: 10px; overflow: hidden; }
-        .column-header { padding: 15px; background: rgba(255,255,255,0.05); border-bottom: var(--sideBd-line) solid var(--sideBd-color); font-weight: 700; font-size: 14px; color: var(--themeC); }
-        #sitemap-nav { width: 200px; border-left: var(--sideBd-line) solid var(--sideBd-color); flex-shrink: 0; }
+        #sitemap-wrapper {
+            direction: rtl;
+            background: var(--postBg);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #sitemap-container {
+            display: flex;
+            border: var(--sideBd-line) solid var(--sideBd-color);
+            min-height: 600px;
+            border-radius: var(--postBd-radius);
+        }
+        .column-header {
+            padding: 15px;
+            background: rgba(255,255,255,0.05);
+            border-bottom: var(--sideBd-line) solid var(--sideBd-color);
+            font-weight: bold;
+            color: var(--alikernelBg);
+            text-align: right;
+        }
+        #sitemap-nav {
+            width: 220px;
+            border-left: var(--sideBd-line) solid var(--sideBd-color);
+            flex-shrink: 0;
+        }
         #tab-list { list-style: none; padding: 0; margin: 0; }
-        #tab-list li { position: relative; padding: 12px 20px 12px 15px; cursor: pointer; transition: 0.2s; border-bottom: var(--sideBd-line) solid var(--sideBd-color); display: flex; justify-content: space-between; align-items: center; font-size: 14px; color: var(--themeC); }
-        #tab-list li:hover { background: rgba(255,255,255,0.03); }
-        #tab-list li.active { background: color-mix(in srgb, var(--themeLink), transparent 93%); color: var(--themeLink); }
-        .count-badge { font-size: 11px; background: var(--contentBg-sec); border-radius: 50px; padding: 2px 7px; min-width: 20px; text-align: center; color: var(--themeC-alt); }
-        #tab-list li.active .count-badge { color: var(--themeLink); }
-        #sitemap-main { flex-grow: 1; border-left: var(--sideBd-line) solid var(--sideBd-color); }
-        #sitemap-date { width: 150px; flex-shrink: 0; }
+        #tab-list li {
+            position: relative;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: right;
+            border-bottom: var(--sideBd-line) solid var(--sideBd-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--alikernelBg);
+        }
+        #tab-list li::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            right: 10px;
+            width: 6px;
+            height: 6px;
+            background-color: var(--themeLink);
+            border-radius: 50%;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
+            z-index: 2;
+        }
+        #tab-list li.active {
+            background: color-mix(in srgb, var(--themeLink), transparent 93%);
+            color: var(--alikernelBg);
+            border-right: none;
+            padding-right: 25px;
+        }
+        #tab-list li.active::before {
+            opacity: 0.8;
+            visibility: visible;
+        }
+        .count-badge {
+            font-size: 11px;
+            background: var(--alikernelBg);
+            border-radius: 50px;
+            color: var(--alikernelC) !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 20px;
+            height: 20px;
+        }
+        #tab-list li.active .count-badge {
+            color: var(--themeLink) !important;
+            background: color-mix(in srgb, var(--themeLink), transparent 85%);
+        }
+        #sitemap-main {
+            flex-grow: 1;
+            border-left: var(--sideBd-line) solid var(--sideBd-color);
+        }
+        #sitemap-date {
+            width: 160px;
+            flex-shrink: 0;
+        }
         ul[id^="post-list"] { list-style: none; padding: 0; margin: 0; }
-        .post-item-row { height: 48px; display: flex; align-items: center; padding: 0 15px; border-bottom: var(--sideBd-line) solid var(--sideBd-color); }
-        .post-link { color: var(--themeC); font-size: 14px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+        .post-item-row {
+            height: 52px;
+            display: flex;
+            align-items: center;
+            padding: 0 15px;
+            border-bottom: var(--sideBd-line) solid var(--sideBd-color);
+            overflow: hidden;
+        }
+        .post-link {
+            color: inherit;
+            text-decoration: none;
+            font-size: 14px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
         .post-link:hover { color: var(--themeLink); }
-        .date-text { font-size: 13px; color: var(--themeC-alt); }
-        .new-tag { color: var(--themeLink); font-size: 10px; font-weight: 700; margin-right: 8px; border: 1px solid var(--themeLink); padding: 1px 5px; border-radius: 3px; }
+        .date-text {
+            font-size: 13px;
+            text-align: right;
+            width: 100%;
+        }
+        .new-tag {
+            color: var(--themeLink);
+            font-size: 10px;
+            font-weight: bold;
+            margin-right: 8px;
+            border: 1px solid var(--themeLink);
+            padding: 1px 4px;
+            border-radius: 3px;
+            text-transform: uppercase;
+        }
         @media (max-width: 768px) {
             #sitemap-container { flex-direction: column; }
-            #sitemap-nav { width: 100%; border-left: none; border-bottom: var(--sideBd-line) solid var(--sideBd-color); }
+            #sitemap-nav { width: 100%; border-left: none; }
             #tab-list { display: flex; overflow-x: auto; }
-            #tab-list li { white-space: nowrap; border-bottom: none; border-left: var(--sideBd-line) solid var(--sideBd-color); }
+            #tab-list li { white-space: nowrap; border-bottom: 3px solid transparent; }
+            #tab-list li::before { display: none; }
+            #tab-list li.active { border-bottom-color: var(--themeLink); }
+            .count-badge { margin-right: 5px; }
             #sitemap-date { display: none; }
+            .column-header:not(:first-child) { display: none; }
         }
     </style>
     <script is:inline>
     (function() {
-        var CACHE_KEY = 'sitemap_data_cache_v2';
-        var postsData = [], labelCounts = {};
+        var blogUrl = window.location.origin;
+        var CACHE_KEY = 'sitemap_data_cache';
+        var postsData = [];
+        var labelCounts = {};
+
         function loadSitemap() {
-            var cached = localStorage.getItem(CACHE_KEY);
-            if (cached) { try { var p = JSON.parse(cached); postsData = p.posts; labelCounts = p.counts; renderTabs(); } catch(e) {} }
-            fetch('https://www.alikernel.com/feeds/posts/summary?alt=json&max-results=500')
-                .then(function(r) { return r.json(); }).then(function(json) { processData(json); }).catch(function() {});
+            var cachedData = localStorage.getItem(CACHE_KEY);
+            if (cachedData) {
+                try {
+                    var parsedCache = JSON.parse(cachedData);
+                    postsData = parsedCache.posts;
+                    labelCounts = parsedCache.counts;
+                    renderTabs();
+                } catch(e) {}
+            }
+            fetch(blogUrl + '/feeds/posts/summary?alt=json&max-results=999')
+                .then(function(response) { return response.json(); })
+                .then(function(json) { processData(json); })
+                .catch(function(err) { console.error("فشل التحديث من الخادم:", err); });
         }
+
         function processData(json) {
             var entries = json.feed.entry;
             if (!entries) return;
-            var newPosts = [], newCounts = {}, now = new Date();
+            var newPostsData = [], newLabelCounts = {}, now = new Date();
             for (var i = 0; i < entries.length; i++) {
-                var e = entries[i], title = e.title.$t, url = '';
-                for (var j = 0; j < e.link.length; j++) { if (e.link[j].rel === 'alternate') { url = e.link[j].href; break; } }
-                var pub = new Date(e.published.$t), isNew = (now - pub) / 86400000 <= 3;
-                var date = pub.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+                var entry = entries[i], title = entry.title.$t, url = '';
+                for (var j = 0; j < entry.link.length; j++) {
+                    if (entry.link[j].rel === 'alternate') { url = entry.link[j].href; break; }
+                }
+                var pubDate = new Date(entry.published.$t);
+                var isNew = (Math.ceil((now - pubDate) / (1000 * 60 * 60 * 24)) <= 3);
+                var dateStr = pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
                 var labels = [];
-                if (e.category) { for (var k = 0; k < e.category.length; k++) { var l = e.category[k].term; labels.push(l); newCounts[l] = (newCounts[l] || 0) + 1; } }
-                newPosts.push({ title: title, url: url, date: date, labels: labels, isNew: isNew });
+                if (entry.category) {
+                    for (var k = 0; k < entry.category.length; k++) {
+                        var labelName = entry.category[k].term;
+                        labels.push(labelName);
+                        newLabelCounts[labelName] = (newLabelCounts[labelName] || 0) + 1;
+                    }
+                }
+                newPostsData.push({ title: title, url: url, date: dateStr, labels: labels, isNew: isNew });
             }
-            localStorage.setItem(CACHE_KEY, JSON.stringify({ posts: newPosts, counts: newCounts }));
-            if (JSON.stringify(postsData) !== JSON.stringify(newPosts)) { postsData = newPosts; labelCounts = newCounts; renderTabs(); }
+            localStorage.setItem(CACHE_KEY, JSON.stringify({ posts: newPostsData, counts: newLabelCounts }));
+            if (postsData.length === 0 || JSON.stringify(postsData) !== JSON.stringify(newPostsData)) {
+                postsData = newPostsData;
+                labelCounts = newLabelCounts;
+                renderTabs();
+            }
         }
+
         function renderTabs() {
             var tabList = document.getElementById('tab-list');
             if (!tabList) return;
             tabList.innerHTML = '';
-            Object.keys(labelCounts).sort().forEach(function(cat, idx) {
+            Object.keys(labelCounts).sort().forEach(function(cat, index) {
                 var li = document.createElement('li');
                 li.innerHTML = '<span>' + cat + '</span><span class="count-badge">' + labelCounts[cat] + '</span>';
                 li.setAttribute('data-label', cat);
-                li.addEventListener('click', function() { document.querySelectorAll('#tab-list li').forEach(function(el) { el.classList.remove('active'); }); this.classList.add('active'); renderPosts(this.getAttribute('data-label')); });
+                li.addEventListener('click', function() {
+                    document.querySelectorAll('#tab-list li').forEach(function(el) { el.classList.remove('active'); });
+                    this.classList.add('active');
+                    renderPosts(this.getAttribute('data-label'));
+                });
                 tabList.appendChild(li);
-                if (idx === 0) { li.classList.add('active'); renderPosts(cat); }
+                if (index === 0) { li.classList.add('active'); renderPosts(cat); }
             });
         }
+
         function renderPosts(filter) {
-            var titleList = document.getElementById('post-list-titles'), dateList = document.getElementById('post-list-dates');
+            var titleList = document.getElementById('post-list-titles');
+            var dateList = document.getElementById('post-list-dates');
             if (!titleList || !dateList) return;
-            titleList.innerHTML = ''; dateList.innerHTML = '';
+            titleList.innerHTML = '';
+            dateList.innerHTML = '';
             postsData.forEach(function(post) {
                 if (post.labels.indexOf(filter) !== -1) {
-                    var liT = document.createElement('li'); liT.className = 'post-item-row';
-                    liT.innerHTML = '<a class="post-link" href="' + post.url + '">' + post.title + '</a>' + (post.isNew ? '<span class="new-tag">جديد</span>' : '');
-                    titleList.appendChild(liT);
-                    var liD = document.createElement('li'); liD.className = 'post-item-row';
-                    liD.innerHTML = '<span class="date-text">' + post.date + '</span>';
-                    dateList.appendChild(liD);
+                    var liTitle = document.createElement('li');
+                    liTitle.className = 'post-item-row';
+                    var newBadge = post.isNew ? '<span class="new-tag">جديد</span>' : '';
+                    liTitle.innerHTML = '<a class="post-link" href="' + post.url + '">' + post.title + '</a>' + newBadge;
+                    titleList.appendChild(liTitle);
+                    var liDate = document.createElement('li');
+                    liDate.className = 'post-item-row';
+                    liDate.innerHTML = '<span class="date-text">' + post.date + '</span>';
+                    dateList.appendChild(liDate);
                 }
             });
         }
-        if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', loadSitemap); } else { loadSitemap(); }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadSitemap);
+        } else {
+            loadSitemap();
+        }
     })();
     </script>
 </Layout>
