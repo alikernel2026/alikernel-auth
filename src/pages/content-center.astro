@@ -112,12 +112,13 @@ import Layout from '../layouts/Layout.astro';
 }
 ul[id^="post-list"] { list-style: none; padding: 0; margin: 0; }
 .post-item-row {
-  height: 52px;
-  display: flex;
-  align-items: center;
+ height: 52px;
+ display: flex;
   padding: 0 15px;
   border-bottom: var(--sideBd-line) solid var(--sideBd-color);
   overflow: hidden;
+  flex-wrap: wrap;
+   align-content: center;
 }
 .post-link {
   color: inherit;
