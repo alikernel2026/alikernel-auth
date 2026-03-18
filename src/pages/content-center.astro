@@ -22,7 +22,7 @@ import Layout from '../layouts/Layout.astro';
 </div>
 </div>
 
-<style>
+<style is:global>
 #sitemap-wrapper {
   direction: rtl;
   background: var(--postBg);
@@ -177,9 +177,7 @@ function loadSitemap() {
 function processData(json) {
     var entries = json.feed.entry;
     if (!entries) return;
-    var newPostsData = [];
-    var newLabelCounts = {};
-    var now = new Date();
+    var newPostsData = [], newLabelCounts = {}, now = new Date();
     for (var i = 0; i < entries.length; i++) {
         var entry = entries[i];
         var title = entry.title.$t;
@@ -201,49 +199,45 @@ function processData(json) {
         newPostsData.push({ title: title, url: url, date: dateStr, labels: labels, isNew: isNew });
     }
     localStorage.setItem(CACHE_KEY, JSON.stringify({ posts: newPostsData, counts: newLabelCounts }));
-    if (postsData.length === 0 || JSON.stringify(postsData) !== JSON.stringify(newPostsData)) {
-        postsData = newPostsData;
-        labelCounts = newLabelCounts;
-        renderTabs();
-    }
+    postsData = newPostsData;
+    labelCounts = newLabelCounts;
+    renderTabs();
 }
 
 function renderTabs() {
     var tabList = document.getElementById('tab-list');
+    if (!tabList) return;
     tabList.innerHTML = "";
-    var sortedCats = Object.keys(labelCounts).sort();
-    sortedCats.forEach((cat, index) => {
+    Object.keys(labelCounts).sort().forEach(function(cat, index) {
         var li = document.createElement('li');
-        li.innerHTML = `<span>${cat}</span> <span class="count-badge">${labelCounts[cat]}</span>`;
+        li.innerHTML = '<span>' + cat + '</span> <span class="count-badge">' + labelCounts[cat] + '</span>';
         li.setAttribute('data-label', cat);
         li.onclick = function() {
-            document.querySelectorAll('#tab-list li').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('#tab-list li').forEach(function(el) { el.classList.remove('active'); });
             this.classList.add('active');
             renderPosts(this.getAttribute('data-label'));
         };
         tabList.appendChild(li);
-        if (index === 0) {
-            li.classList.add('active');
-            renderPosts(cat);
-        }
+        if (index === 0) { li.classList.add('active'); renderPosts(cat); }
     });
 }
 
 function renderPosts(filter) {
     var titleList = document.getElementById('post-list-titles');
     var dateList = document.getElementById('post-list-dates');
+    if (!titleList || !dateList) return;
     titleList.innerHTML = "";
     dateList.innerHTML = "";
-    postsData.forEach(post => {
+    postsData.forEach(function(post) {
         if (post.labels.includes(filter)) {
             var liTitle = document.createElement('li');
             liTitle.className = "post-item-row";
             var newBadge = post.isNew ? '<span class="new-tag">جديد</span>' : '';
-            liTitle.innerHTML = `<a class="post-link" href="${post.url}">${post.title}</a> ${newBadge}`;
+            liTitle.innerHTML = '<a class="post-link" href="' + post.url + '">' + post.title + '</a> ' + newBadge;
             titleList.appendChild(liTitle);
             var liDate = document.createElement('li');
             liDate.className = "post-item-row";
-            liDate.innerHTML = `<span class="date-text">${post.date}</span>`;
+            liDate.innerHTML = '<span class="date-text">' + post.date + '</span>';
             dateList.appendChild(liDate);
         }
     });
