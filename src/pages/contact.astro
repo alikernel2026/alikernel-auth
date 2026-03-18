@@ -1,0 +1,86 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+<Layout title="اتصل بنا">
+<div>
+    <h1>اتصل بنا</h1>
+    <form action="https://formspree.io/f/meervanj" method="POST" class="contact-form">
+        <div class="input-field">
+            <label for="name">الاسم <span style="color:#ff4444">*</span></label>
+            <input type="text" id="name" name="name" required />
+        </div>
+        <div class="input-field">
+            <label for="email">البريد الإلكتروني <span style="color:#ff4444">*</span></label>
+            <input type="email" id="email" name="email" required />
+        </div>
+        <div class="input-field">
+            <label for="phone">رقم الهاتف <span style="font-size:0.85em;opacity:0.7">(اختياري)</span></label>
+            <input type="text" id="phone" name="phone" />
+        </div>
+        <div class="input-field">
+            <label for="website">رابط الموقع <span style="font-size:0.85em;opacity:0.7">(اختياري)</span></label>
+            <input type="text" id="website" name="website" />
+        </div>
+        <div class="input-field">
+            <label for="message">الرسالة <span style="color:#ff4444">*</span></label>
+            <textarea id="message" name="message" required></textarea>
+        </div>
+        <div class="form-buttons">
+            <button type="submit" class="submit-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="transform:scaleX(-1)"><path d="M.5 1.163A1 1 0 0 1 1.97.28l12.868 6.837a1 1 0 0 1 0 1.766L1.969 15.72A1 1 0 0 1 .5 14.836V10.33a1 1 0 0 1 .816-.983L8.5 8 1.316 6.653A1 1 0 0 1 .5 5.67V1.163Z"/></svg>
+                إرسال
+            </button>
+            <button type="reset" class="clear-button">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+                تفريغ
+            </button>
+        </div>
+        <div id="form-status"></div>
+    </form>
+</div>
+
+<style is:global>
+.contact-form { display: flex; flex-direction: column; gap: 20px; max-width: 600px; direction: rtl; }
+.input-field { display: flex; flex-direction: column; gap: 8px; }
+.input-field label { font-size: 14px; color: var(--themeC); }
+.input-field input, .input-field textarea { padding: 10px 15px; border: var(--sideBd-line) solid var(--sideBd-color); border-radius: 8px; background: var(--contentBg-sec); color: var(--themeC); font-size: 14px; outline: none; transition: 0.2s; }
+.input-field input:focus, .input-field textarea:focus { border-color: var(--themeLink); }
+.input-field textarea { min-height: 120px; resize: vertical; }
+.form-buttons { display: flex; gap: 10px; }
+.submit-button { display: flex; align-items: center; gap: 8px; padding: 10px 25px; background: var(--themeLink); color: #fff; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; }
+.submit-button:hover { opacity: 0.85; }
+.clear-button { display: flex; align-items: center; gap: 8px; padding: 10px 25px; background: transparent; color: var(--themeC); border: var(--sideBd-line) solid var(--sideBd-color); border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; }
+.clear-button:hover { border-color: var(--themeLink); }
+#form-status { font-size: 14px; padding: 10px; border-radius: 8px; display: none; }
+#form-status.success { display: block; background: rgba(0,200,0,0.1); color: #00c800; border: 1px solid #00c800; }
+#form-status.error { display: block; background: rgba(255,0,0,0.1); color: #ff4444; border: 1px solid #ff4444; }
+</style>
+
+<script is:inline>
+var form = document.querySelector('.contact-form');
+var status = document.getElementById('form-status');
+if (form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        var data = new FormData(form);
+        fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+        }).then(function(response) {
+            if (response.ok) {
+                status.className = 'success';
+                status.textContent = 'تم إرسال رسالتك بنجاح! سنرد عليك قريباً.';
+                form.reset();
+            } else {
+                status.className = 'error';
+                status.textContent = 'حدث خطأ، يرجى المحاولة مرة أخرى.';
+            }
+        }).catch(function() {
+            status.className = 'error';
+            status.textContent = 'حدث خطأ، يرجى المحاولة مرة أخرى.';
+        });
+    });
+}
+</script>
+</Layout>
