@@ -43,9 +43,12 @@ import Layout from '../layouts/Layout.astro';
 .contact-form { display: flex; flex-direction: column; gap: 20px; direction: rtl; }
 .input-field { display: flex; flex-direction: column; gap: 8px; }
 .input-field label { font-size: 14px; color: var(--themeC); }
-.input-field input, .input-field textarea { padding: 10px 15px; border: var(--sideBd-line) solid var(--sideBd-color); border-radius: 8px; background: var(--headerBg); color: var(--themeC); font-size: 14px; outline: none; transition: 0.2s; font-family: var(--fontBody);}
+.input-field input, .input-field textarea { padding: 10px 15px; border: var(--sideBd-line) solid var(--sideBd-color); border-radius: 8px; background: var(--headerBg); color: var(--themeC); font-size: 14px; outline: none; transition: 0.2s; font-family: var(--fontBody); }
 .input-field input:focus, .input-field textarea:focus { border-color: var(--themeLink); }
 .input-field textarea { min-height: 120px; resize: vertical; }
+.input-field input:-webkit-autofill,
+.input-field input:-webkit-autofill:hover,
+.input-field input:-webkit-autofill:focus { -webkit-box-shadow: 0 0 0px 1000px var(--headerBg) inset !important; -webkit-text-fill-color: var(--themeC) !important; transition: background-color 5000s ease-in-out 0s; }
 .form-buttons { display: flex; gap: 10px; }
 .submit-button { display: flex; align-items: center; gap: 8px; padding: 10px 25px; background: var(--themeLink); color: var(--contentBg-sec); border: none; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; }
 .submit-button:hover { opacity: 0.85; }
