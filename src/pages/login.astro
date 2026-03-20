@@ -69,7 +69,7 @@ import '../styles/style.css';
                 googleBtn.style.opacity = "0.5";
                 await authClient.signIn.social({
                     provider: "google",
-                    callbackURL: "https://www.alikernel.com" 
+                    callbackURL: "/account" 
                 });
             });
         }
@@ -80,7 +80,7 @@ import '../styles/style.css';
                 githubBtn.style.opacity = "0.5";
                 await authClient.signIn.social({
                     provider: "github",
-                    callbackURL: "https://www.alikernel.com"
+                    callbackURL: "/account"
                 });
             });
         }
