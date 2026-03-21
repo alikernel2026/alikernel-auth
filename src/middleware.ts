@@ -3,32 +3,19 @@ import { defineMiddleware } from "astro:middleware";
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
 
-  // إذا جاء الطلب على /account من OAuth redirect حوله للرئيسية مباشرة
-  if (url.pathname.startsWith('/account')) {
-    const cookie = context.request.headers.get('cookie') || '';
-    const referer = context.request.headers.get('referer') || '';
-    if (referer.includes('google') || referer.includes('github') || referer.includes('accounts')) {
-      return new Response(null, {
-        status: 302,
-        headers: { 'Location': 'https://www.alikernel.com' }
-      });
-    }
+if (url.pathname.startsWith('/login') || 
+    url.pathname.startsWith('/logout') ||
+    url.pathname.startsWith('/account') || 
+    url.pathname.startsWith('/api') ||
+    url.pathname.startsWith('/_astro') ||
+    url.pathname.startsWith('/about') ||
+    url.pathname.startsWith('/privacy') ||
+    url.pathname.startsWith('/terms') ||
+    url.pathname.startsWith('/contact') ||
+    url.pathname.startsWith('/content-transfer') ||
+    url.pathname.startsWith('/content-center')) {
+  return next();
   }
-
-  if (url.pathname.startsWith('/login') || 
-      url.pathname.startsWith('/logout') ||
-      url.pathname.startsWith('/account') || 
-      url.pathname.startsWith('/api') ||
-      url.pathname.startsWith('/_astro') ||
-      url.pathname.startsWith('/about') ||
-      url.pathname.startsWith('/privacy') ||
-      url.pathname.startsWith('/terms') ||
-      url.pathname.startsWith('/contact') ||
-      url.pathname.startsWith('/content-transfer') ||
-      url.pathname.startsWith('/content-center')) {
-    return next();
-  }
-
   const bloggerUrl = `https://alikernel.blogspot.com${url.pathname}${url.search}`;
   const response = await fetch(bloggerUrl);
   
