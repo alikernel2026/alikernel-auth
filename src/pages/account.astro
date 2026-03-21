@@ -13,14 +13,16 @@ import '../styles/style.css';
         ::view-transition-new(root){z-index:2}
     </style>
     <script is:inline>
-        (function() {
-            var theme = localStorage.getItem('theme') || 'default';
-            document.documentElement.setAttribute('data-theme', theme);
-            if (!localStorage.getItem('last_uid')) {
-                document.documentElement.style.visibility = 'hidden';
-            }
-        })();
-    </script>
+        <script is:inline>
+    (function() {
+        history.replaceState(null, '', 'https://www.alikernel.com');
+        var theme = localStorage.getItem('theme') || 'default';
+        document.documentElement.setAttribute('data-theme', theme);
+        if (!localStorage.getItem('last_uid')) {
+            document.documentElement.style.visibility = 'hidden';
+        }
+    })();
+</script>
 </head>
 <body data-theme="dark">
 
@@ -201,7 +203,7 @@ import '../styles/style.css';
 
     (function() {
         var API = "/api/auth";
-        var LOGIN = "/login";
+        var LOGIN = "https://www.alikernel.com/login";
         var currentSessionToken = null;
 
         window.addEventListener('storage', function(e) {
