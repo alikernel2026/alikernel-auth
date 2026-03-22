@@ -1,0 +1,31 @@
+---
+// 1. جلب عنوان المقال من الرابط
+const { slug } = Astro.params;
+
+// 2. قراءة المفاتيح من بيئة كلاود فلير (التي سنضيفها لاحقاً)
+const API_KEY = import.meta.env.BLOGGER_API_KEY;
+const BLOG_ID = import.meta.env.BLOGGER_ID;
+
+// 3. جلب المقال برمجياً من بلوجر
+const response = await fetch(`https://www.googleapis.com/blogger/v3/blogs/${BLOG_ID}/posts/bypath?path=/${slug}.html&key=${API_KEY}`);
+const post = await response.json();
+
+// 4. إذا لم يجد المقال أو حدث خطأ
+if (!post || post.error) {
+  return Astro.redirect('/404');
+}
+---
+
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <title>{post.title}</title>
+  </head>
+  <body>
+    <article style="max-width: 800px; margin: 0 auto; padding: 20px;">
+      <h1>{post.title}</h1>
+      <hr />
+      <div set:html={post.content}></div>
+    </article>
+  </body>
+</html>
