@@ -24,7 +24,7 @@ if (url.pathname.startsWith('/login') ||
   if (!contentType.includes("text/html")) { return response; }
 
   let html = await response.text();
-  let cleanHtml = html.replace(/alikernell\.blogspot\.com/g, "www.alikernel.com");
+  let cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
   cleanHtml = cleanHtml.replace("href='#' id='logout-btn'", "href='/logout' id='logout-btn'");
 
   const syncScript = `
