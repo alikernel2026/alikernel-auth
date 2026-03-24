@@ -16,17 +16,34 @@ if (url.pathname.startsWith('/login') ||
     url.pathname.startsWith('/content-center')) {
   return next();
   }
-  const bloggerUrl = `https://alikernel.blogspot.com${url.pathname}${url.search}`;
+
+  const bloggerUrl = `https://alikernell.blogspot.com${url.pathname}${url.search}`;
   const response = await fetch(bloggerUrl);
   
   const contentType = response.headers.get("content-type") || "";
   if (!contentType.includes("text/html")) { return response; }
 
   let html = await response.text();
-  let cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
+  let cleanHtml = html.replace(/alikernell\.blogspot\.com/g, "www.alikernel.com");
   cleanHtml = cleanHtml.replace("href='#' id='logout-btn'", "href='/logout' id='logout-btn'");
 
-  const syncScript = `<script>
+  const syncScript = `
+<script src="https://accounts.google.com/gsi/client" async defer><\/script>
+<div id="g_id_onload"
+  data-client_id="617149480177-aimcujc67q4307sk43li5m6pr54vj1jv.apps.googleusercontent.com"
+  data-callback="handleOneTap"
+  data-auto_prompt="true">
+</div>
+<script>
+function handleOneTap(response) {
+  fetch('/api/auth/google-one-tap', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ credential: response.credential })
+  }).then(res => {
+    if (res.ok) window.location.href = '/';
+  });
+}
 function updateHeaderUI() {
   var photoURL = localStorage.getItem('userPhotoURL');
   var lastUid = localStorage.getItem('last_uid');
