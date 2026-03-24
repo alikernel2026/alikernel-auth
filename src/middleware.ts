@@ -18,41 +18,43 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return next();
   }
 
-  // جلب المحتوى من Blogger (مع التأكد من اسم الدومين الصحيح alikernel)
+  // تصحيح الدومين هنا (حذف حرف L الزائد)
   const bloggerUrl = `https://alikernel.blogspot.com${url.pathname}${url.search}`;
-  const response = await fetch(bloggerUrl);
   
-  const contentType = response.headers.get("content-type") || "";
-  if (!contentType.includes("text/html")) { return response; }
+  try {
+    const response = await fetch(bloggerUrl);
+    const contentType = response.headers.get("content-type") || "";
+    
+    if (!contentType.includes("text/html")) { 
+      return response; 
+    }
 
-  let html = await response.text();
-  
-  // تنظيف الروابط وتعديل زر الخروج
-  let cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
-  cleanHtml = cleanHtml.replace("href='#' id='logout-btn'", "href='/logout' id='logout-btn'");
+    let html = await response.text();
+    
+    // تنظيف الروابط واستبدال دومين بلوجر بدومين موقعك
+    let cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
+    cleanHtml = cleanHtml.replace("href='#' id='logout-btn'", "href='/logout' id='logout-btn'");
 
-  // السكربت المدمج الذي يحتوي على تحديث الـ UI وخاصية Google One Tap
-  const syncScript = `
+    // إضافة مكتبة جوجل وخاصية الـ One Tap مع سكربت تحديث الواجهة
+    const syncScript = `
 <script src="https://accounts.google.com/gsi/client" async defer><\/script>
 <div id="g_id_onload"
      data-client_id="617149480177-aimcujc67q4307sk43li5m6pr54vj1jv.apps.googleusercontent.com"
      data-callback="handleOneTap"
-     data-auto_prompt="true">
+     data-auto_prompt="true"
+     data-itp_support="true">
 </div>
-
 <script>
-// معالجة تسجيل الدخول التلقائي من المربع
 function handleOneTap(response) {
   fetch('/api/auth/google-one-tap', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ credential: response.credential })
   }).then(res => {
-    if (res.ok) window.location.reload(); // تحديث الصفحة عند النجاح
+    if (res.ok) window.location.reload();
   });
 }
 
-// تحديث واجهة المستخدم (Header) بناءً على بيانات التخزين
 function updateHeaderUI() {
   var photoURL = localStorage.getItem('userPhotoURL');
   var lastUid = localStorage.getItem('last_uid');
@@ -77,18 +79,20 @@ function updateHeaderUI() {
     if (guestMenu) guestMenu.style.setProperty('display','block','important');
   }
 }
-
-// تشغيل التحديث فور التحميل وعند أي تغيير في التخزين
 updateHeaderUI();
 window.addEventListener('storage', function(e) {
   if (e.key === 'auth_event' || e.key === 'last_uid') { updateHeaderUI(); }
 });
 <\/script>`;
 
-  // حقن السكربت قبل إغلاق وسام الـ body
-  cleanHtml = cleanHtml.replace('</body>', syncScript + '</body>');
-  
-  return new Response(cleanHtml, {
-    headers: { "content-type": "text/html; charset=utf-8" }
-  });
+    cleanHtml = cleanHtml.replace('</body>', syncScript + '</body>');
+    
+    return new Response(cleanHtml, {
+      headers: { "content-type": "text/html; charset=utf-8" }
+    });
+
+  } catch (error) {
+    console.error("Fetch error:", error);
+    return next();
+  }
 });
