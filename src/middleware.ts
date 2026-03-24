@@ -16,7 +16,7 @@ if (url.pathname.startsWith('/login') ||
     url.pathname.startsWith('/content-center')) {
   return next();
   }
-  const bloggerUrl = `https://alikernell.blogspot.com${url.pathname}${url.search}`;
+  const bloggerUrl = `https://alikernel.blogspot.com${url.pathname}${url.search}`;
   const response = await fetch(bloggerUrl);
   
   const contentType = response.headers.get("content-type") || "";
