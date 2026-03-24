@@ -3,39 +3,37 @@ import { defineMiddleware } from "astro:middleware";
 export const onRequest = defineMiddleware(async (context, next) => {
   const url = new URL(context.request.url);
 
-  // استثناء المسارات الخاصة
-  if (url.pathname.startsWith('/login') || 
-      url.pathname.startsWith('/logout') ||
-      url.pathname.startsWith('/account') || 
-      url.pathname.startsWith('/api') ||
-      url.pathname.startsWith('/_astro') ||
-      url.pathname.startsWith('/about') ||
-      url.pathname.startsWith('/privacy') ||
-      url.pathname.startsWith('/terms') ||
-      url.pathname.startsWith('/contact')) {
-    return next();
+if (url.pathname.startsWith('/login') || 
+    url.pathname.startsWith('/logout') ||
+    url.pathname.startsWith('/account') || 
+    url.pathname.startsWith('/api') ||
+    url.pathname.startsWith('/_astro') ||
+    url.pathname.startsWith('/about') ||
+    url.pathname.startsWith('/privacy') ||
+    url.pathname.startsWith('/terms') ||
+    url.pathname.startsWith('/contact') ||
+    url.pathname.startsWith('/content-transfer') ||
+    url.pathname.startsWith('/content-center')) {
+  return next();
   }
 
-  // الدومين الصحيح بدون حرف L زائد
   const bloggerUrl = `https://alikernel.blogspot.com${url.pathname}${url.search}`;
+  const response = await fetch(bloggerUrl);
   
-  try {
-    const response = await fetch(bloggerUrl);
-    const contentType = response.headers.get("content-type") || "";
-    
-    if (!contentType.includes("text/html")) { 
-      return response; 
-    }
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.includes("text/html")) { return response; }
 
-    let html = await response.text();
-    let cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
-    cleanHtml = cleanHtml.replace("href='#' id='logout-btn'", "href='/logout' id='logout-btn'");
+  let html = await response.text();
+  let cleanHtml = html.replace(/alikernel\.blogspot\.com/g, "www.alikernel.com");
+  cleanHtml = cleanHtml.replace("href='#' id='logout-btn'", "href='/logout' id='logout-btn'");
 
-    // السكربت الذكي: يتحقق من تسجيل الخروج قبل إظهار ون تاب
-    const syncScript = `
+  const syncScript = `
 <script src="https://accounts.google.com/gsi/client" async defer><\/script>
-<div id="one-tap-container"><\/div>
-
+<div id="g_id_onload"
+  data-client_id="617149480177-aimcujc67q4307sk43li5m6pr54vj1jv.apps.googleusercontent.com"
+  data-callback="handleOneTap"
+  data-auto_prompt="true">
+</div>
 <script>
 function handleOneTap(response) {
   fetch('/api/auth/google-one-tap', {
@@ -43,30 +41,9 @@ function handleOneTap(response) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ credential: response.credential })
   }).then(res => {
-    if (res.ok) {
-       // تخزين بيانات تجريبية لتحديث الواجهة فوراً
-       localStorage.setItem('auth_event', 'login_' + Date.now());
-       window.location.reload();
-    }
+    if (res.ok) window.location.href = '/';
   });
 }
-
-function initGoogleOneTap() {
-  const lastUid = localStorage.getItem('last_uid');
-  // إذا لا يوجد UID يعني المستخدم مسجل خروج -> أظهر المربع
-  if (!lastUid) {
-    window.onload = function () {
-      google.accounts.id.initialize({
-        client_id: "617149480177-aimcujc67q4307sk43li5m6pr54vj1jv.apps.googleusercontent.com",
-        callback: handleOneTap,
-        auto_prompt: true,
-        itp_support: true
-      });
-      google.accounts.id.prompt(); 
-    };
-  }
-}
-
 function updateHeaderUI() {
   var photoURL = localStorage.getItem('userPhotoURL');
   var lastUid = localStorage.getItem('last_uid');
@@ -74,33 +51,26 @@ function updateHeaderUI() {
   var profileIcon = document.getElementById('profile-icon');
   var userMenu = document.getElementById('user-menu');
   var guestMenu = document.getElementById('guest-menu');
-  
   if (lastUid && photoURL) {
-    if (avatarIcon) { avatarIcon.src = photoURL; avatarIcon.style.display = 'block'; }
-    if (profileIcon) profileIcon.style.display = 'none';
-    if (userMenu) userMenu.style.display = 'block';
-    if (guestMenu) guestMenu.style.display = 'none';
+    if (avatarIcon) { avatarIcon.src = photoURL; avatarIcon.style.setProperty('display','block','important'); avatarIcon.classList.remove('hidden'); }
+    if (profileIcon) { profileIcon.style.setProperty('display','none','important'); }
+    if (userMenu) userMenu.style.setProperty('display','block','important');
+    if (guestMenu) guestMenu.style.setProperty('display','none','important');
   } else {
-    if (avatarIcon) avatarIcon.style.display = 'none';
-    if (profileIcon) profileIcon.style.display = 'block';
-    if (userMenu) userMenu.style.display = 'none';
-    if (guestMenu) guestMenu.style.display = 'block';
+    if (avatarIcon) { avatarIcon.style.setProperty('display','none','important'); }
+    if (profileIcon) { profileIcon.style.setProperty('display','block','important'); }
+    if (userMenu) userMenu.style.setProperty('display','none','important');
+    if (guestMenu) guestMenu.style.setProperty('display','block','important');
   }
 }
-
-// تشغيل الوظائف
 updateHeaderUI();
-initGoogleOneTap();
-
 window.addEventListener('storage', function(e) {
-  if (e.key === 'auth_event' || e.key === 'last_uid') { updateHeaderUI(); }
+  if (e.key === 'auth_event') { updateHeaderUI(); }
 });
 <\/script>`;
 
-    cleanHtml = cleanHtml.replace('</body>', syncScript + '</body>');
-    return new Response(cleanHtml, { headers: { "content-type": "text/html; charset=utf-8" } });
-
-  } catch (error) {
-    return next();
-  }
+  cleanHtml = cleanHtml.replace('</body>', syncScript + '</body>');
+  return new Response(cleanHtml, {
+    headers: { "content-type": "text/html; charset=utf-8" }
+  });
 });
