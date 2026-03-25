@@ -36,10 +36,13 @@ if (url.pathname.startsWith('/login') ||
 </div>
 <script>
 function handleOneTap(response) {
-  fetch('/api/auth/google-one-tap', {
+  fetch('/api/auth/sign-in/id-token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ credential: response.credential })
+    body: JSON.stringify({ 
+      provider: 'google',
+      idToken: response.credential 
+    })
   }).then(res => {
     if (res.ok) window.location.href = '/';
   });
