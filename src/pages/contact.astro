@@ -1,30 +1,39 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
+
 <Layout title="اتصل بنا">
-<div>
+<div class="contact-container">
     <h1>اتصل بنا</h1>
-    <form action="https://formspree.io/f/meervanj" method="POST" class="contact-form">
+    <form action="https://formspree.io/f/meervanj" method="POST" class="contact-form" novalidate>
         <div class="input-field">
             <label for="name">الاسم <span style="color:#ff4444">*</span></label>
-            <input type="text" id="name" name="name" required />
+            <input type="text" id="name" name="name" required minlength="2" placeholder="اسمك الكامل" />
+            <span class="error-msg">الاسم مطلوب (حرفين على الأقل)</span>
         </div>
+
         <div class="input-field">
             <label for="email">البريد الإلكتروني <span style="color:#ff4444">*</span></label>
-            <input type="email" id="email" name="email" required />
+            <input type="email" id="email" name="email" required placeholder="example@mail.com" />
+            <span class="error-msg">يرجى إدخال بريد إلكتروني صحيح</span>
         </div>
+
         <div class="input-field">
             <label for="phone">رقم الهاتف <span style="font-size:0.85em;opacity:0.7">(اختياري)</span></label>
             <input type="text" id="phone" name="phone" />
         </div>
+
         <div class="input-field">
             <label for="website">رابط الموقع <span style="font-size:0.85em;opacity:0.7">(اختياري)</span></label>
             <input type="text" id="website" name="website" />
         </div>
+
         <div class="input-field">
             <label for="message">الرسالة <span style="color:#ff4444">*</span></label>
-            <textarea id="message" name="message" required></textarea>
+            <textarea id="message" name="message" required minlength="5" placeholder="اكتب رسالتك هنا..."></textarea>
+            <span class="error-msg">يرجى كتابة نص الرسالة</span>
         </div>
+
         <div class="form-buttons">
             <button type="submit" class="submit-button">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="transform:scaleX(-1)"><path d="M.5 1.163A1 1 0 0 1 1.97.28l12.868 6.837a1 1 0 0 1 0 1.766L1.969 15.72A1 1 0 0 1 .5 14.836V10.33a1 1 0 0 1 .816-.983L8.5 8 1.316 6.653A1 1 0 0 1 .5 5.67V1.163Z"/></svg>
@@ -35,37 +44,80 @@ import Layout from '../layouts/Layout.astro';
                 تفريغ
             </button>
         </div>
+
         <div id="form-status"></div>
     </form>
 </div>
 
 <style is:global>
+/* التنسيقات الأساسية */
 .contact-form { display: flex; flex-direction: column; gap: 20px; direction: rtl; }
-.input-field { display: flex; flex-direction: column; gap: 8px; }
+.input-field { display: flex; flex-direction: column; gap: 8px; position: relative; }
 .input-field label { font-size: 14px; color: var(--themeC); }
-.input-field input, .input-field textarea { padding: 10px 15px; border: var(--sideBd-line) solid var(--sideBd-color); border-radius: 8px; background: var(--headerBg); color: var(--themeC); font-size: 14px; outline: none; transition: 0.2s; font-family: var(--fontBody); }
+
+.input-field input, .input-field textarea { 
+    padding: 10px 15px; 
+    border: var(--sideBd-line) solid var(--sideBd-color); 
+    border-radius: 8px; 
+    background: var(--headerBg); 
+    color: var(--themeC); 
+    font-size: 14px; 
+    outline: none; 
+    transition: 0.2s; 
+    font-family: var(--fontBody); 
+}
+
 .input-field input:focus, .input-field textarea:focus { border-color: var(--themeLink); }
 .input-field textarea { min-height: 120px; resize: vertical; }
-.input-field input:-webkit-autofill,
-.input-field input:-webkit-autofill:hover,
-.input-field input:-webkit-autofill:focus { -webkit-box-shadow: 0 0 0px 1000px var(--headerBg) inset !important; -webkit-text-fill-color: var(--themeC) !important; transition: background-color 5000s ease-in-out 0s; }
+
+/* تأثير الخطأ (اللون الأحمر) */
+.error-msg { 
+    color: #ff4444; 
+    font-size: 12px; 
+    display: none; 
+    margin-top: -4px;
+}
+
+/* عندما يتم تفعيل كلاس الأخطاء عند الضغط على إرسال */
+.show-errors .input-field input:invalid, 
+.show-errors .input-field textarea:invalid {
+    border-color: #ff4444 !important;
+}
+
+.show-errors .input-field input:invalid ~ .error-msg,
+.show-errors .input-field textarea:invalid ~ .error-msg {
+    display: block;
+}
+
 .form-buttons { display: flex; gap: 10px; }
 .submit-button { display: flex; align-items: center; gap: 8px; padding: 10px 15px; background: var(--themeLink); color: var(--contentBg-sec); border: none; border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; }
 .submit-button:hover { opacity: 0.85; }
 .clear-button { display: flex; align-items: center; gap: 8px; padding: 10px 15px; background: var(--headerBg); color: var(--themeC); border: var(--sideBd-line) solid var(--sideBd-color); border-radius: 8px; cursor: pointer; font-size: 14px; transition: 0.2s; }
-.clear-button:hover { border-color: var(--themeLink); }
-#form-status { font-size: 14px; padding: 10px; border-radius: 8px; display: none; }
+
+#form-status { font-size: 14px; padding: 10px; border-radius: 8px; display: none; margin-top: 10px; }
 #form-status.success { display: block; background: rgba(0,200,0,0.1); color: #00c800; border: 1px solid #00c800; }
 #form-status.error { display: block; background: rgba(255,0,0,0.1); color: #ff4444; border: 1px solid #ff4444; }
 </style>
 
 <script is:inline>
-var form = document.querySelector('.contact-form');
-var status = document.getElementById('form-status');
+const form = document.querySelector('.contact-form');
+const status = document.getElementById('form-status');
+
 if (form) {
     form.addEventListener('submit', function(e) {
+        // 1. التحقق من الحقول قبل الإرسال
+        if (!form.checkValidity()) {
+            e.preventDefault(); // منع الإرسال الحقيقي
+            form.classList.add('show-errors'); // إظهار الحدود الحمراء
+            return;
+        }
+
+        // 2. إذا كانت الحقول صحيحة، ابدأ عملية الإرسال
         e.preventDefault();
-        var data = new FormData(form);
+        form.classList.remove('show-errors'); 
+        status.style.display = 'none';
+        
+        const data = new FormData(form);
         fetch(form.action, {
             method: 'POST',
             body: data,
@@ -73,16 +125,26 @@ if (form) {
         }).then(function(response) {
             if (response.ok) {
                 status.className = 'success';
-                status.textContent = 'تم إرسال رسالتك بنجاح! سنرد عليك قريباً.';
+                status.textContent = 'تم إرسال رسالتك بنجاح! شكراً لك.';
+                status.style.display = 'block';
                 form.reset();
+                form.classList.remove('show-errors');
             } else {
                 status.className = 'error';
-                status.textContent = 'حدث خطأ، يرجى المحاولة مرة أخرى.';
+                status.textContent = 'حدث خطأ في الإرسال، حاول لاحقاً.';
+                status.style.display = 'block';
             }
         }).catch(function() {
             status.className = 'error';
-            status.textContent = 'حدث خطأ، يرجى المحاولة مرة أخرى.';
+            status.textContent = 'فشل الاتصال بالخادم.';
+            status.style.display = 'block';
         });
+    });
+
+    // إخفاء الأخطاء عند الضغط على زر التفريغ
+    form.addEventListener('reset', () => {
+        form.classList.remove('show-errors');
+        status.style.display = 'none';
     });
 }
 </script>
