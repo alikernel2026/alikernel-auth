@@ -32,19 +32,27 @@ if (url.pathname.startsWith('/login') ||
 <div id="g_id_onload"
   data-client_id="617149480177-aimcujc67q4307sk43li5m6pr54vj1jv.apps.googleusercontent.com"
   data-callback="handleOneTap"
-  data-auto_prompt="true">
+  data-auto_prompt="true"
+  data-cancel_on_tap_outside="true"
+  data-context="signin">
 </div>
 <script>
 function handleOneTap(response) {
+  if (!response || !response.credential) return;
   fetch('/api/auth/sign-in/id-token', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ 
       provider: 'google',
-      idToken: response.credential 
+      idToken: response.credential,
+      callbackURL: '/'
     })
-  }).then(res => {
-    if (res.ok) window.location.href = '/';
+  }).then(function(res) {
+    if (res.ok) {
+      window.location.href = '/';
+    }
+  }).catch(function(err) {
+    console.error('خطأ:', err);
   });
 }
 function updateHeaderUI() {
