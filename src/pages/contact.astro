@@ -67,6 +67,18 @@ import Layout from '../layouts/Layout.astro';
     font-family: var(--fontBody); 
 }
 
+/* حل مشكلة الملأ التلقائي (Autofill) باللون الأبيض */
+.input-field input:-webkit-autofill,
+.input-field input:-webkit-autofill:hover, 
+.input-field input:-webkit-autofill:focus,
+.input-field textarea:-webkit-autofill,
+.input-field textarea:-webkit-autofill:hover,
+.input-field textarea:-webkit-autofill:focus {
+    -webkit-text-fill-color: var(--themeC) !important;
+    -webkit-box-shadow: 0 0 0px 1000px var(--headerBg) inset !important;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
 .input-field input:focus, .input-field textarea:focus { border-color: var(--themeLink); }
 .input-field textarea { min-height: 120px; resize: vertical; }
 
@@ -75,10 +87,9 @@ import Layout from '../layouts/Layout.astro';
     color: #ff4444; 
     font-size: 12px; 
     display: none; 
-    margin-top: -4px;
+    margin-top: 4px;
 }
 
-/* عندما يتم تفعيل كلاس الأخطاء عند الضغط على إرسال */
 .show-errors .input-field input:invalid, 
 .show-errors .input-field textarea:invalid {
     border-color: #ff4444 !important;
@@ -105,17 +116,14 @@ const status = document.getElementById('form-status');
 
 if (form) {
     form.addEventListener('submit', function(e) {
-        // 1. التحقق من الحقول قبل الإرسال
         if (!form.checkValidity()) {
-            e.preventDefault(); // منع الإرسال الحقيقي
-            form.classList.add('show-errors'); // إظهار الحدود الحمراء
+            e.preventDefault();
+            form.classList.add('show-errors');
             return;
         }
 
-        // 2. إذا كانت الحقول صحيحة، ابدأ عملية الإرسال
         e.preventDefault();
         form.classList.remove('show-errors'); 
-        status.style.display = 'none';
         
         const data = new FormData(form);
         fetch(form.action, {
@@ -125,23 +133,22 @@ if (form) {
         }).then(function(response) {
             if (response.ok) {
                 status.className = 'success';
-                status.textContent = 'تم إرسال رسالتك بنجاح! شكراً لك.';
+                status.textContent = 'تم إرسال رسالتك بنجاح!';
                 status.style.display = 'block';
                 form.reset();
                 form.classList.remove('show-errors');
             } else {
                 status.className = 'error';
-                status.textContent = 'حدث خطأ في الإرسال، حاول لاحقاً.';
+                status.textContent = 'حدث خطأ، حاول مرة أخرى.';
                 status.style.display = 'block';
             }
         }).catch(function() {
             status.className = 'error';
-            status.textContent = 'فشل الاتصال بالخادم.';
+            status.textContent = 'فشل الاتصال.';
             status.style.display = 'block';
         });
     });
 
-    // إخفاء الأخطاء عند الضغط على زر التفريغ
     form.addEventListener('reset', () => {
         form.classList.remove('show-errors');
         status.style.display = 'none';
