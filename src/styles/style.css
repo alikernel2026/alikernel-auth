@@ -611,34 +611,6 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     align-items: center;
 }
 
-.modal-close-btn {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: var(--themeC);
-    background: transparent;
-    transition: background 0.3s ease;
-    z-index: 2600;
-}
-
-.modal-close-btn:hover {
-    background-color: var(--contentBg-sec);
-}
-
-.modal-close-btn svg {
-    width: 24px;
-    height: 24px;
-    stroke: currentColor;
-    fill: none;
-}
-
 .login-header {
     display: flex;
     align-items: center;
