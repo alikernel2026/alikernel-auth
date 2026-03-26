@@ -193,7 +193,7 @@ function processData(json) {
         }
         var pubDate = new Date(entry.published.$t);
         var isNew = (Math.ceil((now - pubDate) / (1000 * 60 * 60 * 24)) <= 3);
-        var dateStr = pubDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        var dateStr = pubDate.toLocaleDateString('ar', { day: 'numeric', month: 'long', year: 'numeric' });
         var labels = [];
         if (entry.category) {
             for (var k = 0; k < entry.category.length; k++) {
