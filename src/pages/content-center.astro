@@ -186,11 +186,10 @@ function processData(json) {
         var title = entry.title.$t;
         var url = "";
         for (var j = 0; j < entry.link.length; j++) {
-    if (entry.link[j].rel == 'alternate') { 
-        url = entry.link[j].href.replace(/https?:\/\/[^\/]+/, blogUrl); 
-        break; 
-    }
-}
+            if (entry.link[j].rel == 'alternate') {
+                url = entry.link[j].href.replace(/https?:\/\/[^\/]+/, blogUrl);
+                break;
+            }
         }
         var pubDate = new Date(entry.published.$t);
         var isNew = (Math.ceil((now - pubDate) / (1000 * 60 * 60 * 24)) <= 3);
