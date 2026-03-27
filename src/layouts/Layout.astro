@@ -25,7 +25,7 @@ const { title } = Astro.props;
         .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: center; height: 65px; border-bottom: 1px solid var(--sideBd-color); background-color: oklch(0.25 0 0 / 0.4); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
         body[data-theme="light"] .site-header { background-color: rgba(255,255,255,0.4); }
         @media (prefers-color-scheme: light) { body[data-theme="default"] .site-header { background-color: rgba(255,255,255,0.4); } }
-        .header-content { width: 100%; max-width: var(--content-maxWidth); margin-inline: auto; padding-inline: var(--contentPadding); display: flex; align-items: center; justify-content: flex-start; gap: 12px;font-weight: 500; font-size: 18px; }
+        .header-content { width: 100%; max-width: var(--content-maxWidth); margin-inline: auto; padding-inline: var(--contentPadding); display: flex; align-items: center; justify-content: flex-start; gap: 12px; font-weight: 500; font-size: 18px; }
         .header-logo-link { display: flex; align-items: center; gap: 12px; color: var(--themeC); font-weight: 700; font-size: 18px; }
         .header-logo-icon { width: 32px; height: 32px; }
         .page-content { flex: 1; }
@@ -72,23 +72,18 @@ const { title } = Astro.props;
         ::view-transition-new(root) { z-index: 2; }
         @media (max-width: 768px) { .footer-content { gap: 15px; } }
 
-        /* --- Breadcrumb & Home Icon Fixes --- */
+        /* --- Breadcrumb & Home Icon --- */
         .ak-breadcrumb-container { display: flex; align-items: center; direction: rtl; gap: 12px; margin-bottom: 8px; }
         .ak-breadcrumb-item { display: flex; align-items: center; gap: 12px; }
         .ak-link { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; font-size: 14px; font-weight: 500; }
-        
-        /* التعديل المطلوب للأيقونة: لون رمادي وبدون شفافية */
-        .ak-home-link svg { 
-            color: var(--themeC-alt); 
-            transition: color 0.2s ease; 
-        }
-        /* الهوفر: يتحول للون الأبيض (أو لون الثيم) */
-        .ak-home-link:hover svg { 
-            color: var(--alikernelBg); 
-        }
-
+        .ak-home-link svg { color: var(--themeC-alt); transition: color 0.2s ease; }
+        .ak-home-link:hover svg { color: var(--alikernelBg); }
         .ak-breadcrumb-container svg { fill: none; stroke: currentColor; stroke-width: 1.5; flex-shrink: 0; width: 16px; height: 16px; }
         .ak-sep svg { width: 12px; height: 12px; opacity: .7; color: var(--themeC-alt); }
+
+        /* --- الشعار: يتغير مع الثيم تلقائياً --- */
+        .ak-logo-bg { fill: var(--alikernelBg); }
+        .ak-logo-fg { fill: var(--alikernelC); }
     </style>
 </head>
 <body id="nB" class="nB">
@@ -108,11 +103,11 @@ const { title } = Astro.props;
         <header class="site-header">
             <div class="header-content">
                 <a href="https://www.alikernel.com" class="header-logo-link">
-                    <svg class="header-logo-icon" viewBox="0 0 124 124" fill="none">
-                        <rect width="124" height="124" rx="24" fill="#F97316"/>
-                        <path d="M19.375 36.782v63.843a4 4 0 0 0 4 4h63.843c3.564 0 5.348-4.309 2.829-6.828L26.203 33.953c-2.52-2.52-6.828-.735-6.828 2.829" fill="#fff"/>
-                        <circle cx="63.211" cy="37.539" r="18.164" fill="#000"/>
-                        <rect opacity=".4" x="81.133" y="80.72" width="17.569" height="17.388" rx="4" transform="rotate(-45 81.133 80.72)" fill="#FDBA74"/>
+                    <!-- ===== شعار الهيدر ===== -->
+                    <svg class="header-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
+                        <rect class="ak-logo-bg" x="0" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
+                        <polygon class="ak-logo-fg" points="2205.72 1197.65 3054 1197.65 1979.12 2699.26 2461.36 2696.68 2809.98 3155.68 1613.08 3155.68 1403.91 3452 590.48 3452 2205.72 1197.65"/>
+                        <polygon class="ak-logo-fg" points="3280.6 1197.65 4076.6 1197.65 3280.6 2324.82 4076.6 3452 3280.6 3469.43 2480.09 2320.63 3280.6 1197.65"/>
                     </svg>
                     علي كيرنل
                 </a>
@@ -146,11 +141,11 @@ const { title } = Astro.props;
             <div class="footer-content">
                 <div class="footer-logo-section">
                     <a href="https://www.alikernel.com" class="footer-logo-link">
-                        <svg class="footer-logo-icon" viewBox="0 0 124 124" fill="none">
-                            <rect width="124" height="124" rx="24" fill="#F97316"/>
-                            <path d="M19.375 36.782v63.843a4 4 0 0 0 4 4h63.843c3.564 0 5.348-4.309 2.829-6.828L26.203 33.953c-2.52-2.52-6.828-.735-6.828 2.829" fill="#fff"/>
-                            <circle cx="63.211" cy="37.539" r="18.164" fill="#000"/>
-                            <rect opacity=".4" x="81.133" y="80.72" width="17.569" height="17.388" rx="4" transform="rotate(-45 81.133 80.72)" fill="#FDBA74"/>
+                        <!-- ===== شعار الفوتر ===== -->
+                        <svg class="footer-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
+                            <rect class="ak-logo-bg" x="0" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
+                            <polygon class="ak-logo-fg" points="2205.72 1197.65 3054 1197.65 1979.12 2699.26 2461.36 2696.68 2809.98 3155.68 1613.08 3155.68 1403.91 3452 590.48 3452 2205.72 1197.65"/>
+                            <polygon class="ak-logo-fg" points="3280.6 1197.65 4076.6 1197.65 3280.6 2324.82 4076.6 3452 3280.6 3469.43 2480.09 2320.63 3280.6 1197.65"/>
                         </svg>
                         <span>علي كيرنل</span>
                     </a>
