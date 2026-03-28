@@ -12,10 +12,64 @@ const { title } = Astro.props;
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style is:global>
         :root { --fontBody: 'Noto Sans', 'Tajawal', sans-serif; --sideBd-line: 1px; --content-maxWidth: 1024px; --contentPadding: 22px; }
-        body { --themeBg: #100f10; --postBg: #1b1b1b; --headerBg: #1b1b1b; --contentBg-sec: #252526; --themeLink: #94f27f; --themeC: #d9e2f0; --themeC-alt: #a0a0a0; --sideBd-color: #3a3c3d; --alikernelBg: #ffffff; --alikernelC: #171717; }
-        body[data-theme="light"] { --themeBg: #f6f8fa; --postBg: #ffffff; --headerBg: #ffffff; --contentBg-sec: #f5f3f2; --themeLink: #1976d2; --themeC: #0e2045; --themeC-alt: #666666; --sideBd-color: #d2d3d7; --alikernelBg: #171717; --alikernelC: #ffffff; }
-        @media (prefers-color-scheme: dark) { body[data-theme="default"] { --themeBg: #100f10; --postBg: #1b1b1b; --headerBg: #1b1b1b; --contentBg-sec: #252526; --themeLink: #94f27f; --themeC: #d9e2f0; --themeC-alt: #a0a0a0; --sideBd-color: #3a3c3d; --alikernelBg: #ffffff; --alikernelC: #171717; } }
-        @media (prefers-color-scheme: light) { body[data-theme="default"] { --themeBg: #f6f8fa; --postBg: #ffffff; --headerBg: #ffffff; --contentBg-sec: #f5f3f2; --themeLink: #1976d2; --themeC: #0e2045; --themeC-alt: #666666; --sideBd-color: #d2d3d7; --alikernelBg: #171717; --alikernelC: #ffffff; } }
+
+        body {
+            --themeBg: #100f10;
+            --postBg: #1b1b1b;
+            --headerBg: #1b1b1b;
+            --contentBg-sec: #252526;
+            --themeLink: #94f27f;
+            --themeC: #d9e2f0;
+            --themeC-alt: #a0a0a0;
+            --sideBd-color: #3a3c3d;
+            --alikernelBg: #ffffff;
+            --alikernelC: #171717;
+            --darkBg: #171717;
+        }
+        body[data-theme="light"] {
+            --themeBg: #f6f8fa;
+            --postBg: #ffffff;
+            --headerBg: #ffffff;
+            --contentBg-sec: #f5f3f2;
+            --themeLink: #1976d2;
+            --themeC: #0e2045;
+            --themeC-alt: #666666;
+            --sideBd-color: #d2d3d7;
+            --alikernelBg: #171717;
+            --alikernelC: #ffffff;
+            --darkBg: #171717;
+        }
+        @media (prefers-color-scheme: dark) {
+            body[data-theme="default"] {
+                --themeBg: #100f10;
+                --postBg: #1b1b1b;
+                --headerBg: #1b1b1b;
+                --contentBg-sec: #252526;
+                --themeLink: #94f27f;
+                --themeC: #d9e2f0;
+                --themeC-alt: #a0a0a0;
+                --sideBd-color: #3a3c3d;
+                --alikernelBg: #ffffff;
+                --alikernelC: #171717;
+                --darkBg: #171717;
+            }
+        }
+        @media (prefers-color-scheme: light) {
+            body[data-theme="default"] {
+                --themeBg: #f6f8fa;
+                --postBg: #ffffff;
+                --headerBg: #ffffff;
+                --contentBg-sec: #f5f3f2;
+                --themeLink: #1976d2;
+                --themeC: #0e2045;
+                --themeC-alt: #666666;
+                --sideBd-color: #d2d3d7;
+                --alikernelBg: #171717;
+                --alikernelC: #ffffff;
+                --darkBg: #171717;
+            }
+        }
+
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
         body { font-family: var(--fontBody); background-color: var(--themeBg); color: var(--themeC); min-height: 100vh; line-height: 1.6; }
@@ -25,7 +79,7 @@ const { title } = Astro.props;
         .site-header { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: center; height: 65px; border-bottom: 1px solid var(--sideBd-color); background-color: oklch(0.25 0 0 / 0.4); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
         body[data-theme="light"] .site-header { background-color: rgba(255,255,255,0.4); }
         @media (prefers-color-scheme: light) { body[data-theme="default"] .site-header { background-color: rgba(255,255,255,0.4); } }
-        .header-content { width: 100%; max-width: var(--content-maxWidth); margin-inline: auto; padding-inline: var(--contentPadding); display: flex; align-items: center; justify-content: flex-start; gap: 12px;font-weight: 500; font-size: 18px; }
+        .header-content { width: 100%; max-width: var(--content-maxWidth); margin-inline: auto; padding-inline: var(--contentPadding); display: flex; align-items: center; justify-content: flex-start; gap: 12px; font-weight: 500; font-size: 18px; }
         .header-logo-link { display: flex; align-items: center; gap: 12px; color: var(--themeC); font-weight: 700; font-size: 18px; }
         .header-logo-icon { width: 32px; height: 32px; }
         .page-content { flex: 1; }
@@ -72,23 +126,18 @@ const { title } = Astro.props;
         ::view-transition-new(root) { z-index: 2; }
         @media (max-width: 768px) { .footer-content { gap: 15px; } }
 
-        /* --- Breadcrumb & Home Icon Fixes --- */
+        /* --- Breadcrumb & Home Icon --- */
         .ak-breadcrumb-container { display: flex; align-items: center; direction: rtl; gap: 12px; margin-bottom: 8px; }
         .ak-breadcrumb-item { display: flex; align-items: center; gap: 12px; }
         .ak-link { display: flex; align-items: center; gap: 8px; text-decoration: none; color: inherit; font-size: 14px; font-weight: 500; }
-        
-        /* التعديل المطلوب للأيقونة: لون رمادي وبدون شفافية */
-        .ak-home-link svg { 
-            color: var(--themeC-alt); 
-            transition: color 0.2s ease; 
-        }
-        /* الهوفر: يتحول للون الأبيض (أو لون الثيم) */
-        .ak-home-link:hover svg { 
-            color: var(--alikernelBg); 
-        }
-
+        .ak-home-link svg { color: var(--themeC-alt); transition: color 0.2s ease; }
+        .ak-home-link:hover svg { color: var(--alikernelBg); }
         .ak-breadcrumb-container svg { fill: none; stroke: currentColor; stroke-width: 1.5; flex-shrink: 0; width: 16px; height: 16px; }
         .ak-sep svg { width: 12px; height: 12px; opacity: .7; color: var(--themeC-alt); }
+
+        /* --- الشعار: خلفية --darkBg دائماً + محتوى أبيض --- */
+        .ak-logo-bg { fill: var(--darkBg); }
+        .ak-logo-fg { fill: #ffffff; }
     </style>
 </head>
 <body id="nB" class="nB">
@@ -108,11 +157,11 @@ const { title } = Astro.props;
         <header class="site-header">
             <div class="header-content">
                 <a href="https://www.alikernel.com" class="header-logo-link">
-                    <svg class="header-logo-icon" viewBox="0 0 124 124" fill="none">
-                        <rect width="124" height="124" rx="24" fill="#F97316"/>
-                        <path d="M19.375 36.782v63.843a4 4 0 0 0 4 4h63.843c3.564 0 5.348-4.309 2.829-6.828L26.203 33.953c-2.52-2.52-6.828-.735-6.828 2.829" fill="#fff"/>
-                        <circle cx="63.211" cy="37.539" r="18.164" fill="#000"/>
-                        <rect opacity=".4" x="81.133" y="80.72" width="17.569" height="17.388" rx="4" transform="rotate(-45 81.133 80.72)" fill="#FDBA74"/>
+                    <!-- ===== شعار الهيدر ===== -->
+                    <svg class="header-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
+                        <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
+                        <path class="ak-logo-fg" d="M1975.05,2699.79h522.17c.72,0,1.39.34,1.81.91l376.5,519.18c.76,1.01.55,2.43-.45,3.18-.41.31-.91.47-1.43.45h-1284.5c-.72,0-1.39.34-1.81.91l-213.71,292.37c-.43.58-1.1.91-1.81.91l-881.02,1.29c-1.26,0-2.27-1.02-2.27-2.27,0-.49.16-.97.45-1.36l1730.13-2366.37c.43-.58,1.1-.91,1.81-.91h878.55c1.26,0,2.27,1.02,2.27,2.27,0,.49-.16.97-.45,1.36l-1128.06,1544.44c-.75,1.01-.55,2.43.45,3.17.39.3.87.45,1.36.45h0Z"/>
+                        <path class="ak-logo-fg" d="M3313.63,2331.59l861.82,1183.9c.64.86.47,2.08-.39,2.72-.34.25-.75.39-1.17.39h-875.9c-.61,0-1.19-.29-1.55-.78l-871.49-1190.13c-.52-.69-.52-1.64,0-2.34l869.47-1176.51c.36-.49.94-.78,1.55-.78h880.63c1.07,0,1.95.87,1.95,1.95,0,.42-.13.83-.39,1.17l-864.55,1178.07c-.52.69-.52,1.64,0,2.34h.01Z"/>
                     </svg>
                     علي كيرنل
                 </a>
@@ -146,11 +195,11 @@ const { title } = Astro.props;
             <div class="footer-content">
                 <div class="footer-logo-section">
                     <a href="https://www.alikernel.com" class="footer-logo-link">
-                        <svg class="footer-logo-icon" viewBox="0 0 124 124" fill="none">
-                            <rect width="124" height="124" rx="24" fill="#F97316"/>
-                            <path d="M19.375 36.782v63.843a4 4 0 0 0 4 4h63.843c3.564 0 5.348-4.309 2.829-6.828L26.203 33.953c-2.52-2.52-6.828-.735-6.828 2.829" fill="#fff"/>
-                            <circle cx="63.211" cy="37.539" r="18.164" fill="#000"/>
-                            <rect opacity=".4" x="81.133" y="80.72" width="17.569" height="17.388" rx="4" transform="rotate(-45 81.133 80.72)" fill="#FDBA74"/>
+                        <!-- ===== شعار الفوتر ===== -->
+                        <svg class="footer-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
+                            <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
+                            <path class="ak-logo-fg" d="M1975.05,2699.79h522.17c.72,0,1.39.34,1.81.91l376.5,519.18c.76,1.01.55,2.43-.45,3.18-.41.31-.91.47-1.43.45h-1284.5c-.72,0-1.39.34-1.81.91l-213.71,292.37c-.43.58-1.1.91-1.81.91l-881.02,1.29c-1.26,0-2.27-1.02-2.27-2.27,0-.49.16-.97.45-1.36l1730.13-2366.37c.43-.58,1.1-.91,1.81-.91h878.55c1.26,0,2.27,1.02,2.27,2.27,0,.49-.16.97-.45,1.36l-1128.06,1544.44c-.75,1.01-.55,2.43.45,3.17.39.3.87.45,1.36.45h0Z"/>
+                            <path class="ak-logo-fg" d="M3313.63,2331.59l861.82,1183.9c.64.86.47,2.08-.39,2.72-.34.25-.75.39-1.17.39h-875.9c-.61,0-1.19-.29-1.55-.78l-871.49-1190.13c-.52-.69-.52-1.64,0-2.34l869.47-1176.51c.36-.49.94-.78,1.55-.78h880.63c1.07,0,1.95.87,1.95,1.95,0,.42-.13.83-.39,1.17l-864.55,1178.07c-.52.69-.52,1.64,0,2.34h.01Z"/>
                         </svg>
                         <span>علي كيرنل</span>
                     </a>
