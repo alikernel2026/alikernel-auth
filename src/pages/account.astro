@@ -320,7 +320,7 @@ import '../styles/style.css';
         }
 
         window.deleteSession = function(token, isCurrent) {
-            var msg = isCurrent ? "سيتم تسجيل خروجك من هذا الجهاز فوراً." : "هل تريد إزالة هذا الجهاز من قائمة الأجهزة المتصلة؟";
+            var msg = isCurrent ? "سيتم تسجيل خروجك من لا يمكن التراجع عن هذا الإجراء. أنت على وشك إلغاء جلستك الحالية، مما سيؤدي إلى تسجيل خروجك فوراً.هذا الجهاز فوراً." : "لا يمكن التراجع عن هذا الإجراء. سيؤدي إلغاء هذه الجلسة إلى إزالة صلاحيات الوصول الخاصة بها.";
             showModal(msg, function() {
                 fetch(API + "/revoke-session", {
                     method: "POST",
