@@ -550,7 +550,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     
     /* التعديل لضمان التجاوب */
     width: 90%;            /* العرض الافتراضي للجوال */
-    max-width: 400px;      /* العرض الأنيق للشاشات الكبيرة (بدلاً من 30% لضمان التناسق) */
+    max-width: 380px;      /* العرض الأنيق للشاشات الكبيرة (بدلاً من 30% لضمان التناسق) */
     
     text-align: right;
     border: var(--sideBd-line) solid var(--sideBd-color);
