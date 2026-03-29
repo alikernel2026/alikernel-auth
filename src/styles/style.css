@@ -569,7 +569,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     color: var(--themeC);
     font-size: 18px;
     font-weight: 700;
-    margin-top: 0; /* لضمان عدم وجود مساحة زائدة فوق العنوان */
+    margin-top: 2px; /* لضمان عدم وجود مساحة زائدة فوق العنوان */
 }
 
 .custom-modal-content p {
@@ -594,8 +594,8 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     padding: 7px 16px;
     border-radius: 8px;
     cursor: pointer;
-    font-size: 13px;
-    font-weight: 600;
+    font-size: 12px;
+    font-weight: 500;
     transition: opacity 0.2s;
 }
 
