@@ -526,7 +526,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     animation: slideUp 0.2s ease-out forwards;
 }
 
-/* --- Modal Custom Design --- */
+/* --- Modal Custom Design (Updated & Responsive) --- */
 .custom-modal-overlay {
     position: fixed;
     top: 0;
@@ -547,8 +547,11 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     padding: 0 !important; 
     border-radius: 11px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-    max-width: 540px;
-    width: 90%;
+    
+    /* التعديل لضمان التجاوب */
+    width: 90%;            /* العرض الافتراضي للجوال */
+    max-width: 400px;      /* العرض الأنيق للشاشات الكبيرة (بدلاً من 30% لضمان التناسق) */
+    
     text-align: right;
     border: var(--sideBd-line) solid var(--sideBd-color);
     overflow: hidden; /* ضروري لقص حواف الفوتر مع انحناء المودال */
@@ -558,7 +561,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
 
 /* جسم المودال الذي يحتوي العنوان والنص */
 .modal-body {
-    padding: 24px;
+    padding: 15px;
 }
 
 .custom-modal-content h2 {
@@ -575,14 +578,14 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
 
 /* الحاوية الجديدة للأزرار (الفوتر) */
 .modal-footer {
-    padding: 15px 24px;
+    padding: 15px;
     background: rgba(0, 0, 0, 0.1); /* تعتيم خفيف لتمييز منطقة الأزرار */
     border-top: 1px solid var(--sideBd-color); /* الخط الفاصل */
 }
 
 .custom-modal-actions {
     display: flex;
-    justify-content: flex-start; /* لتبدأ الأزرار من اليمين في RTL */
+    justify-content: flex-end; /* لتبدأ الأزرار من اليمين في RTL */
     gap: 12px;
 }
 
@@ -615,6 +618,15 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
 .hidden {
     display: none !important;
 }
+
+/* تعديل إضافي للجوالات الصغيرة جداً */
+@media (max-width: 480px) {
+    .custom-modal-content {
+        width: 85%;
+        max-width: none;
+    }
+}
+
 /* Login Page */
 .fullscreen-modal {
     min-height: 100vh;
