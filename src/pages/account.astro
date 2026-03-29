@@ -25,6 +25,25 @@ import '../styles/style.css';
             [data-theme="default"] .ak-logo-bg { fill: #1976d2; }
             [data-theme="default"] .ak-logo-fg { fill: #ffffff; }
         }
+
+        /* تعديلات المودال فقط - الحفاظ على تقسيم الحاويتين */
+        .custom-modal-content {
+            display: flex;
+            flex-direction: column;
+            padding: 0 !important;
+            overflow: hidden;
+            background-color: var(--postBg);
+            border: var(--sideBd-line) solid var(--sideBd-color);
+            border-radius: 14px;
+        }
+        .modal-body {
+            padding: 25px 20px;
+        }
+        .modal-footer {
+            padding: 15px 20px;
+            background-color: rgba(0, 0, 0, 0.15);
+            border-top: 1px solid var(--sideBd-color);
+        }
     </style>
     <script is:inline>
         (function() {
@@ -43,7 +62,6 @@ import '../styles/style.css';
         <header class="site-header">
             <div class="header-content">
                 <a href="https://www.alikernel.com" class="header-logo-link">
-                    <!-- ===== شعار الهيدر ===== -->
                     <svg class="header-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
                         <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
                         <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
@@ -56,7 +74,6 @@ import '../styles/style.css';
 
         <main class="page-content">
             <div class="account-container">
-
                 <div class="account-header">
                     <h2>حساب</h2>
                     <p>عرض وإدارة حسابك</p>
@@ -89,7 +106,6 @@ import '../styles/style.css';
                         <span>الرئيسية</span>
                     </a>
                 </div>
-
             </div>
         </main>
 
@@ -97,7 +113,6 @@ import '../styles/style.css';
             <div class="footer-content">
                 <div class="footer-logo-section">
                     <a href="https://www.alikernel.com" class="footer-logo-link">
-                        <!-- ===== شعار الفوتر ===== -->
                         <svg class="footer-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
                             <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
                             <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
@@ -130,11 +145,15 @@ import '../styles/style.css';
 
     <div id="custom-confirm-modal" class="custom-modal-overlay hidden">
         <div class="custom-modal-content">
-            <h2 id="modal-title">هل أنت متأكد؟</h2>
-            <p id="custom-modal-text"></p>
-            <div class="custom-modal-actions">
-                <button id="custom-modal-cancel-btn" class="modal-btn secondary">إلغاء</button>
-                <button id="custom-modal-confirm-btn" class="modal-btn primary">استمرار</button>
+            <div class="modal-body">
+                <h2 id="modal-title">هل أنت متأكد؟</h2>
+                <p id="custom-modal-text"></p>
+            </div>
+            <div class="modal-footer">
+                <div class="custom-modal-actions">
+                    <button id="custom-modal-cancel-btn" class="modal-btn secondary">إلغاء</button>
+                    <button id="custom-modal-confirm-btn" class="modal-btn primary">استمرار</button>
+                </div>
             </div>
         </div>
     </div>
