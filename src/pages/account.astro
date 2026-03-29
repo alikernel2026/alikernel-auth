@@ -16,15 +16,54 @@ import '../styles/style.css';
         ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
         ::view-transition-new(root){z-index:2}
 
-        /* --- الشعار: يتغير مع الثيم --- */
+        /* --- الشعار --- */
         .ak-logo-bg { fill: #94f27f; }
         .ak-logo-fg { fill: #000000; }
         [data-theme="light"] .ak-logo-bg { fill: #1976d2; }
         [data-theme="light"] .ak-logo-fg { fill: #ffffff; }
-        @media (prefers-color-scheme: light) {
-            [data-theme="default"] .ak-logo-bg { fill: #1976d2; }
-            [data-theme="default"] .ak-logo-fg { fill: #ffffff; }
+
+        /* --- تنسيق المودال الاحترافي الجديد مع الحاوية الثانية --- */
+        .custom-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(5px);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 10000;
         }
+        .custom-modal-content {
+            background: var(--postBg, #121212);
+            width: 90%; max-width: 400px;
+            border-radius: 16px; overflow: hidden;
+            border: 1px solid var(--sideBd-color, #333);
+            display: flex; flex-direction: column;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+        }
+        .modal-body {
+            padding: 24px; text-align: right;
+        }
+        .modal-body h2 {
+            margin: 0 0 10px; font-size: 1.3rem; color: var(--themeC, #fff);
+        }
+        .modal-body p {
+            margin: 0; font-size: 0.95rem; color: var(--themeC-alt, #aaa); line-height: 1.6;
+        }
+        /* الحاوية الثانية للأزرار */
+        .modal-footer {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 16px 24px;
+            border-top: 1px solid var(--sideBd-color, #333);
+        }
+        .custom-modal-actions {
+            display: flex; flex-direction: row-reverse; gap: 12px;
+        }
+        .modal-btn {
+            padding: 10px 22px; border-radius: 10px; font-weight: 600;
+            cursor: pointer; border: none; transition: 0.2s; font-size: 0.9rem;
+        }
+        .modal-btn.primary { background: #fff; color: #000; }
+        .modal-btn.secondary { background: #2a2a2a; color: #fff; border: 1px solid #444; }
+        .hidden { display: none !important; }
     </style>
     <script is:inline>
         (function() {
@@ -39,11 +78,9 @@ import '../styles/style.css';
 <body data-theme="dark">
 
     <div class="page-wrapper">
-
         <header class="site-header">
             <div class="header-content">
                 <a href="https://www.alikernel.com" class="header-logo-link">
-                    <!-- ===== شعار الهيدر ===== -->
                     <svg class="header-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
                         <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
                         <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
@@ -56,7 +93,6 @@ import '../styles/style.css';
 
         <main class="page-content">
             <div class="account-container">
-
                 <div class="account-header">
                     <h2>حساب</h2>
                     <p>عرض وإدارة حسابك</p>
@@ -89,7 +125,6 @@ import '../styles/style.css';
                         <span>الرئيسية</span>
                     </a>
                 </div>
-
             </div>
         </main>
 
@@ -97,7 +132,6 @@ import '../styles/style.css';
             <div class="footer-content">
                 <div class="footer-logo-section">
                     <a href="https://www.alikernel.com" class="footer-logo-link">
-                        <!-- ===== شعار الفوتر ===== -->
                         <svg class="footer-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
                             <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
                             <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
@@ -105,251 +139,126 @@ import '../styles/style.css';
                         </svg>
                         <span>علي كيرنل</span>
                     </a>
-                    <a href="https://www.alikernel.com/p/privacy.html">الخصوصية</a>
-                    <a href="https://www.alikernel.com/p/terms.html">الشروط</a>
                 </div>
-
                 <div class="theme-controls">
                     <button class="theme-btn" id="theme-btn-dark" onclick="setTheme('dark', true)">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/></svg>
-                        <div class="tooltip-box">مظلم<div class="tooltip-arrow"></div></div>
                     </button>
                     <button class="theme-btn" id="theme-btn-light" onclick="setTheme('light', true)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                        <div class="tooltip-box">نهار<div class="tooltip-arrow"></div></div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="M2 12h2"/><path d="M20 12h2"/></svg>
                     </button>
                     <button class="theme-btn" id="theme-btn-system" onclick="setTheme('default', true)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                        <div class="tooltip-box">تلقائي<div class="tooltip-arrow"></div></div>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                     </button>
                 </div>
             </div>
         </footer>
-
     </div>
 
     <div id="custom-confirm-modal" class="custom-modal-overlay hidden">
         <div class="custom-modal-content">
-            <h2 id="modal-title">هل أنت متأكد؟</h2>
-            <p id="custom-modal-text"></p>
-            <div class="custom-modal-actions">
-                <button id="custom-modal-cancel-btn" class="modal-btn secondary">إلغاء</button>
-                <button id="custom-modal-confirm-btn" class="modal-btn primary">استمرار</button>
+            <div class="modal-body">
+                <h2 id="modal-title">هل أنت متأكد؟</h2>
+                <p id="custom-modal-text"></p>
+            </div>
+            <div class="modal-footer">
+                <div class="custom-modal-actions">
+                    <button id="custom-modal-confirm-btn" class="modal-btn primary">استمرار</button>
+                    <button id="custom-modal-cancel-btn" class="modal-btn secondary">إلغاء</button>
+                </div>
             </div>
         </div>
     </div>
 
     <script is:inline>
+    // نظام الثيمات
     function setTheme(theme, animate) {
         function applyTheme() {
             document.body.setAttribute('data-theme', theme);
             document.documentElement.setAttribute('data-theme', theme);
             localStorage.setItem('theme', theme);
-            document.querySelectorAll('.theme-btn').forEach(function(btn) { btn.classList.remove('active'); });
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.classList.remove('active'));
             if (theme === 'dark') document.getElementById('theme-btn-dark').classList.add('active');
             else if (theme === 'light') document.getElementById('theme-btn-light').classList.add('active');
             else document.getElementById('theme-btn-system').classList.add('active');
         }
         if (!animate || !document.startViewTransition) { applyTheme(); return; }
-        try {
-            var btn = document.activeElement;
-            var x = window.innerWidth/2, y = window.innerHeight/2;
-            if (btn && btn.classList && btn.classList.contains('theme-btn')) {
-                var r = btn.getBoundingClientRect();
-                x = r.left + r.width/2;
-                y = r.top + r.height/2;
-            }
-            var radius = Math.hypot(Math.max(x, window.innerWidth-x), Math.max(y, window.innerHeight-y));
-            var transition = document.startViewTransition(applyTheme);
-            transition.ready.then(function() {
-                document.documentElement.animate(
-                    { clipPath: ['circle(0px at '+x+'px '+y+'px)', 'circle('+radius+'px at '+x+'px '+y+'px)'] },
-                    { duration: 800, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
-                );
-            });
-        } catch(e) { applyTheme(); }
+        const transition = document.startViewTransition(applyTheme);
     }
-    var savedTheme = localStorage.getItem('theme') || 'default';
-    setTheme(savedTheme, false);
+    setTheme(localStorage.getItem('theme') || 'default', false);
 
-    var icons = {
-        clock: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>',
-        device: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg>',
-        location: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>',
-        globe: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M7.99998 3H8.99998C7.04998 8.84 7.04998 15.16 8.99998 21H7.99998"></path><path d="M15 3C16.95 8.84 16.95 15.16 15 21"></path><path d="M3 16V15C8.84 16.95 15.16 16.95 21 15V16"></path><path d="M3 9C8.84 7.05 15.16 7.05 21 9"></path></svg>',
-        check: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4L9 15"></path><path d="M21 19L3 19"></path><path d="M9 15L4 10"></path></svg>'
-    };
-
-    function getOS(userAgent) {
-        if (!userAgent) return "غير معروف";
-        if (/Android/i.test(userAgent)) return "أندرويد";
-        if (/iPhone/i.test(userAgent)) return "آيفون";
-        if (/iPad/i.test(userAgent)) return "آيباد";
-        if (/Windows/i.test(userAgent)) return "ويندوز";
-        if (/Mac/i.test(userAgent)) return "ماك";
-        if (/Linux/i.test(userAgent)) return "لينكس";
-        return "غير معروف";
-    }
-
-    function escapeHtml(text) {
-        var div = document.createElement('div');
-        div.textContent = text || '';
-        return div.innerHTML;
-    }
-
+    // دالة المودال الاحترافية
     function showModal(msg, cb) {
-        var modal = document.getElementById("custom-confirm-modal");
-        var text = document.getElementById("custom-modal-text");
-        var confirmBtn = document.getElementById("custom-modal-confirm-btn");
-        var cancelBtn = document.getElementById("custom-modal-cancel-btn");
-        if (!modal) { if (confirm(msg) && cb) cb(); return; }
+        const modal = document.getElementById("custom-confirm-modal");
+        const text = document.getElementById("custom-modal-text");
+        const confirmBtn = document.getElementById("custom-modal-confirm-btn");
+        const cancelBtn = document.getElementById("custom-modal-cancel-btn");
+        
         text.textContent = msg;
         modal.classList.remove("hidden");
-        var newC = confirmBtn.cloneNode(true);
-        var newX = cancelBtn.cloneNode(true);
-        confirmBtn.parentNode.replaceChild(newC, confirmBtn);
-        cancelBtn.parentNode.replaceChild(newX, cancelBtn);
-        newC.onclick = function() { modal.classList.add("hidden"); if (cb) cb(); };
-        newX.onclick = function() { modal.classList.add("hidden"); };
+
+        confirmBtn.onclick = () => { modal.classList.add("hidden"); if (cb) cb(); };
+        cancelBtn.onclick = () => { modal.classList.add("hidden"); };
     }
 
+    // منطق الحساب والجلسات
     (function() {
-        var API = "/api/auth";
-        var LOGIN = "/login";
-        var currentSessionToken = null;
-
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'auth_event' && (e.newValue || '').startsWith('signout')) {
-                localStorage.clear();
-                window.location.href = LOGIN;
-            }
-        });
-
-        try {
-            var photoURL = localStorage.getItem("userPhotoURL");
-            var lastUid = localStorage.getItem("last_uid");
-            var av = document.getElementById("account-avatar");
-            if (lastUid && photoURL && av) av.src = photoURL;
-            var cachedName = localStorage.getItem("userDisplayName");
-            var cachedEmail = localStorage.getItem("userEmail");
-            var cachedJoined = localStorage.getItem("userJoinedDate");
-            var cachedSessions = localStorage.getItem("userSessionsHTMLCache");
-            if (cachedName) document.getElementById("account-name").textContent = cachedName;
-            if (cachedEmail) document.getElementById("account-email").textContent = cachedEmail;
-            if (cachedJoined) document.getElementById("account-joined-date").textContent = cachedJoined;
-            if (cachedSessions) document.getElementById("sessions-list").innerHTML = cachedSessions;
-        } catch(e) {}
+        const API = "/api/auth";
+        const LOGIN = "/login";
+        let currentSessionToken = null;
 
         fetch(API + "/get-session", { credentials: "include" })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
+            .then(r => r.json())
+            .then(data => {
                 if (!data || !data.user) { window.location.href = LOGIN; return; }
-                var user = data.user;
-                currentSessionToken = data.session ? data.session.token : null;
-                var name = user.name || "مستخدم";
-                var email = user.email || "";
-                document.getElementById('account-name').textContent = name;
-                document.getElementById('account-email').textContent = email;
-                if (user.image) {
-                    document.getElementById('account-avatar').src = user.image;
-                    localStorage.setItem("userPhotoURL", user.image);
-                }
-                var prevUid = localStorage.getItem("last_uid");
-                localStorage.setItem("userDisplayName", name);
-                localStorage.setItem("userEmail", email);
-                localStorage.setItem("last_uid", user.id);
-                if (!prevUid) {
-                    localStorage.setItem('auth_event', 'signin_' + Date.now());
-                    setTimeout(function() { window.location.href = 'https://www.alikernel.com'; }, 300);
-                    return;
-                }
+                const user = data.user;
+                currentSessionToken = data.session?.token;
+                document.getElementById('account-name').textContent = user.name || "مستخدم";
+                document.getElementById('account-email').textContent = user.email || "";
+                if (user.image) document.getElementById('account-avatar').src = user.image;
                 document.documentElement.style.visibility = 'visible';
-                if (user.createdAt) {
-                    var date = new Date(user.createdAt);
-                    var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
-                        year: 'numeric', month: 'numeric', day: 'numeric',
-                        hour: 'numeric', minute: 'numeric', hour12: true
-                    }).replace('ص', 'صباحاً').replace('م', 'مساءً');
-                    document.getElementById('account-joined-date').textContent = formatted;
-                    localStorage.setItem("userJoinedDate", formatted);
-                }
                 loadSessions();
-            })
-            .catch(function() { window.location.href = LOGIN; });
+            }).catch(() => window.location.href = LOGIN);
 
         function loadSessions() {
-            var list = document.getElementById("sessions-list");
-            if (!list) return;
+            const list = document.getElementById("sessions-list");
             fetch(API + "/list-sessions", { credentials: "include" })
-                .then(function(r) { return r.json(); })
-                .then(function(sessions) {
-                    if (!sessions || sessions.length === 0) {
-                        list.innerHTML = '<p style="text-align:center;color:#888;">لا توجد جلسات نشطة</p>';
-                        return;
-                    }
-                    var htmlContent = sessions.map(function(s) {
-                        var isCurr = s.token === currentSessionToken;
-                        var time = new Date(s.createdAt).toLocaleString('ar-u-nu-latn', {
-                            hour: 'numeric', minute: 'numeric', hour12: true
-                        }).replace('ص', 'AM').replace('م', 'PM');
-                        var os = getOS(s.userAgent);
-                        var domainLine = s.userAgent ?
-                            '<div class="session-detail-line">' + icons.globe + ' <span>الموقع: ' + escapeHtml(window.location.hostname) + '</span></div>' : '';
-
-                        return '<div class="session-item" id="session-' + escapeHtml(s.token) + '">' +
-                            '<div class="session-details">' +
-                                '<div class="session-detail-line">' + icons.clock + ' <span>الوقت: ' + time + '</span></div>' +
-                                '<div class="session-detail-line">' + icons.device + ' <span>نظام التشغيل: ' + os + '</span></div>' +
-                                '<div class="session-detail-line">' + icons.location + ' <span>العنوان: ' + escapeHtml(s.ipAddress || 'غير معروف') + '</span></div>' +
-                                domainLine +
-                                (isCurr ? '<div class="session-detail-line current-session-indicator">' + icons.check + ' <span>جلستك الحالية</span></div>' : '') +
-                            '</div>' +
-                            '<button class="terminate-btn ' + (isCurr ? 'icon-current' : 'icon-terminate') + '" onclick="deleteSession(\'' + escapeHtml(s.token) + '\', ' + isCurr + ')"></button>' +
-                        '</div>';
+                .then(r => r.json())
+                .then(sessions => {
+                    list.innerHTML = sessions.map(s => {
+                        const isCurr = s.token === currentSessionToken;
+                        return `
+                            <div class="session-item">
+                                <div class="session-details">
+                                    <div class="session-detail-line"><span>نظام التشغيل: ${s.userAgent || 'غير معروف'}</span></div>
+                                    <div class="session-detail-line"><span>العنوان: ${s.ipAddress || 'غير معروف'}</span></div>
+                                    ${isCurr ? '<div class="current-session-indicator">جلستك الحالية</div>' : ''}
+                                </div>
+                                <button class="terminate-btn" onclick="deleteSession('${s.token}', ${isCurr})">إزالة</button>
+                            </div>`;
                     }).join('');
-
-                    localStorage.setItem("userSessionsHTMLCache", htmlContent);
-                    list.innerHTML = htmlContent;
-                })
-                .catch(function() {
-                    list.innerHTML = '<p style="text-align:center;color:#888;">تعذر تحميل الجلسات</p>';
                 });
         }
 
-        window.deleteSession = function(token, isCurrent) {
-            var msg = isCurrent ? "سيتم تسجيل خروجك من هذا الجهاز فوراً." : "هل تريد إزالة هذا الجهاز من قائمة الأجهزة المتصلة؟";
-            showModal(msg, function() {
+        window.deleteSession = (token, isCurrent) => {
+            const msg = isCurrent ? "سيتم تسجيل خروجك من هذا الجهاز فوراً." : "هل تريد إزالة هذا الجهاز؟";
+            showModal(msg, () => {
                 fetch(API + "/revoke-session", {
                     method: "POST",
                     credentials: "include",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ token: token })
-                }).then(function() {
-                    if (isCurrent) {
-                        localStorage.setItem('auth_event', 'signout_' + Date.now());
-                        localStorage.clear();
-                        window.location.href = LOGIN;
-                    } else {
-                        loadSessions();
-                    }
+                    body: JSON.stringify({ token })
+                }).then(() => {
+                    if (isCurrent) { localStorage.clear(); window.location.href = LOGIN; }
+                    else loadSessions();
                 });
             });
         };
 
-        document.getElementById('logout-btn').addEventListener('click', function() {
-            showModal("هل تريد تسجيل الخروج؟", function() {
-                fetch(API + "/sign-out", {
-                    method: "POST",
-                    credentials: "include",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({})
-                }).then(function() {
-                    localStorage.setItem('auth_event', 'signout_' + Date.now());
-                    setTimeout(function() {
-                        localStorage.clear();
-                        window.location.href = LOGIN;
-                    }, 300);
-                });
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            showModal("هل تريد تسجيل الخروج؟", () => {
+                fetch(API + "/sign-out", { method: "POST", credentials: "include" })
+                    .then(() => { localStorage.clear(); window.location.href = LOGIN; });
             });
         });
     })();
