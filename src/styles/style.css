@@ -580,7 +580,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
 /* الحاوية الجديدة للأزرار (الفوتر) */
 .modal-footer {
     padding: 15px;
-    background: var(--contentBg-sec) /* تعتيم خفيف لتمييز منطقة الأزرار */
+    background: var(--contentBg-sec); /* تعتيم خفيف لتمييز منطقة الأزرار */
     border-top: 1px solid var(--sideBd-color); /* الخط الفاصل */
 }
 
