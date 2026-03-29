@@ -610,7 +610,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
 }
 
 .modal-btn.secondary {
-    background-color: var(--themeBg);
+    background-color: var(--postBg);
     color: currentColor;
     border: var(--sideBd-line) solid var(--sideBd-color);
 }
