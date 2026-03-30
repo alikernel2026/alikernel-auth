@@ -9,6 +9,7 @@ export function createAuth(env: any) {
       google: {
         clientId: env.GOOGLE_CLIENT_ID,
         clientSecret: env.GOOGLE_CLIENT_SECRET,
+        idToken: true, // ✅ مطلوب لتسجيل الدخول عبر Google One Tap
       },
       github: {
         clientId: env.GITHUB_CLIENT_ID,
