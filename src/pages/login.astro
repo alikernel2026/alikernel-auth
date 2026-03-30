@@ -8,6 +8,8 @@ import '../styles/style.css';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول - علي كيرنل</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <!-- ✅ مكتبة Google One Tap -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body id="nB" class="nB">
     <script is:inline>
@@ -21,6 +23,17 @@ import '../styles/style.css';
             }
         });
     </script>
+
+    <!-- ✅ Google One Tap - يظهر تلقائياً في الزاوية -->
+    <div id="g_id_onload"
+         data-client_id="617149480177-aimcujc67q4307sk43li5m6pr54vj1jv.apps.googleusercontent.com"
+         data-callback="handleGoogleOneTap"
+         data-auto_prompt="true"
+         data-cancel_on_tap_outside="false"
+         data-context="signin"
+         data-itp_support="true">
+    </div>
+
     <div class="fullscreen-modal">
         <div class="login-container">
             <a href="https://www.alikernel.com" class="login-header">
@@ -60,6 +73,29 @@ import '../styles/style.css';
             }
         });
 
+        // ✅ معالج Google One Tap
+        window.handleGoogleOneTap = async function(response) {
+            try {
+                const res = await fetch('/api/auth/sign-in/id-token', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        provider: 'google',
+                        idToken: response.credential,
+                        callbackURL: '/account'
+                    })
+                });
+                if (res.ok) {
+                    window.location.href = '/account';
+                } else {
+                    console.error('One Tap sign-in failed:', res.status);
+                }
+            } catch(e) {
+                console.error('One Tap error:', e);
+            }
+        };
+
+        // زر Google العادي
         const googleBtn = document.getElementById('google-signin-btn');
         if (googleBtn) {
             googleBtn.addEventListener('click', async () => {
