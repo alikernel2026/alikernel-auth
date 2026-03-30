@@ -8,7 +8,6 @@ import '../styles/style.css';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>تسجيل الدخول - علي كيرنل</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body id="nB" class="nB">
     <script is:inline>
@@ -22,17 +21,6 @@ import '../styles/style.css';
             }
         });
     </script>
-
-    <!-- Google One Tap -->
-    <div id="g_id_onload"
-         data-client_id="617149480177-aimcujc67q4307sk43li5m6pr54vj1jv.apps.googleusercontent.com"
-         data-callback="handleOneTapCredential"
-         data-auto_prompt="true"
-         data-cancel_on_tap_outside="false"
-         data-context="signin"
-         data-itp_support="true">
-    </div>
-
     <div class="fullscreen-modal">
         <div class="login-container">
             <a href="https://www.alikernel.com" class="login-header">
@@ -71,35 +59,6 @@ import '../styles/style.css';
                 window.location.href = "https://www.alikernel.com";
             }
         });
-
-        // ✅ نفس اسم الدالة المستخدمة في middleware للتوحيد
-        window.handleOneTapCredential = async function(googleResponse) {
-            try {
-                const res = await fetch('/api/auth/sign-in/id-token', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        provider: 'google',
-                        idToken: googleResponse.credential,
-                        callbackURL: '/account'
-                    })
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data && data.user) {
-                        localStorage.setItem('last_uid', data.user.id);
-                        if (data.user.image) localStorage.setItem('userPhotoURL', data.user.image);
-                        localStorage.setItem('auth_event', Date.now().toString());
-                    }
-                    window.location.href = '/account';
-                } else {
-                    const errText = await res.text();
-                    console.error('One Tap failed:', res.status, errText);
-                }
-            } catch(err) {
-                console.error('One Tap error:', err);
-            }
-        };
 
         const googleBtn = document.getElementById('google-signin-btn');
         if (googleBtn) {
