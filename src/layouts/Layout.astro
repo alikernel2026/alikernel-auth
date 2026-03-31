@@ -17,6 +17,29 @@ const { title } = Astro.props;
     <style is:global>
         :root { --fontBody: 'Noto Sans', 'Tajawal', sans-serif; --sideBd-line: 1px; --content-maxWidth: 1024px; --contentPadding: 22px; }
 
+        /* --- إعدادات السكرول بار (نفس موقعك الأصلي) --- */
+        @media screen and (min-width: 768px) {
+            ::-webkit-scrollbar {
+                -webkit-appearance: none;
+                width: 5px;
+                height: 5px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: rgb(0 0 0 / 15%);
+                border-radius: 0px;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: transparent;
+            }
+        }
+
+        /* --- إعدادات تحديد النصوص --- */
+        ::selection {
+            color: var(--selectC, #ffffff);
+            background-color: var(--selectBg, #3b82f6);
+            opacity: .85;
+        }
+
         /* === الوضع المظلم (افتراضي) === */
         body {
             --themeBg: #100f10;
@@ -30,8 +53,10 @@ const { title } = Astro.props;
             --alikernelBg: #ffffff;
             --alikernelC: #171717;
             --darkBg: #171717;
-            /* الشعار: خلفية خضراء + حروف سوداء */
             --logoFg: #000000;
+            /* تعريف متغيرات التحديد للثيم المظلم */
+            --selectC: #000000;
+            --selectBg: #94f27f;
         }
 
         /* === الوضع النهاري === */
@@ -47,8 +72,10 @@ const { title } = Astro.props;
             --alikernelBg: #171717;
             --alikernelC: #ffffff;
             --darkBg: #171717;
-            /* الشعار: خلفية زرقاء + حروف بيضاء */
             --logoFg: #ffffff;
+            /* تعريف متغيرات التحديد للثيم الفاتح */
+            --selectC: #ffffff;
+            --selectBg: #1976d2;
         }
 
         @media (prefers-color-scheme: dark) {
@@ -64,8 +91,9 @@ const { title } = Astro.props;
                 --alikernelBg: #ffffff;
                 --alikernelC: #171717;
                 --darkBg: #171717;
-                /* الشعار: خلفية خضراء + حروف سوداء */
                 --logoFg: #000000;
+                --selectC: #000000;
+                --selectBg: #94f27f;
             }
         }
 
@@ -82,8 +110,9 @@ const { title } = Astro.props;
                 --alikernelBg: #171717;
                 --alikernelC: #ffffff;
                 --darkBg: #171717;
-                /* الشعار: خلفية زرقاء + حروف بيضاء */
                 --logoFg: #ffffff;
+                --selectC: #ffffff;
+                --selectBg: #1976d2;
             }
         }
 
@@ -152,10 +181,6 @@ const { title } = Astro.props;
         .ak-breadcrumb-container svg { fill: none; stroke: currentColor; stroke-width: 1.5; flex-shrink: 0; width: 16px; height: 16px; }
         .ak-sep svg { width: 12px; height: 12px; opacity: .7; color: var(--themeC-alt); }
 
-        /* --- الشعار ---
-             خلفية: var(--themeLink)  → أخضر في المظلم / أزرق في النهار
-             حروف:  var(--logoFg)     → أسود في المظلم / أبيض في النهار
-        ------------------------------------------------- */
         .ak-logo-bg { fill: var(--alikernelBg); }
         .ak-logo-fg { fill: var(--logoFg); }
     </style>
@@ -177,7 +202,6 @@ const { title } = Astro.props;
         <header class="site-header">
             <div class="header-content">
                 <a href="https://www.alikernel.com" class="header-logo-link">
-                    <!-- ===== شعار الهيدر ===== -->
                     <svg class="header-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
                         <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
                         <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
@@ -215,7 +239,6 @@ const { title } = Astro.props;
             <div class="footer-content">
                 <div class="footer-logo-section">
                     <a href="https://www.alikernel.com" class="footer-logo-link">
-                        <!-- ===== شعار الفوتر ===== -->
                         <svg class="footer-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
                             <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
                             <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
