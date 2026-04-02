@@ -1,19 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Logo from '../components/Logo.astro';
 ---
 <Layout title="نبذة عن الكاتب">
     <div class="aboutAuthor">
         <div class="aboutCont">
-            <Logo class="authorLogo" />
+            <!-- ===== الشعار بدل الصورة ===== -->
+            <svg class="authorLogo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
+                <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
+                <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
+                <path class="ak-logo-fg" d="M3092.35,2332.03l667.24,916.6c.5.67.36,1.61-.3,2.11-.26.19-.58.3-.91.3h-678.14c-.47,0-.92-.22-1.2-.6l-674.73-921.43c-.4-.53-.4-1.27,0-1.81l673.17-910.88c.28-.38.73-.6,1.2-.6h681.81c.83,0,1.51.68,1.51,1.51,0,.33-.1.65-.3.91l-669.35,912.09c-.4.53-.4,1.27,0,1.81h0Z"/>
+            </svg>
 
-            <p>مرحباً، أنا <strong>علي الأسدي</strong>، متخصص في التكنولوجيا ومطور أكواد لمنصات بلوجر.
-أنا من بغداد، العراق، وأقيم حالياً في سان خوسيه، كاليفورنيا، قلب وادي السيليكون، حيث تنبض أحدث ابتكارات عالم التكنولوجيا.
-أعمل على تقديم آخر الأخبار في مجال التكنولوجيا، وأشارك خبراتي ومعرفتي من خلال مدونتي.
-كما أنني مهتم بتطوير وتحسين أكواد بلوجر، مما يساعد في إنشاء مواقع أكثر فعالية وجاذبية.
-بالإضافة إلى ذلك، أقدم حلولاً عملية لمشاكل الكمبيوتر والهواتف الذكية، مما يسهل على المستخدمين التغلب على التحديات التقنية اليومية.
-مع خبرة واسعة في عالم التكنولوجيا والبرمجة، أهدف إلى جعل المعلومات التقنية في متناول الجميع، سواء كانوا محترفين أو هواة.
-انضم إليّ في هذه الرحلة التقنية لاكتشاف أحدث التطورات والابتكارات في عالم التكنولوجيا.</p>
+            <p>مرحباً، أنا <strong>علي الأسدي</strong>، متخصص في التكنولوجيا ومطور أكواد لمنصات بلوجر. أنا من بغداد، العراق، وأقيم حالياً في سان خوسيه، كاليفورنيا، قلب وادي السيليكون، حيث تنبض أحدث ابتكارات عالم التكنولوجيا. أعمل على تقديم آخر الأخبار في مجال التكنولوجيا، وأشارك خبراتي ومعرفتي من خلال مدونتي. كما أنني مهتم بتطوير وتحسين أكواد بلوجر، مما يساعد في إنشاء مواقع أكثر فعالية وجاذبية. بالإضافة إلى ذلك، أقدم حلولاً عملية لمشاكل الكمبيوتر والهواتف الذكية، مما يسهل على المستخدمين التغلب على التحديات التقنية اليومية. مع خبرة واسعة في عالم التكنولوجيا والبرمجة، أهدف إلى جعل المعلومات التقنية في متناول الجميع، سواء كانوا محترفين أو هواة. انضم إليّ في هذه الرحلة التقنية لاكتشاف أحدث التطورات والابتكارات في عالم التكنولوجيا.</p>
 
             <div class="athrBtn">
                 <a class="athr-btn" href="https://draft.blogger.com/profile/16158558893347429492" target="_blank">
@@ -37,22 +35,21 @@ import Logo from '../components/Logo.astro';
                         <g transform="translate(2.000000, 2.000000)">
                             <path d="M10.0002,0.7501 C3.0632,0.7501 0.7502,3.0631 0.7502,10.0001 C0.7502,16.9371 3.0632,19.2501 10.0002,19.2501 C16.9372,19.2501 19.2502,16.9371 19.2502,10.0001"/>
                             <path d="M17.5285,2.3038 L17.5285,2.3038 C16.5355,1.4248 15.0185,1.5168 14.1395,2.5098 C14.1395,2.5098 9.7705,7.4448 8.2555,9.1578 C6.7385,10.8698 7.8505,13.2348 7.8505,13.2348 C7.8505,13.2348 10.3545,14.0278 11.8485,12.3398 C13.3435,10.6518 17.7345,5.6928 17.7345,5.6928 C18.6135,4.6998 18.5205,3.1828 17.5285,2.3038 Z"/>
-                            <path d="M12.4412,12.4412 L10.0002,10.0002 L10.0002,5.2632"/>
+                            <line x1="13.009" y1="3.8008" x2="16.604" y2="6.9838"/>
                         </g>
                     </svg>
-                    المواضيع المنشورة
+                    المواضيع
                 </div>
                 <div class="statsNumber" id="posts-count">...</div>
             </div>
         </div>
-
         <div class="statsCont">
             <div class="stats">
                 <div class="statsName">
                     <svg class="line" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M8,13 L16,13"/>
-                        <path d="M8,9 L12,9"/>
-                        <path d="M16.5,21.5 C16.5,21.5 12,21.5 12,21.5 C6,21.5 2.5,18 2.5,12 C2.5,6 6,2.5 12,2.5 C18,2.5 21.5,6 21.5,12 C21.5,13.626 21.054,15.118 20.3,16.386 C19.646,17.485 19.866,18.89 20.575,19.835 C20.941,20.324 20.551,20.973 19.931,20.893 C18.73,20.738 17.47,21.026 16.5,21.5 Z"/>
+                        <g transform="translate(2.000000, 2.000000)">
+                            <path d="M17.0710351,17.0698449 C14.0159481,20.1263505 9.48959549,20.7867004 5.78630747,19.074012 C5.23960769,18.8538953 1.70113357,19.8338667 0.933341969,19.0669763 C0.165550368,18.2990808 1.14639409,14.7601278 0.926307229,14.213354 C-0.787154393,10.5105699 -0.125888852,5.98259958 2.93020311,2.9270991 C6.83146881,-0.9756997 13.1697694,-0.9756997 17.0710351,2.9270991 C20.9803405,6.8359285 20.9723008,13.1680512 17.0710351,17.0698449 Z"></path>
+                        </g>
                     </svg>
                     التعليقات
                 </div>
@@ -61,21 +58,57 @@ import Logo from '../components/Logo.astro';
         </div>
     </div>
 
-    <style is:global>
-        .aboutAuthor { margin-bottom: 20px; }
-        .authorLogo { width: 120px; height: 120px; position: absolute; border-radius: 50%; top: -60px; left: 50%; transform: translateX(-50%); box-shadow: 0 5px 20px rgba(0,0,0,.2); border: 7px solid var(--postBg); }
-        .aboutCont p { margin: 0; text-align: justify; font-size: 15px; color: var(--themeC-alt); line-height: 1.8; }
+    <style>
+        .aboutAuthor { padding: 60px 0 20px 0; }
+        .aboutCont {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            max-width: 100%;
+            margin: auto;
+            padding: 80px 30px 95px 30px;
+            background-color: var(--postBg);
+            border: var(--sideBd-line) solid var(--sideBd-color);
+            border-radius: 8px;
+            gap: 10px;
+        }
+
+        /* ===== الشعار بدل الصورة ===== */
+        .authorLogo {
+            width: 120px;
+            height: 120px;
+            position: absolute;
+            border-radius: 50%;
+            top: -60px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 5px 20px rgba(0,0,0,.2);
+            border: 7px solid var(--postBg);
+        }
+
+        .aboutCont p {
+            margin: 0;
+            text-align: justify;
+            font-size: 15px;
+            color: var(--themeC-alt);
+            line-height: 1.8;
+        }
         .athrBtn { text-align: center; position: absolute; bottom: 0; left: 0; right: 0; }
-        .athr-btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 8px; margin: 0 0 30px; padding: 8px 20px; background-color: var(--alikernelBg); color: var(--alikernelC); font-size: 14px; font-weight: 600; border: 1px solid var(--sideBd-color); transition: opacity .2s; }
-        .athr-btn:hover { opacity: .85; }
-        .aboutCont { background-color: var(--postBg); padding: 80px 30px 90px; border-radius: 12px; margin-top: 60px; position: relative; border: var(--sideBd-line) solid var(--sideBd-color); display: flex; flex-direction: column; gap: 12px; }
-        .statsHeading { font-size: 18px; margin-bottom: 20px; font-weight: 600; }
-        .statsWebsite { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px; }
+        .athr-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            border-radius: 8px; margin: 0 0 30px;
+            padding: 8px 20px;
+            background-color: var(--alikernelBg); color: var(--alikernelC);
+            font-size: 14px; font-weight: 600;
+            border: 1px solid var(--sideBd-color);
+            transition: opacity 0.2s;
+        }
+        .athr-btn:hover { opacity: 0.85; }
+        .statsHeading { text-align: center; margin-top: 32px; margin-bottom: 12px; font-size: 18px; color: var(--themeC); }
+        .statsWebsite { display: flex; gap: 15px; flex-wrap: wrap; margin: 12px auto 40px auto; }
         .statsCont {
             background-color: var(--postBg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; justify-content: center;
             padding: 8px;
             border: var(--sideBd-line) solid var(--sideBd-color);
             border-radius: 8px; flex-grow: 1;
@@ -102,6 +135,6 @@ import Logo from '../components/Logo.astro';
                 if (el) el.textContent = data.feed.openSearch$totalResults.$t;
             }).catch(function() {});
     }
-    if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', loadStats); } else { loadStats(); }
+    loadStats();
     </script>
 </Layout>
