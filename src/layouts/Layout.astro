@@ -18,7 +18,7 @@ const { title } = Astro.props;
     <style is:global>
         :root { --fontBody: 'Noto Sans', 'Tajawal', sans-serif; --fontBody-alt: 'Noto Sans', 'Tajawal', sans-serif; --fontHead: 'Noto Sans', 'Tajawal', sans-serif; --sideBd-line: 1px; --content-maxWidth: 1024px; --contentPadding: 22px; --head-fontWg: 500; }
 
-        /* --- إعدادات السكرول بار --- */
+        /* --- إعدادات السكرول بار (نفس موقعك الأصلي) --- */
         @media screen and (min-width: 768px) {
             ::-webkit-scrollbar {
                 -webkit-appearance: none;
@@ -55,8 +55,10 @@ const { title } = Astro.props;
             --alikernelC: #171717;
             --darkBg: #171717;
             --logoFg: #000000;
+            /* تعريف متغيرات التحديد للثيم المظلم */
             --selectC: #000000;
             --selectBg: #94f27f;
+            /* ألوان الـ header للصفحات الثابتة */
             --headerBd-color: #3a3c3d;
         }
 
@@ -74,8 +76,10 @@ const { title } = Astro.props;
             --alikernelC: #ffffff;
             --darkBg: #171717;
             --logoFg: #ffffff;
+            /* تعريف متغيرات التحديد للثيم الفاتح */
             --selectC: #ffffff;
             --selectBg: #1976d2;
+            /* ألوان الـ header للصفحات الثابتة */
             --headerBd-color: #d2d3d7;
         }
 
@@ -121,25 +125,14 @@ const { title } = Astro.props;
 
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         html { scroll-behavior: smooth; }
-        
-        /* === حل مشكلة سماكة النصوص هنا === */
-        body { 
-            font-family: var(--fontBody); 
-            background-color: var(--themeBg); 
-            color: var(--themeC); 
-            min-height: 100vh; 
-            line-height: 1.6; 
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-        
+        body { font-family: var(--fontBody); background-color: var(--themeBg); color: var(--themeC); min-height: 100vh; line-height: 1.6; }
         a { text-decoration: none; color: inherit; }
         button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
         /* ===== Page Wrapper ===== */
         .page-wrapper { min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* ===== Site Header ===== */
+        /* ===== Site Header - نفس تنسيق بلوجر للصفحات الثابتة ===== */
         .site-header { 
             position: sticky; 
             top: 0; 
@@ -154,6 +147,7 @@ const { title } = Astro.props;
             backdrop-filter: blur(8px); 
         }
         
+        /* الوضع المظلم والتلقائي */
         body[data-theme="dark"] .site-header,
         body[data-theme="default"] .site-header {
             background-color: oklch(0.25 0 0 / 0.4);
@@ -170,24 +164,19 @@ const { title } = Astro.props;
             gap: 12px; 
         }
 
-        /* ===== Header Logo Link ===== */
+        /* ===== Header Logo Link - نفس تنسيق بلوجر headt ===== */
         .header-logo-link { 
             display: flex; 
             align-items: center; 
-        }
-        
-        /* === حل مشكلة نص الهيدر (علي كيرنل) === */
-        .header-logo-link span {
-            font-family: 'Tajawal', var(--fontBody);
             font-weight: 700; 
             font-size: 18px; 
-            color: var(--themeC);
-            letter-spacing: 0;
-            -webkit-font-smoothing: antialiased;
+            color: var(--themeC); 
         }
 
+        /* الشعار - الوضع المظلم/التلقائي: خلفية بيضاء + حروف سوداء */
         .header-logo-icon { width: 32px; height: 32px; flex-shrink: 0; margin-inline-end: 12px; }
         
+        /* تنسيقات الشعار للوضع المظلم والتلقائي */
         body[data-theme="dark"] .header-logo-icon .logo-bg,
         body[data-theme="default"] .header-logo-icon .logo-bg {
             fill: #ffffff;
@@ -197,6 +186,7 @@ const { title } = Astro.props;
             fill: #000000;
         }
         
+        /* تنسيقات الشعار للوضع النهاري */
         body[data-theme="light"] .header-logo-icon .logo-bg {
             fill: #171717;
         }
@@ -232,8 +222,7 @@ const { title } = Astro.props;
         .footer-static-logo { 
             display: flex; 
             justify-content: center; 
-            align-items: center;
-            gap: 12px; 
+            gap: 8px; 
         }
         .footer-logo-link { 
             display: inline-flex; 
@@ -241,44 +230,33 @@ const { title } = Astro.props;
             gap: 6px; 
             color: inherit; 
             text-decoration: none; 
-        }
-        
-        /* === حل مشكلة نص الفوتر (علي كيرنل) === */
-        .footer-logo-name {
-            font-family: 'Tajawal', var(--fontBody);
             font-weight: 700; 
             font-size: 14px; 
-            -webkit-font-smoothing: antialiased;
         }
-
         .footer-logo-icon { width: 28px; height: 28px; }
-        
-        /* === حل مشكلة نصوص الفوتر (الخصوصية، الشروط) === */
         .footer-static-logo a:not(.footer-logo-link) { 
-            font-family: 'Tajawal', var(--fontBody);
-            font-size: 12px; 
-            font-weight: 700; 
+            font-size: 11px; 
+            font-weight: 600; 
             opacity: 0.85; 
             display: inline-flex; 
             align-items: center; 
-            margin-right: 4px;
-            -webkit-font-smoothing: antialiased;
         }
-        .footer-static-logo a:not(.footer-logo-link):hover { text-decoration-line: underline !important; opacity: 1;}
+        .footer-static-logo a:not(.footer-logo-link):hover { text-decoration-line: underline !important; }
 
+        /* الشعار - الوضع المظلم / التلقائي: خلفية خضراء + حروف سوداء */
         .footer-logo-icon .logo-bg { fill: var(--alikernelBg); }
         .footer-logo-icon .logo-fg { fill: #000000; }
+        /* الشعار - الوضع النهاري: خلفية زرقاء + حروف بيضاء */
         body[data-theme="light"] .footer-logo-icon .logo-bg { fill: var(--alikernelBg); }
         body[data-theme="light"] .footer-logo-icon .logo-fg { fill: #ffffff; }
 
-        /* ===== Theme Controls (حل مشكلة الألوان هنا) ===== */
+        /* ===== Theme Controls - نفس تنسيق بلوجر page-controls ===== */
         .page-controls { 
             display: flex; 
             border-radius: 9px; 
             border: 1px solid var(--sideBd-color); 
             background-color: var(--alikernelC); 
         }
-        
         .page-control-btn { 
             position: relative; 
             padding: 8px 9px; 
@@ -286,25 +264,23 @@ const { title } = Astro.props;
             align-items: center; 
             justify-content: center; 
             cursor: pointer; 
-            color: var(--themeC-alt); /* اللون الباهت في الحالة العادية */
-            transition: all 0.2s ease;
+            color: var(--themeC-alt);
         }
-        
         .page-control-btn:first-child { border-start-start-radius: 8px; border-end-start-radius: 8px; }
         .page-control-btn:last-child { border-start-end-radius: 8px; border-end-end-radius: 8px; }
         .page-control-btn:not(:first-child) { border-right: 1px solid var(--sideBd-color); }
-        
-        .page-control-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; }
-        
-        /* هذا هو الحل: استخدام المتغير الديناميكي الذي يتغير تلقائياً بين الأبيض والأسود */
-        .page-control-btn:hover,
-        .page-control-btn.active { 
-            color: var(--alikernelBg); 
-        }
-
+        .page-control-btn svg { width: 15px; height: 15px; fill: none; }
         .page-control-btn.active { background-color: var(--contentBg-sec); }
         .page-control-btn:not(.active) svg { opacity: 0.8; }
         .page-control-btn.active svg, .page-control-btn:hover svg { opacity: 1; }
+
+        /* ألوان الأيقونات حسب الثيم */
+        body[data-theme="dark"] #theme-btn-dark svg,
+        body[data-theme="dark"] .page-control-btn:hover svg { color: #fff; opacity: 1; }
+        body[data-theme="light"] #theme-btn-light svg,
+        body[data-theme="light"] .page-control-btn:hover svg { color: #1a1a1a; opacity: 1; }
+        body[data-theme="default"] #theme-btn-default svg,
+        body[data-theme="default"] .page-control-btn:hover svg { color: var(--alikernelBg); opacity: 1; }
 
         /* ===== Tooltips ===== */
         @keyframes slideUp { 
@@ -399,7 +375,7 @@ const { title } = Astro.props;
                         <path class="logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
                         <path class="logo-fg" d="M3092.35,2332.03l667.24,916.6c.5.67.36,1.61-.3,2.11-.26.19-.58.3-.91.3h-678.14c-.47,0-.92-.22-1.2-.6l-674.73-921.43c-.4-.53-.4-1.27,0-1.81l673.17-910.88c.28-.38.73-.6,1.2-.6h681.81c.83,0,1.51.68,1.51,1.51,0,.33-.1.65-.3.91l-669.35,912.09c-.4.53-.4,1.27,0,1.81h0Z"/>
                     </svg>
-                    <span class="header-logo-text">علي كيرنل</span>
+                    <span>علي كيرنل</span>
                 </a>
             </div>
         </header>
