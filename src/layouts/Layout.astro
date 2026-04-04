@@ -13,10 +13,25 @@ const { title } = Astro.props;
     <link href='https://github.com/alikernel2026/favicon.ico/blob/main/favicon.ico?raw=true' rel='shortcut icon'/>
     <link href='https://github.com/alikernel2026/favicon.ico/blob/main/apple-touch-icon.png?raw=true' rel='apple-touch-icon' sizes='180x180'/>
     <link href='https://github.com/alikernel2026/favicon.ico/blob/main/site.webmanifest?raw=true' rel='manifest'/>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
+
     <style is:global>
-        :root { --fontBody: 'Noto Sans', 'Tajawal', sans-serif; --fontBody-alt: 'Noto Sans', 'Tajawal', sans-serif; --fontHead: 'Noto Sans', 'Tajawal', sans-serif; --sideBd-line: 1px; --content-maxWidth: 1024px; --contentPadding: 22px; --head-fontWg: 500; }
+        /* تعريف مكدس الخطوط ليتطابق مع بلوجر (Noto Sans للأرقام واللاتيني، Tajawal للعربي) */
+        :root { 
+            --fontBody: 'Noto Sans', 'Tajawal', sans-serif; 
+            --fontBody-alt: 'Noto Sans', 'Tajawal', sans-serif; 
+            --fontHead: 'Noto Sans', 'Tajawal', sans-serif; 
+            --sideBd-line: 1px; 
+            --content-maxWidth: 1024px; 
+            --contentPadding: 22px; 
+            --head-fontWg: 500; 
+        }
+
+        /* تحسين تنعيم الخطوط */
+        * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
 
         /* --- إعدادات السكرول بار (نفس موقعك الأصلي) --- */
         @media screen and (min-width: 768px) {
@@ -55,10 +70,8 @@ const { title } = Astro.props;
             --alikernelC: #171717;
             --darkBg: #171717;
             --logoFg: #000000;
-            /* تعريف متغيرات التحديد للثيم المظلم */
             --selectC: #000000;
             --selectBg: #94f27f;
-            /* ألوان الـ header للصفحات الثابتة */
             --headerBd-color: #3a3c3d;
         }
 
@@ -76,17 +89,15 @@ const { title } = Astro.props;
             --alikernelC: #ffffff;
             --darkBg: #171717;
             --logoFg: #ffffff;
-            /* تعريف متغيرات التحديد للثيم الفاتح */
             --selectC: #ffffff;
             --selectBg: #1976d2;
-            /* ألوان الـ header للصفحات الثابتة */
             --headerBd-color: #d2d3d7;
         }
 
         @media (prefers-color-scheme: dark) {
             body[data-theme="default"] {
                 --themeBg: #100f10;
---postBg: #1b1b1b;
+                --postBg: #1b1b1b;
                 --headerBg: #1b1b1b;
                 --contentBg-sec: #252526;
                 --themeLink: #94f27f;
@@ -129,10 +140,8 @@ const { title } = Astro.props;
         a { text-decoration: none; color: inherit; }
         button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-        /* ===== Page Wrapper ===== */
         .page-wrapper { min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* ===== Site Header - نفس تنسيق بلوجر للصفحات الثابتة ===== */
         .site-header { 
             position: sticky; 
             top: 0; 
@@ -147,7 +156,6 @@ const { title } = Astro.props;
             backdrop-filter: blur(8px); 
         }
         
-        /* الوضع المظلم والتلقائي */
         body[data-theme="dark"] .site-header,
         body[data-theme="default"] .site-header {
             background-color: oklch(0.25 0 0 / 0.4);
@@ -164,7 +172,6 @@ const { title } = Astro.props;
             gap: 12px; 
         }
 
-        /* ===== Header Logo Link - نفس تنسيق بلوجر headt ===== */
         .header-logo-link { 
             display: flex; 
             align-items: center; 
@@ -173,26 +180,12 @@ const { title } = Astro.props;
             color: var(--themeC); 
         }
 
-        /* الشعار - الوضع المظلم/التلقائي: خلفية بيضاء + حروف سوداء */
         .header-logo-icon { width: 32px; height: 32px; flex-shrink: 0; margin-inline-end: 12px; }
         
-        /* تنسيقات الشعار للوضع المظلم والتلقائي */
-        body[data-theme="dark"] .header-logo-icon .ak-logo-bg,
-        body[data-theme="default"] .header-logo-icon .ak-logo-bg {
-            fill: #ffffff;
-        }
-        body[data-theme="dark"] .header-logo-icon .ak-logo-fg,
-        body[data-theme="default"] .header-logo-icon .ak-logo-fg {
-            fill: #000000;
-        }
+        .ak-logo-bg { fill: var(--alikernelBg); }
+        .ak-logo-fg { fill: var(--logoFg); }
         
-        /* تنسيقات الشعار للوضع النهاري */
-        body[data-theme="light"] .header-logo-icon .ak-logo-bg {
-            fill: #171717;
-        }
-        body[data-theme="light"] .header-logo-icon .ak-logo-fg {
-fill: #ffffff;
-        }
+        body[data-theme="light"] .ak-logo-fg { fill: #ffffff; }
 
         /* ===== Page Content ===== */
         .page-content { flex: 1; }
@@ -259,7 +252,7 @@ fill: #ffffff;
         }
         .footer-logo-section a:not(.footer-logo-link):hover { text-decoration-line: underline !important; }
 
-        /* ===== Theme Controls - نفس تنسيق بلوجر page-controls ===== */
+        /* ===== Theme Controls ===== */
         .theme-controls { 
             display: flex; 
             border-radius: 9px; 
@@ -284,10 +277,8 @@ fill: #ffffff;
         .theme-btn:not(.active) svg { opacity: 0.6; }
         .theme-btn.active svg, .theme-btn:hover svg { opacity: 1; }
 
-        /* ألوان الأيقونات حسب الثيم */
         body[data-theme="dark"] .theme-btn svg,
         body[data-theme="default"] .theme-btn:hover svg { color: #fff; }
-        body[data-theme="light"] .theme-btn svg,
 
         /* ===== Tooltips ===== */
         @keyframes slideUp { 
@@ -324,11 +315,9 @@ fill: #ffffff;
         }
         .theme-btn:hover .tooltip-box { visibility: visible; animation: slideUp 0.2s ease-out forwards; }
 
-        /* ===== View Transitions ===== */
         ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
         ::view-transition-new(root) { z-index: 2; }
 
-        /* ===== Responsive ===== */
         @media (max-width: 768px) { .footer-content { gap: 15px; } }
 
         /* ===== Breadcrumb & Icons ===== */
@@ -353,14 +342,6 @@ fill: #ffffff;
         .ak-breadcrumb-container svg { fill: none; stroke: currentColor; stroke-width: 1.5; flex-shrink: 0; }
         .ak-sep svg { width: 12px; height: 12px; opacity: 0.7; }
         .ak-icon-book { width: 18px; height: 18px; }
-
-        /* ===== Logo Colors ===== */
-        .ak-logo-bg { fill: var(--alikernelBg); }
-        .ak-logo-fg { fill: var(--logoFg); }
-        
-        /* للشعار في الوضع النهاري */
-        body[data-theme="light"] .ak-logo-bg { fill: var(--alikernelBg); }
-        body[data-theme="light"] .ak-logo-fg { fill: #ffffff; }
     </style>
 </head>
 <body id="nB" class="nB page">
@@ -429,10 +410,10 @@ fill: #ffffff;
                 </div>
                 <div class="theme-controls">
                     <button class="theme-btn" id="theme-btn-dark" onclick="setTheme('dark', true)">
-                  <svg aria-hidden='true' class='lucide lucide-moon-star opacity-60' fill='none' height='16' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'>
-        <path d='M18 5h4'/><path d='M20 3v4'/><path d='M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401'/>
-          </svg>                        
-              <div class="tooltip-box">مظلم<div class="tooltip-arrow"></div></div>
+                        <svg aria-hidden='true' class='lucide lucide-moon-star' fill='none' height='16' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'>
+                            <path d='M18 5h4'/><path d='M20 3v4'/><path d='M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401'/>
+                        </svg>
+                        <div class="tooltip-box">مظلم<div class="tooltip-arrow"></div></div>
                     </button>
                     <button class="theme-btn" id="theme-btn-light" onclick="setTheme('light', true)">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
