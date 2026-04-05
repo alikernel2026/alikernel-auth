@@ -1,201 +1,166 @@
 ---
-import Layout from '../layouts/Layout.astro';
+
 ---
 
-<Layout title="مكتبة الأيقونات">
-    <div id="__icons" class="icons-wrapper">
-        <p class='note'>يتم تحميل الأيقونه. الرجاء الانتظار..</p>
-    </div>
-</Layout>
+<div id="__icons" class="icons-wrapper">
+  <p class='note'>يتم تحميل الأيقونه. الرجاء الانتظار..</p>
+</div>
 
-<style is:global>
-    /* التنسيقات الأصلية من بلوجر كما هي تماماً */
-    .icons-container {
-        counter-reset: num-icon;
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-        gap: 10px;
-        padding: 10px 0;
-    }
+<style>
+.icons-container {
+  counter-reset: num-icon;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 10px;
+  padding: 10px 0;
+}
 
-    .icons-container > * {
-        counter-increment: num-icon;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        aspect-ratio: 1 / 1;
-        border: var(--sideBd-line) solid var(--sideBd-color);
-        border-radius: 7px;
-        overflow: hidden;
-        background-color: var(--headerBg);
-        color: var(--inputC);
-        padding: 10px;
-        cursor: pointer;
-    }
+.icons-container > * {
+  counter-increment: num-icon;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  border: var(--sideBd-line) solid var(--sideBd-color);
+  border-radius: 7px;
+  overflow: hidden;
+  background-color: var(--headerBg);
+  color: var(--inputC);
+  padding: 10px;
+  cursor: pointer;
+}
 
-    .icons-container > *::before {
-        content: counter(num-icon);
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        font-size: 10px;
-        border-radius: 4px;
-        padding: 0 3px;
-        border: var(--buttonBd-line) solid var(--buttonBd-color);
-        background-color: var(--contentBg-sec);
-    }
+.icons-container ::before {
+  content: counter(num-icon);
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 10px;
+  border-radius: 4px;
+  padding: 0 3px;
+  border: var(--buttonBd-line) solid var(--buttonBd-color);
+  background-color: var(--contentBg-sec);
+}
 
-    .icons-container > * span {
-        display: block;
-        font-size: 11px;
-        text-align: center;
-        border: none;
-        padding: 0;
-        margin-top: 8px;
-        opacity: .8;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        max-width: 90%;
-    }
+.icons-container > * span {
+  display: block;
+  font-size: 11px;
+  text-align: center;
+  border: none;
+  padding: 0;
+  margin-top: 8px;
+  opacity: .8;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  max-width: 90%;
+}
 
-    .icons-container > * svg {
-        width: 35px;
-        height: 35px;
-    }
+.icons-container > * svg {
+  width: 35px;
+  height: 35px;
+}
 
-    .icons-container > *:hover {
-        border-color: var(--themeLink) !important;
-        box-shadow: 0 0 0 0.5px var(--themeLink) inset;
-    }
+.icons-container > *:hover {
+  border-color: var(--themeLink) !important;
+  box-shadow: 0 0 0 0.5px var(--themeLink) inset;
+}
 
-    .icons-wrapper > * { margin: 0; }
-    .icons-input {
-        border: var(--sideBd-line) solid var(--sideBd-color);
-        border-radius: 7px;
-        background-color: var(--headerBg);
-        width: 100%;
-        margin-bottom: 10px;
-        padding: 20px;
-        outline: 0;
-        color: var(--themeC);
-    }
+.icons-wrapper > * { margin: 0; }
 
-    /* كود التوست الذي طلبته أن يكون في نفس الملف */
-    .ak-toast {
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%) translateY(100px);
-        background: var(--alikernelBg);
-        color: var(--alikernelC);
-        padding: 12px 24px;
-        border-radius: 10px;
-        font-size: 14px;
-        font-weight: 600;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        border: 1px solid var(--sideBd-color);
-        z-index: 9999;
-        transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s;
-        opacity: 0;
-    }
-    .ak-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+.icons-input {
+  border: var(--sideBd-line) solid var(--sideBd-color);
+  border-radius: 7px;
+  background-color: var(--headerBg);
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 20px;
+  outline: 0;
+}
 </style>
 
-<script is:inline>
-    // دالة التنبيه المدمجة
-    function toastNotif(message) {
-        let toast = document.querySelector('.ak-toast');
-        if (!toast) {
-            toast = document.createElement('div');
-            toast.className = 'ak-toast';
-            document.body.appendChild(toast);
-        }
-        toast.textContent = message;
-        toast.classList.add('show');
-        setTimeout(() => toast.classList.remove('show'), 2500);
+<script type="module" is:inline>
+const renderUI = (target, icons) => {
+  target.innerHTML = (`
+    <p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>
+    <div style="position: relative; display: flex; align-items: center;">
+      <input placeholder="ابحث بين ${icons.length} أيقونه..." class="icons-input" id="__icons_input_query" type="text" style="width: 100%;"/>
+      <button id="clear_search" style="position: absolute; left: 0px; top: 12px; background: transparent; border: none; cursor: pointer; display: none;">
+        <svg class='line' viewBox='0 0 24 24' style='width: 33px; height: 33px; opacity: 0.5;color: var(--themeC-alt);'>
+          <path d='M9.16998 14.83L14.83 9.17004'></path>
+          <path d='M14.83 14.83L9.16998 9.17004'></path>
+        </svg>
+      </button>
+    </div>
+    <div id="__icons_header"></div>
+    <div class="icons-container" id="__icons_container"></div>
+  `);
+
+  const input = document.getElementById("__icons_input_query");
+  const clearButton = document.getElementById("clear_search");
+  const iconsContainer = document.getElementById("__icons_container");
+  const iconsHeader = document.getElementById("__icons_header");
+
+  const showIconResults = (query) => {
+    const noQuery = !(typeof query === "string" && (query = query.trim()));
+    const filteredIcons = !noQuery ? icons.filter(icon => {
+      const nameLowered = icon.code.trim().toLowerCase();
+      const queryLowered = query.trim().toLowerCase();
+      return nameLowered.includes(queryLowered) || nameLowered.replace(/ /g, "").includes(queryLowered.replace(/ /g, ""));
+    }) : icons;
+
+    iconsContainer.innerHTML = iconsHeader.innerHTML = "";
+
+    if (filteredIcons.length === 0) {
+      iconsHeader.innerHTML = `<p class="note">لا توجد أي نتائج...</p>`;
+    } else {
+      filteredIcons.forEach((icon)=> {
+        const button = document.createElement("button");
+        Object.assign(button, {
+          className: "icon-box",
+          type: "button",
+          innerHTML: (`${icon.svg}<span>${icon.code}</span>`)
+        });
+        button.addEventListener("click", () => {
+          navigator.clipboard.writeText(icon.svg)
+            .then(() => {
+              toastNotif(`تم نسخ: ${icon.code}`);
+            })
+            .catch(err => {
+              toastNotif(`فشل النسخ!`);
+            });
+        });
+        iconsContainer.appendChild(button);
+      });
     }
+  }
 
-    const renderUI = (target, icons) => {
-        target.innerHTML = (`
-            <p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>
-            <div style="position: relative; display: flex; align-items: center;">
-                <input placeholder="ابحث بين ${icons.length} أيقونه..." class="icons-input" id="__icons_input_query" type="text" style="width: 100%;"/>
-                <button id="clear_search" style="position: absolute; left: 0px; top: 12px; background: transparent; border: none; cursor: pointer; display: none;">
-                    <svg class='line' viewBox='0 0 24 24' style='width: 33px; height: 33px; opacity: 0.5;color: var(--themeC-alt);'>
-                        <path d='M9.16998 14.83L14.83 9.17004' stroke="currentColor" stroke-width="2"></path>
-                        <path d='M14.83 14.83L9.16998 9.17004' stroke="currentColor" stroke-width="2"></path>
-                    </svg>
-                </button>
-            </div>
-            <div id="__icons_header"></div>
-            <div class="icons-container" id="__icons_container"></div>
-        `);
+  input.addEventListener("input", (e) => {
+    const query = e.target.value;
+    showIconResults(query);
+    clearButton.style.display = query.length > 0 ? "block" : "none";
+  });
 
-        const input = document.getElementById("__icons_input_query");
-        const clearButton = document.getElementById("clear_search");
-        const iconsContainer = document.getElementById("__icons_container");
-        const iconsHeader = document.getElementById("__icons_header");
+  clearButton.addEventListener("click", () => {
+    input.value = "";
+    clearButton.style.display = "none";
+    showIconResults("");
+  });
 
-        const showIconResults = (query) => {
-            const noQuery = !(typeof query === "string" && (query = query.trim()));
-            const filteredIcons = !noQuery ? icons.filter(icon => {
-                const nameLowered = icon.code.trim().toLowerCase();
-                const queryLowered = query.trim().toLowerCase();
-                return nameLowered.includes(queryLowered);
-            }) : icons;
+  showIconResults();
+};
 
-            iconsContainer.innerHTML = iconsHeader.innerHTML = "";
+const onGetIcons = (icons) => {
+  if (!icons) return null;
+  renderUI(document.getElementById("__icons"), icons);
+};
 
-            if (filteredIcons.length === 0) {
-                iconsHeader.innerHTML = `<p class="note">لا توجد أي نتائج...</p>`;
-            } else {
-                filteredIcons.forEach((icon) => {
-                    const button = document.createElement("button");
-                    button.className = "icon-box"; // استخدمنا الكلاس الأصلي
-                    button.type = "button";
-                    button.innerHTML = (`${icon.svg}<span>${icon.code}</span>`);
-                    
-                    button.addEventListener("click", () => {
-                        navigator.clipboard.writeText(icon.svg)
-                            .then(() => {
-                                toastNotif(`تم نسخ: ${icon.code}`);
-                            })
-                            .catch(() => {
-                                toastNotif(`فشل النسخ!`);
-                            });
-                    });
-                    iconsContainer.appendChild(button);
-                });
-            }
-        }
-
-        input.addEventListener("input", (e) => {
-            const query = e.target.value;
-            showIconResults(query);
-            clearButton.style.display = query.length > 0 ? "block" : "none";
-        });
-
-        clearButton.addEventListener("click", () => {
-            input.value = "";
-            clearButton.style.display = "none";
-            showIconResults("");
-        });
-
-        showIconResults();
-    };
-
-    const onGetIcons = (icons) => {
-        if (!icons) return null;
-        renderUI(document.getElementById("__icons"), icons);
-    };
-
-    (async (options) => {
-        const icons = await fetch(options.url).then(res => res.ok ? res.json() : null);
-        onGetIcons(icons);
-    })({
-        url: "https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt"
-    });
+(async (options) => {
+  const icons = await fetch(options.url).then(res => res.ok ? res.json() : null);
+  onGetIcons(icons);
+})({
+  url: "https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt"
+});
 </script>
