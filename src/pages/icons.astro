@@ -1,0 +1,157 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="مكتبة الأيقونات">
+    <div class="icons-page-container">
+        <div class="icons-header">
+            <h1>مكتبة الأيقونات</h1>
+            <p>انقر على أي أيقونة لنسخ كود الـ SVG الخاص بها مباشرة.</p>
+            <input type="text" id="icon_search" placeholder="ابحث عن أيقونة معينة..." />
+        </div>
+
+        <div id="__icons_loader" class="loader">جاري تحميل الأيقونات...</div>
+        <div id="icons_grid" class="icons-grid"></div>
+    </div>
+</Layout>
+
+<style is:global>
+    /* تنسيقات الصفحة */
+    .icons-page-container { padding: 20px 0; }
+    .icons-header { margin-bottom: 30px; text-align: center; }
+    
+    #icon_search {
+        width: 100%;
+        max-width: 500px;
+        padding: 12px 20px;
+        margin-top: 20px;
+        border-radius: 12px;
+        border: 1px solid var(--sideBd-color);
+        background: var(--postBg);
+        color: var(--themeC);
+        font-family: inherit;
+        outline: none;
+        transition: border-color 0.2s;
+    }
+    #icon_search:focus { border-color: var(--themeLink); }
+
+    .icons-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 15px;
+        display: none; /* مخفي حتى ينتهي التحميل */
+    }
+
+    .icon-item {
+        background: var(--postBg);
+        border: 1px solid var(--sideBd-color);
+        padding: 20px 10px;
+        border-radius: 12px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.2s, border-color 0.2s;
+    }
+    .icon-item:hover {
+        transform: translateY(-5px);
+        border-color: var(--themeLink);
+    }
+    .icon-item svg {
+        width: 35px;
+        height: 35px;
+        fill: var(--themeC);
+        transition: fill 0.2s;
+    }
+    .icon-item:hover svg { fill: var(--themeLink); }
+    .icon-item span {
+        margin-top: 12px;
+        font-size: 11px;
+        color: var(--themeC-alt);
+        word-break: break-all;
+        text-align: center;
+    }
+
+    .loader { text-align: center; padding: 50px; color: var(--themeC-alt); }
+
+    /* تنسيق التوست (التنبيه) */
+    .ak-toast {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: var(--alikernelBg);
+        color: var(--alikernelC);
+        padding: 12px 24px;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        border: 1px solid var(--sideBd-color);
+        z-index: 9999;
+        transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28), opacity 0.3s;
+        opacity: 0;
+    }
+    .ak-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+</style>
+
+<script>
+    // نظام التنبيهات الداخلي
+    function showToast(message) {
+        let toast = document.querySelector('.ak-toast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.className = 'ak-toast';
+            document.body.appendChild(toast);
+        }
+        toast.textContent = message;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2500);
+    }
+
+    async function initIcons() {
+        const grid = document.getElementById('icons_grid');
+        const loader = document.getElementById('__icons_loader');
+        const searchInput = document.getElementById('icon_search') as HTMLInputElement;
+
+        try {
+            const res = await fetch("https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt");
+            const icons = await res.json();
+
+            function displayIcons(filter = "") {
+                const filtered = icons.filter(i => i.code.toLowerCase().includes(filter.toLowerCase()));
+                grid.innerHTML = filtered.map(i => `
+                    <div class="icon-item" data-code="${i.code}">
+                        <div class="icon-svg-wrapper">${i.svg}</div>
+                        <span>${i.code}</span>
+                    </div>
+                `).join('');
+
+                // إضافة حدث النسخ
+                document.querySelectorAll('.icon-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        const svgCode = item.querySelector('.icon-svg-wrapper').innerHTML;
+                        navigator.clipboard.writeText(svgCode).then(() => {
+                            showToast(`تم نسخ أيقونة ${item.getAttribute('data-code')}`);
+                        });
+                    });
+                });
+            }
+
+            loader.style.display = 'none';
+            grid.style.display = 'grid';
+            displayIcons();
+
+            // البحث
+            searchInput.addEventListener('input', (e) => {
+                displayIcons((e.target as HTMLInputElement).value);
+            });
+
+        } catch (err) {
+            loader.textContent = "فشل تحميل الأيقونات. تأكد من اتصالك بالإنترنت.";
+        }
+    }
+
+    // تشغيل الدالة عند تحميل الصفحة
+    initIcons();
+</script>
