@@ -1,12 +1,14 @@
 ---
-
+// مكون Astro لأيقونات SVG مع بحث ونسخ
+// يمكنك استيراده في أي صفحة Astro
 ---
 
 <div id="__icons" class="icons-wrapper">
   <p class='note'>يتم تحميل الأيقونه. الرجاء الانتظار..</p>
 </div>
 
-<style>
+<style is:global>
+/* التعديل فقط هنا ليكون 8 مربعات بدلاً من 50% */
 .icons-container {
   counter-reset: num-icon;
   display: grid;
@@ -19,10 +21,10 @@
   counter-increment: num-icon;
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* تحويل للعرض العمودي داخل المربع */
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1; /* شكل مربع */
   border: var(--sideBd-line) solid var(--sideBd-color);
   border-radius: 7px;
   overflow: hidden;
@@ -44,6 +46,7 @@
   background-color: var(--contentBg-sec);
 }
 
+/* إخفاء الحدود الجانبية للنص وتعديل موقعه ليكون تحت الأيقونة */
 .icons-container > * span {
   display: block;
   font-size: 11px;
@@ -68,8 +71,8 @@
   box-shadow: 0 0 0 0.5px var(--themeLink) inset;
 }
 
+/* بقية التنسيقات الأصلية كما هي */
 .icons-wrapper > * { margin: 0; }
-
 .icons-input {
   border: var(--sideBd-line) solid var(--sideBd-color);
   border-radius: 7px;
@@ -81,86 +84,107 @@
 }
 </style>
 
-<script type="module" is:inline>
-const renderUI = (target, icons) => {
-  target.innerHTML = (`
-    <p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>
-    <div style="position: relative; display: flex; align-items: center;">
-      <input placeholder="ابحث بين ${icons.length} أيقونه..." class="icons-input" id="__icons_input_query" type="text" style="width: 100%;"/>
-      <button id="clear_search" style="position: absolute; left: 0px; top: 12px; background: transparent; border: none; cursor: pointer; display: none;">
-        <svg class='line' viewBox='0 0 24 24' style='width: 33px; height: 33px; opacity: 0.5;color: var(--themeC-alt);'>
-          <path d='M9.16998 14.83L14.83 9.17004'></path>
-          <path d='M14.83 14.83L9.16998 9.17004'></path>
-        </svg>
-      </button>
-    </div>
-    <div id="__icons_header"></div>
-    <div class="icons-container" id="__icons_container"></div>
-  `);
+<script>
+  // هذا السكريبت سيعمل فقط بعد تحميل الصفحة في المتصفح
+  function initIcons() {
+    const renderUI = (target, icons) => {
+      target.innerHTML = (`
+        <p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>
+        <div style="position: relative; display: flex; align-items: center;">
+          <input placeholder="ابحث بين ${icons.length} أيقونه..." class="icons-input" id="__icons_input_query" type="text" style="width: 100%;"/>
+          <button id="clear_search" style="position: absolute; left: 0px; top: 12px; background: transparent; border: none; cursor: pointer; display: none;">
+            <svg class='line' viewBox='0 0 24 24' style='width: 33px; height: 33px; opacity: 0.5;color: var(--themeC-alt);'>
+              <path d='M9.16998 14.83L14.83 9.17004'></path>
+              <path d='M14.83 14.83L9.16998 9.17004'></path>
+            </svg>
+          </button>
+        </div>
+        <div id="__icons_header"></div>
+        <div class="icons-container" id="__icons_container"></div>
+      `);
 
-  const input = document.getElementById("__icons_input_query");
-  const clearButton = document.getElementById("clear_search");
-  const iconsContainer = document.getElementById("__icons_container");
-  const iconsHeader = document.getElementById("__icons_header");
+      const input = document.getElementById("__icons_input_query");
+      const clearButton = document.getElementById("clear_search");
+      const iconsContainer = document.getElementById("__icons_container");
+      const iconsHeader = document.getElementById("__icons_header");
 
-  const showIconResults = (query) => {
-    const noQuery = !(typeof query === "string" && (query = query.trim()));
-    const filteredIcons = !noQuery ? icons.filter(icon => {
-      const nameLowered = icon.code.trim().toLowerCase();
-      const queryLowered = query.trim().toLowerCase();
-      return nameLowered.includes(queryLowered) || nameLowered.replace(/ /g, "").includes(queryLowered.replace(/ /g, ""));
-    }) : icons;
+      const showIconResults = (query) => {
+        const noQuery = !(typeof query === "string" && (query = query.trim()));
+        const filteredIcons = !noQuery ? icons.filter(icon => {
+          const nameLowered = icon.code.trim().toLowerCase();
+          const queryLowered = query.trim().toLowerCase();
+          return nameLowered.includes(queryLowered) || nameLowered.replace(/ /g, "").includes(queryLowered.replace(/ /g, ""));
+        }) : icons;
 
-    iconsContainer.innerHTML = iconsHeader.innerHTML = "";
+        iconsContainer.innerHTML = iconsHeader.innerHTML = "";
 
-    if (filteredIcons.length === 0) {
-      iconsHeader.innerHTML = `<p class="note">لا توجد أي نتائج...</p>`;
-    } else {
-      filteredIcons.forEach((icon)=> {
-        const button = document.createElement("button");
-        Object.assign(button, {
-          className: "icon-box",
-          type: "button",
-          innerHTML: (`${icon.svg}<span>${icon.code}</span>`)
-        });
-        button.addEventListener("click", () => {
-          navigator.clipboard.writeText(icon.svg)
-            .then(() => {
-              toastNotif(`تم نسخ: ${icon.code}`);
-            })
-            .catch(err => {
-              toastNotif(`فشل النسخ!`);
+        if (filteredIcons.length === 0) {
+          iconsHeader.innerHTML = `<p class="note">لا توجد أي نتائج...</p>`;
+        } else {
+          filteredIcons.forEach((icon)=> {
+            const button = document.createElement("button");
+            Object.assign(button, {
+              className: "icon-box",
+              type: "button",
+              innerHTML: (`${icon.svg}<span>${icon.code}</span>`)
             });
-        });
-        iconsContainer.appendChild(button);
+            button.addEventListener("click", () => {
+              navigator.clipboard.writeText(icon.svg)
+                .then(() => {
+                  // التعديل هنا: إظهار الاسم فقط في التوست
+                  if (typeof toastNotif === 'function') {
+                    toastNotif(`تم نسخ: ${icon.code}`);
+                  } else {
+                    console.log(`تم نسخ: ${icon.code}`);
+                  }
+                })
+                .catch(err => {
+                  if (typeof toastNotif === 'function') {
+                    toastNotif(`فشل النسخ!`);
+                  }
+                });
+            });
+            iconsContainer.appendChild(button);
+          });
+        }
+      }
+
+      input.addEventListener("input", (e) => {
+        const query = e.target.value;
+        showIconResults(query);
+        clearButton.style.display = query.length > 0 ? "block" : "none";
       });
-    }
+
+      clearButton.addEventListener("click", () => {
+        input.value = "";
+        clearButton.style.display = "none";
+        showIconResults("");
+      });
+
+      showIconResults();
+    };
+
+    const onGetIcons = (icons) => {
+      if (!icons) return null;
+      renderUI(document.getElementById("__icons"), icons);
+    };
+
+    (async (options) => {
+      try {
+        const icons = await fetch(options.url).then(res => res.ok ? res.json() : null);
+        onGetIcons(icons);
+      } catch (error) {
+        console.error("فشل تحميل الأيقونات:", error);
+      }
+    })({
+      url: "https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt"
+    });
   }
 
-  input.addEventListener("input", (e) => {
-    const query = e.target.value;
-    showIconResults(query);
-    clearButton.style.display = query.length > 0 ? "block" : "none";
-  });
-
-  clearButton.addEventListener("click", () => {
-    input.value = "";
-    clearButton.style.display = "none";
-    showIconResults("");
-  });
-
-  showIconResults();
-};
-
-const onGetIcons = (icons) => {
-  if (!icons) return null;
-  renderUI(document.getElementById("__icons"), icons);
-};
-
-(async (options) => {
-  const icons = await fetch(options.url).then(res => res.ok ? res.json() : null);
-  onGetIcons(icons);
-})({
-  url: "https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt"
-});
+  // تشغيل السكريبت بعد تحميل الصفحة
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initIcons);
+  } else {
+    initIcons();
+  }
 </script>
