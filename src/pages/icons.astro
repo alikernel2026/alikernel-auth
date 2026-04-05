@@ -1,202 +1,216 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="أيقونات SVG">
-
-<div id="__icons" class="icons-wrapper">
-  <p class='note'>يتم تحميل الأيقونه. الرجاء الانتظار..</p>
-</div>
+<Layout title="919 أيقونة بصيغة SVG">
 
 <style>
-.icons-container {
-  counter-reset: num-icon;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 10px;
-  padding: 10px 0;
-}
+    /* متغيرات غير موجودة في Layout نضيفها هنا */
+    body {
+        --inputC: var(--themeC);
+        --buttonBd-line: 1px;
+        --buttonBd-color: var(--sideBd-color);
+    }
 
-.icons-container > * {
-  counter-increment: num-icon;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1 / 1;
-  border: var(--sideBd-line) solid var(--sideBd-color);
-  border-radius: 7px;
-  overflow: hidden;
-  background-color: var(--headerBg);
-  color: var(--inputC);
-  padding: 10px;
-  cursor: pointer;
-}
+    .icons-container {
+        counter-reset: num-icon;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 10px;
+        padding: 10px 0;
+    }
 
-.icons-container ::before {
-  content: counter(num-icon);
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  font-size: 10px;
-  border-radius: 4px;
-  padding: 0 3px;
-  border: var(--buttonBd-line) solid var(--buttonBd-color);
-  background-color: var(--contentBg-sec);
-}
+    .icons-container > * {
+        counter-increment: num-icon;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        aspect-ratio: 1 / 1;
+        border: var(--sideBd-line) solid var(--sideBd-color);
+        border-radius: 7px;
+        overflow: hidden;
+        background-color: var(--headerBg);
+        color: var(--themeC);
+        padding: 10px;
+        cursor: pointer;
+    }
 
-.icons-container > * span {
-  display: block;
-  font-size: 11px;
-  text-align: center;
-  border: none;
-  padding: 0;
-  margin-top: 8px;
-  opacity: .8;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 90%;
-}
+    .icons-container ::before {
+        content: counter(num-icon);
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        font-size: 10px;
+        border-radius: 4px;
+        padding: 0 3px;
+        border: var(--buttonBd-line) solid var(--buttonBd-color);
+        background-color: var(--contentBg-sec);
+        color: var(--themeC-alt);
+    }
 
-.icons-container > * svg {
-  width: 35px;
-  height: 35px;
-}
+    .icons-container > * span {
+        display: block;
+        font-size: 11px;
+        text-align: center;
+        border: none;
+        padding: 0;
+        margin-top: 8px;
+        opacity: .8;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        max-width: 90%;
+    }
 
-.icons-container > *:hover {
-  border-color: var(--themeLink) !important;
-  box-shadow: 0 0 0 0.5px var(--themeLink) inset;
-}
+    .icons-container > * svg {
+        width: 35px;
+        height: 35px;
+    }
 
-.icons-wrapper > * { margin: 0; }
-.icons-input {
-  border: var(--sideBd-line) solid var(--sideBd-color);
-  border-radius: 7px;
-  background-color: var(--headerBg);
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 20px;
-  outline: 0;
-  color: var(--themeC);
-  font-family: inherit;
-}
+    .icons-container > *:hover {
+        border-color: var(--themeLink) !important;
+        box-shadow: 0 0 0 0.5px var(--themeLink) inset;
+    }
 
-/* Toast */
-.toast-notif {
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  background-color: var(--alikernelBg);
-  color: var(--alikernelC);
-  padding: 10px 20px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  opacity: 0;
-  transition: all 0.3s ease;
-  z-index: 9999;
-  white-space: nowrap;
-}
-.toast-notif.show {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
+    .icons-wrapper > * { margin: 0; }
+
+    .icons-input {
+        border: var(--sideBd-line) solid var(--sideBd-color);
+        border-radius: 7px;
+        background-color: var(--headerBg);
+        color: var(--themeC);
+        font-family: inherit;
+        font-size: 14px;
+        width: 100%;
+        margin-bottom: 10px;
+        padding: 20px;
+        outline: 0;
+    }
+
+    .icons-input::placeholder {
+        color: var(--themeC-alt);
+        direction: rtl;
+    }
+
+    .note {
+        font-size: 14px;
+        color: var(--themeC-alt);
+        margin-bottom: 10px;
+    }
+
+    /* Toast */
+    .toast-notif {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%) translateY(20px);
+        background-color: var(--alikernelBg);
+        color: var(--alikernelC);
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 9999;
+        white-space: nowrap;
+        pointer-events: none;
+    }
+    .toast-notif.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
 </style>
 
-<script>
-// Toast notification
-function toastNotif(msg: string) {
-  let toast = document.getElementById('__toast');
-  if (!toast) {
-    toast = document.createElement('div');
-    toast.id = '__toast';
-    toast.className = 'toast-notif';
-    document.body.appendChild(toast);
-  }
-  toast.textContent = msg;
-  toast.classList.add('show');
-  clearTimeout((toast as any)._timeout);
-  (toast as any)._timeout = setTimeout(() => toast!.classList.remove('show'), 2500);
+<div id="__icons" class="icons-wrapper">
+    <p class='note'>يتم تحميل الأيقونه. الرجاء الانتظار..</p>
+</div>
+
+<div id="__toast" class="toast-notif"></div>
+
+<script is:inline>
+function toastNotif(msg) {
+    var toast = document.getElementById('__toast');
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(function() { toast.classList.remove('show'); }, 2500);
 }
 
-const renderUI = (target: HTMLElement, icons: any[]) => {
-  target.innerHTML = `
-    <p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>
-    <div style="position: relative; display: flex; align-items: center;">
-      <input placeholder="ابحث بين ${icons.length} أيقونه..." class="icons-input" id="__icons_input_query" type="text" style="width: 100%;"/>
-      <button id="clear_search" style="position: absolute; left: 0px; top: 12px; background: transparent; border: none; cursor: pointer; display: none;">
-        <svg class='line' viewBox='0 0 24 24' style='width: 33px; height: 33px; opacity: 0.5; color: var(--themeC-alt);'>
-          <path d='M9.16998 14.83L14.83 9.17004'></path>
-          <path d='M14.83 14.83L9.16998 9.17004'></path>
-        </svg>
-      </button>
-    </div>
-    <div id="__icons_header"></div>
-    <div class="icons-container" id="__icons_container"></div>
-  `;
+var renderUI = function(target, icons) {
+    target.innerHTML = (
+        '<p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>' +
+        '<div style="position: relative; display: flex; align-items: center;">' +
+            '<input placeholder="ابحث بين ' + icons.length + ' أيقونه..." class="icons-input" id="__icons_input_query" type="text" style="width: 100%;"/>' +
+            '<button id="clear_search" style="position: absolute; left: 0px; top: 12px; background: transparent; border: none; cursor: pointer; display: none;">' +
+                '<svg class="line" viewBox="0 0 24 24" style="width: 33px; height: 33px; opacity: 0.5; color: var(--themeC-alt); stroke: currentColor; fill: none;">' +
+                    '<path d="M9.16998 14.83L14.83 9.17004"></path>' +
+                    '<path d="M14.83 14.83L9.16998 9.17004"></path>' +
+                '</svg>' +
+            '</button>' +
+        '</div>' +
+        '<div id="__icons_header"></div>' +
+        '<div class="icons-container" id="__icons_container"></div>'
+    );
 
-  const input = document.getElementById("__icons_input_query") as HTMLInputElement;
-  const clearButton = document.getElementById("clear_search") as HTMLButtonElement;
-  const iconsContainer = document.getElementById("__icons_container") as HTMLElement;
-  const iconsHeader = document.getElementById("__icons_header") as HTMLElement;
+    var input = document.getElementById("__icons_input_query");
+    var clearButton = document.getElementById("clear_search");
+    var iconsContainer = document.getElementById("__icons_container");
+    var iconsHeader = document.getElementById("__icons_header");
 
-  const showIconResults = (query?: string) => {
-    const noQuery = !(typeof query === "string" && (query = query.trim()));
-    const filteredIcons = !noQuery ? icons.filter(icon => {
-      const nameLowered = icon.code.trim().toLowerCase();
-      const queryLowered = query!.trim().toLowerCase();
-      return nameLowered.includes(queryLowered) || nameLowered.replace(/ /g, "").includes(queryLowered.replace(/ /g, ""));
-    }) : icons;
+    var showIconResults = function(query) {
+        var noQuery = !(typeof query === "string" && (query = query.trim()));
+        var filteredIcons = !noQuery ? icons.filter(function(icon) {
+            var nameLowered = icon.code.trim().toLowerCase();
+            var queryLowered = query.trim().toLowerCase();
+            return nameLowered.includes(queryLowered) || nameLowered.replace(/ /g, "").includes(queryLowered.replace(/ /g, ""));
+        }) : icons;
 
-    iconsContainer.innerHTML = iconsHeader.innerHTML = "";
+        iconsContainer.innerHTML = iconsHeader.innerHTML = "";
 
-    if (filteredIcons.length === 0) {
-      iconsHeader.innerHTML = `<p class="note">لا توجد أي نتائج...</p>`;
-    } else {
-      filteredIcons.forEach((icon) => {
-        const button = document.createElement("button");
-        Object.assign(button, {
-          className: "icon-box",
-          type: "button",
-          innerHTML: `${icon.svg}<span>${icon.code}</span>`
-        });
-        button.addEventListener("click", () => {
-          navigator.clipboard.writeText(icon.svg)
-            .then(() => { toastNotif(`تم نسخ: ${icon.code}`); })
-            .catch(() => { toastNotif(`فشل النسخ!`); });
-        });
-        iconsContainer.appendChild(button);
-      });
-    }
-  };
+        if (filteredIcons.length === 0) {
+            iconsHeader.innerHTML = '<p class="note">لا توجد أي نتائج...</p>';
+        } else {
+            filteredIcons.forEach(function(icon) {
+                var button = document.createElement("button");
+                button.className = "icon-box";
+                button.type = "button";
+                button.innerHTML = icon.svg + '<span>' + icon.code + '</span>';
+                button.addEventListener("click", function() {
+                    navigator.clipboard.writeText(icon.svg)
+                        .then(function() { toastNotif('تم نسخ: ' + icon.code); })
+                        .catch(function() { toastNotif('فشل النسخ!'); });
+                });
+                iconsContainer.appendChild(button);
+            });
+        }
+    };
 
-  input.addEventListener("input", (e) => {
-    const query = (e.target as HTMLInputElement).value;
-    showIconResults(query);
-    clearButton.style.display = query.length > 0 ? "block" : "none";
-  });
+    input.addEventListener("input", function(e) {
+        var query = e.target.value;
+        showIconResults(query);
+        clearButton.style.display = query.length > 0 ? "block" : "none";
+    });
 
-  clearButton.addEventListener("click", () => {
-    input.value = "";
-    clearButton.style.display = "none";
-    showIconResults("");
-  });
+    clearButton.addEventListener("click", function() {
+        input.value = "";
+        clearButton.style.display = "none";
+        showIconResults("");
+    });
 
-  showIconResults();
+    showIconResults();
 };
 
-const onGetIcons = (icons: any[] | null) => {
-  if (!icons) return;
-  const target = document.getElementById("__icons");
-  if (target) renderUI(target, icons);
-};
-
-(async () => {
-  const icons = await fetch("https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt")
-    .then(res => res.ok ? res.json() : null);
-  onGetIcons(icons);
+(function() {
+    fetch("https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt")
+        .then(function(res) { return res.ok ? res.json() : null; })
+        .then(function(icons) {
+            if (!icons) return;
+            var target = document.getElementById("__icons");
+            if (target) renderUI(target, icons);
+        });
 })();
 </script>
 
