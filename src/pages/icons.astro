@@ -3,124 +3,122 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="919 ايقونه بصيغة SVG">
-  <div id="__icons" class="icons-wrapper">
-    <p class='note'>يتم تحميل الأيقونه. الرجاء الانتظار..</p>
-  </div>
+    <div id="__icons" class="icons-wrapper">
+        <p class='note'>يتم تحميل الأيقونه. الرجاء الانتظار..</p>
+    </div>
 </Layout>
 
 <style is:global>
-/* كود CSS الأصلي الخاص بك من بلوجر بدون أي تغيير */
+/* كود CSS الأصلي الخاص بك من بلوجر حرفياً */
 .icons-container {
-  counter-reset: num-icon;
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  gap: 10px;
-  padding: 10px 0;
+    counter-reset: num-icon;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+    padding: 10px 0;
 }
 
 .icons-container > * {
-  counter-increment: num-icon;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1 / 1;
-  border: var(--sideBd-line) solid var(--sideBd-color);
-  border-radius: 7px;
-  overflow: hidden;
-  background-color: var(--headerBg);
-  color: var(--inputC);
-  padding: 10px;
-  cursor: pointer;
+    counter-increment: num-icon;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1 / 1;
+    border: var(--sideBd-line) solid var(--sideBd-color);
+    border-radius: 7px;
+    overflow: hidden;
+    background-color: var(--headerBg);
+    color: var(--inputC);
+    padding: 10px;
+    cursor: pointer;
 }
 
 .icons-container > *::before {
-  content: counter(num-icon);
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  font-size: 10px;
-  border-radius: 4px;
-  padding: 0 3px;
-  border: var(--buttonBd-line) solid var(--buttonBd-color);
-  background-color: var(--contentBg-sec);
+    content: counter(num-icon);
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: 10px;
+    border-radius: 4px;
+    padding: 0 3px;
+    border: var(--buttonBd-line) solid var(--buttonBd-color);
+    background-color: var(--contentBg-sec);
 }
 
 .icons-container > * span {
-  display: block;
-  font-size: 11px;
-  text-align: center;
-  border: none;
-  padding: 0;
-  margin-top: 8px;
-  opacity: .8;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  max-width: 90%;
+    display: block;
+    font-size: 11px;
+    text-align: center;
+    border: none;
+    padding: 0;
+    margin-top: 8px;
+    opacity: .8;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    max-width: 90%;
 }
 
 .icons-container > * svg {
-  width: 35px;
-  height: 35px;
+    width: 35px;
+    height: 35px;
 }
 
 .icons-container > *:hover {
-  border-color: var(--themeLink) !important;
-  box-shadow: 0 0 0 0.5px var(--themeLink) inset;
+    border-color: var(--themeLink) !important;
+    box-shadow: 0 0 0 0.5px var(--themeLink) inset;
 }
 
 .icons-wrapper > * { margin: 0; }
 .icons-input {
-  border: var(--sideBd-line) solid var(--sideBd-color);
-  border-radius: 7px;
-  background-color: var(--headerBg);
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 20px;
-  outline: 0;
-  color: var(--themeC);
+    border: var(--sideBd-line) solid var(--sideBd-color);
+    border-radius: 7px;
+    background-color: var(--headerBg);
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 20px;
+    outline: 0;
 }
 
-/* تنسيق التوست الأصلي ليطابق بلوجر */
+/* تنسيق التوست الأصلي لكي يظهر كما في بلوجر */
 .ak-toast {
     position: fixed;
     bottom: 20px;
     left: 20px;
     background: #fff;
-    color: #000;
-    padding: 10px 20px;
-    border-radius: 5px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-right: 4px solid #4CAF50;
-    z-index: 9999;
-    display: flex;
+    color: #333;
+    padding: 12px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    border-right: 5px solid #4CAF50;
+    z-index: 10000;
+    display: none;
     align-items: center;
     direction: rtl;
-    font-size: 13px;
+    font-weight: 500;
+    font-size: 14px;
 }
 </style>
 
 <script is:inline>
-// دالة التوست كما تظهر في الصورة التي أرسلتها (تم نسخ: الاسم)
-function toastNotif(msg) {
-    let t = document.querySelector('.ak-toast');
-    if (!t) {
-        t = document.createElement('div');
-        t.className = 'ak-toast';
-        document.body.appendChild(t);
+// دالة التوست المدمجة بنفس منطق بلوجر
+function toastNotif(message) {
+    let toast = document.querySelector('.ak-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.className = 'ak-toast';
+        document.body.appendChild(toast);
     }
-    t.innerHTML = `<span>${msg}</span>`;
-    t.style.display = 'flex';
-    setTimeout(() => { t.style.display = 'none'; }, 2500);
+    toast.innerHTML = `<span>${message}</span>`;
+    toast.style.display = 'flex';
+    setTimeout(() => { toast.style.display = 'none'; }, 3000);
 }
 
 const renderUI = (target, icons) => {
-  target.innerHTML = (`
-    <div class="note" style="background: #e3f2fd; color: #0d47a1; padding: 15px; border-radius: 8px; margin-bottom: 10px; border-left: 5px solid #2196f3; font-size: 14px;">
-      انقر على الأيقونة لنسخ كود SVG الخاص بها.
-    </div>
+    target.innerHTML = (`
+    <p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>
     <div style="position: relative; display: flex; align-items: center;">
       <input placeholder="ابحث بين ${icons.length} أيقونه..." class="icons-input" id="__icons_input_query" type="text" style="width: 100%;"/>
     </div>
@@ -128,37 +126,41 @@ const renderUI = (target, icons) => {
     <div class="icons-container" id="__icons_container"></div>
   `);
 
-  const input = document.getElementById("__icons_input_query");
-  const iconsContainer = document.getElementById("__icons_container");
+    const input = document.getElementById("__icons_input_query");
+    const iconsContainer = document.getElementById("__icons_container");
 
-  const showIconResults = (query) => {
-    const noQuery = !(typeof query === "string" && (query = query.trim()));
-    const filteredIcons = !noQuery ? icons.filter(icon => {
-      return icon.code.toLowerCase().includes(query.toLowerCase());
-    }) : icons;
+    const showIconResults = (query) => {
+        const noQuery = !(typeof query === "string" && (query = query.trim()));
+        const filteredIcons = !noQuery ? icons.filter(icon => {
+            const nameLowered = icon.code.trim().toLowerCase();
+            const queryLowered = query.trim().toLowerCase();
+            return nameLowered.includes(queryLowered);
+        }) : icons;
 
-    iconsContainer.innerHTML = "";
+        iconsContainer.innerHTML = "";
 
-    filteredIcons.forEach((icon)=> {
-      const button = document.createElement("button");
-      button.className = "icon-box";
-      button.type = "button";
-      button.innerHTML = (`${icon.svg}<span>${icon.code}</span>`);
-      
-      button.addEventListener("click", () => {
-        navigator.clipboard.writeText(icon.svg).then(() => {
-          toastNotif(`تم نسخ: ${icon.code}`);
+        filteredIcons.forEach((icon) => {
+            const button = document.createElement("button");
+            button.className = "icon-box";
+            button.type = "button";
+            button.innerHTML = (`${icon.svg}<span>${icon.code}</span>`);
+
+            button.addEventListener("click", () => {
+                navigator.clipboard.writeText(icon.svg).then(() => {
+                    toastNotif(`تم نسخ: ${icon.code}`);
+                });
+            });
+            iconsContainer.appendChild(button);
         });
-      });
-      iconsContainer.appendChild(button);
-    });
-  }
+    }
 
-  input.addEventListener("input", (e) => showIconResults(e.target.value));
-  showIconResults();
+    input.addEventListener("input", (e) => showIconResults(e.target.value));
+    showIconResults();
 };
 
-fetch("https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt")
-  .then(res => res.json())
-  .then(data => renderUI(document.getElementById("__icons"), data));
+(async () => {
+    const res = await fetch("https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt");
+    const icons = await res.json();
+    renderUI(document.getElementById("__icons"), icons);
+})();
 </script>
