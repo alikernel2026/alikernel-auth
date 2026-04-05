@@ -9,13 +9,14 @@ if (url.pathname.startsWith('/login') ||
     url.pathname.startsWith('/api') ||
     url.pathname.startsWith('/_astro') ||
     url.pathname.startsWith('/about') ||
+    url.pathname.startsWith('/icons') || // السطر الجديد المضاف هنا
     url.pathname.startsWith('/privacy') ||
     url.pathname.startsWith('/terms') ||
     url.pathname.startsWith('/contact') ||
     url.pathname.startsWith('/content-transfer') ||
     url.pathname.startsWith('/content-center')) {
   return next();
-  }
+}
   const bloggerUrl = `https://alikernel.blogspot.com${url.pathname}${url.search}`;
   const response = await fetch(bloggerUrl);
   
