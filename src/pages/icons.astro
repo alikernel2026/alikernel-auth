@@ -1,42 +1,35 @@
 ---
-// تأكد من حفظ الملف بصيغة UTF-8 لضمان ظهور اللغة العربية بشكل سليم
+// ملاحظة هامة: تأكد من حفظ هذا الملف بصيغة UTF-8 في محرر الأكواد (VS Code)
 ---
 
 <div class='tNtf alt' id='toastNotif'></div>
 
 <div id="__icons" class="icons-wrapper" dir="rtl">
-  <p class='note'>يتم تحميل الأيقونه. الرجاء الانتظار..</p>
+  <div class="loading-note">يتم تحميل الأيقونه. الرجاء الانتظار..</div>
 </div>
 
 <style is:global>
-  /* تنسيق التوست (tNtf) ليعمل في أسترو كما في بلوجر */
-  .tNtf {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    z-index: 9999;
-    background: #fff;
-    color: #333;
-    padding: 12px 20px;
-    border-radius: 8px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    display: none; /* يظهر فقط عند النسخ */
-    font-size: 14px;
-    font-family: inherit;
-  }
-  .tNtf span { display: flex; align-items: center; gap: 8px; }
+  /* إجبار الخط العربي ومنع تشفير الحروف */
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&display=swap');
 
-  /* تنسيق الأيقونات (نفس كودك الأصلي مع إصلاحات العرض) */
-  .icons-container {
-    counter-reset: num-icon;
+  :root {
+    --headerBg: #111111;
+    --sideBd-color: #333333;
+    --inputC: #ffffff;
+    --themeLink: #4ade80;
+    --contentBg-sec: #1a1a1a;
+    --buttonBd-color: #444444;
+  }
+
+  .__icons_container_grid {
     display: grid;
-    /* 8 أعمدة كما طلبت */
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 10px;
-    padding: 10px 0;
+    padding: 15px 0;
+    counter-reset: num-icon;
   }
 
-  .icons-container > * {
+  .icon-box-item {
     counter-increment: num-icon;
     position: relative;
     display: flex;
@@ -44,30 +37,30 @@
     align-items: center;
     justify-content: center;
     aspect-ratio: 1 / 1;
-    border: var(--sideBd-line, 1px) solid var(--sideBd-color, #333);
+    border: 1px solid var(--sideBd-color);
     border-radius: 7px;
-    overflow: hidden;
-    background-color: var(--headerBg, #111);
-    color: var(--inputC, #eee);
+    background-color: var(--headerBg);
+    color: var(--inputC);
     padding: 10px;
     cursor: pointer;
-    border-style: solid;
+    transition: 0.2s;
+    outline: none;
   }
 
-  .icons-container > *::before {
+  .icon-box-item::before {
     content: counter(num-icon);
     position: absolute;
     top: 5px;
     left: 5px;
     font-size: 10px;
     border-radius: 4px;
-    padding: 0 3px;
-    border: var(--buttonBd-line, 1px) solid var(--buttonBd-color, #444);
-    background-color: var(--contentBg-sec, #222);
+    padding: 0 4px;
+    border: 1px solid var(--buttonBd-color);
+    background-color: var(--contentBg-sec);
+    color: #999;
   }
 
-  /* إصلاح ظهور الأيقونات (Linear) ومنع السواد */
-  .icons-container > * svg {
+  .icon-box-item svg {
     width: 35px;
     height: 35px;
     fill: none !important;
@@ -75,103 +68,105 @@
     stroke-width: 1.5;
   }
 
-  .icons-container > * span {
+  .icon-box-item span {
     display: block;
     font-size: 11px;
-    text-align: center;
-    margin-top: 8px;
-    opacity: .8;
+    margin-top: 10px;
+    opacity: 0.8;
     white-space: nowrap;
-    text-overflow: ellipsis;
     overflow: hidden;
+    text-overflow: ellipsis;
     max-width: 90%;
   }
 
-  .icons-container > *:hover {
-    border-color: var(--themeLink, #4ade80) !important;
-    box-shadow: 0 0 0 0.5px var(--themeLink, #4ade80) inset;
+  .icon-box-item:hover {
+    border-color: var(--themeLink) !important;
+    box-shadow: 0 0 0 0.5px var(--themeLink) inset;
   }
 
-  .icons-input {
-    border: var(--sideBd-line, 1px) solid var(--sideBd-color, #333);
-    border-radius: 7px;
-    background-color: var(--headerBg, #111);
-    color: var(--inputC, #fff);
+  .icons-search-input {
     width: 100%;
+    padding: 18px;
+    background: var(--headerBg);
+    border: 1px solid var(--sideBd-color);
+    border-radius: 8px;
+    color: var(--inputC);
+    font-family: 'Noto Sans Arabic', sans-serif;
     margin-bottom: 10px;
-    padding: 20px;
-    outline: 0;
+  }
+
+  /* التوست الأصلي */
+  .tNtf {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 9999;
+    background: #ffffff;
+    color: #111111;
+    padding: 12px 20px;
+    border-radius: 8px;
+    display: none;
+    font-family: 'Noto Sans Arabic', sans-serif;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
   }
 </style>
 
 <script>
-  // 1. دالة التوست الأصلية الخاصة بك كما هي
-  function toastNotif(t: string) {
-    var n = document.getElementById('toastNotif');
-    if (n != null) {
-      n.innerHTML = "<span>" + t + "</span>";
+  // دالة التوست الأصلية
+  function toastNotif(text: string) {
+    const n = document.getElementById('toastNotif');
+    if (n) {
+      n.innerHTML = `<span>${text}</span>`;
       n.style.display = 'block';
-      setTimeout(function() { n!.style.display = 'none'; }, 3000);
+      setTimeout(() => { n.style.display = 'none'; }, 3000);
     }
   }
 
-  const renderUI = (target: HTMLElement, icons: any[]) => {
-    target.innerHTML = `
-      <p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>
-      <div style="position: relative; display: flex; align-items: center;">
-        <input placeholder="ابحث بين ${icons.length} أيقونه..." class="icons-input" id="__icons_input_query" type="text" style="width: 100%;"/>
-      </div>
-      <div id="__icons_header"></div>
-      <div class="icons-container" id="__icons_container"></div>
-    `;
-
-    const input = document.getElementById("__icons_input_query") as HTMLInputElement;
-    const iconsContainer = document.getElementById("__icons_container") as HTMLElement;
-
-    const showIconResults = (query = "") => {
-      const q = query.trim().toLowerCase();
-      const filteredIcons = q !== "" 
-        ? icons.filter(icon => icon.code.toLowerCase().includes(q)) 
-        : icons;
-
-      iconsContainer.innerHTML = "";
-      filteredIcons.forEach((icon) => {
-        const button = document.createElement("button");
-        button.className = "icon-box";
-        button.type = "button";
-        button.innerHTML = `${icon.svg}<span>${icon.code}</span>`;
-        
-        button.addEventListener("click", () => {
-          navigator.clipboard.writeText(icon.svg)
-            .then(() => {
-              // استخدام دالة التوست الأصلية الخاصة بك
-              toastNotif(`تم نسخ: ${icon.code}`);
-            })
-            .catch(() => toastNotif(`فشل النسخ!`));
-        });
-        iconsContainer.appendChild(button);
-      });
-    };
-
-    input.addEventListener("input", (e) => {
-      showIconResults((e.target as HTMLInputElement).value);
-    });
-
-    showIconResults();
-  };
-
-  // جلب البيانات من الرابط
-  const init = async () => {
+  const initIconPicker = async () => {
     const wrapper = document.getElementById("__icons");
     if (!wrapper) return;
+
     try {
       const res = await fetch("https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt");
       const icons = await res.json();
-      renderUI(wrapper, icons);
+
+      wrapper.innerHTML = `
+        <p style="color:#888; font-size:13px; margin-bottom:10px;">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>
+        <input type="text" id="iconSearch" class="icons-search-input" placeholder="ابحث بين ${icons.length} أيقونة..." />
+        <div id="iconsGrid" class="__icons_container_grid"></div>
+      `;
+
+      const grid = document.getElementById("iconsGrid")!;
+      const search = document.getElementById("iconSearch") as HTMLInputElement;
+
+      const render = (query = "") => {
+        const q = query.toLowerCase().trim();
+        const filtered = icons.filter((i: any) => i.code.toLowerCase().includes(q));
+        
+        grid.innerHTML = filtered.map((icon: any) => `
+          <button class="icon-box-item" type="button" data-svg='${icon.svg.replace(/'/g, "&apos;")}'>
+            ${icon.svg}
+            <span>${icon.code}</span>
+          </button>
+        `).join('');
+
+        grid.querySelectorAll('.icon-box-item').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const svg = btn.getAttribute('data-svg')!;
+            const name = btn.querySelector('span')!.innerText;
+            navigator.clipboard.writeText(svg);
+            toastNotif(`تم نسخ: ${name}`);
+          });
+        });
+      };
+
+      search.addEventListener("input", (e) => render((e.target as HTMLInputElement).value));
+      render();
+
     } catch (e) {
-      console.error("Fetch error:", e);
+      wrapper.innerHTML = "خطأ في تحميل البيانات.";
     }
   };
 
-  init();
+  initIconPicker();
 </script>
