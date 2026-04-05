@@ -4,9 +4,7 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="919 أيقونة بصيغة SVG">
 
 <style>
-    /* متغيرات غير موجودة في Layout نضيفها هنا */
     body {
-        --inputC: var(--themeC);
         --buttonBd-line: 1px;
         --buttonBd-color: var(--sideBd-color);
     }
@@ -61,11 +59,25 @@ import Layout from '../layouts/Layout.astro';
         text-overflow: ellipsis;
         overflow: hidden;
         max-width: 90%;
+        color: var(--themeC);
     }
 
+    /* الوضع المظلم: أيقونات بيضاء */
     .icons-container > * svg {
         width: 35px;
         height: 35px;
+        filter: brightness(0) invert(1);
+    }
+
+    /* الوضع النهاري: أيقونات سوداء */
+    body[data-theme="light"] .icons-container > * svg {
+        filter: brightness(0);
+    }
+
+    @media (prefers-color-scheme: light) {
+        body[data-theme="default"] .icons-container > * svg {
+            filter: brightness(0);
+        }
     }
 
     .icons-container > *:hover {
@@ -90,7 +102,6 @@ import Layout from '../layouts/Layout.astro';
 
     .icons-input::placeholder {
         color: var(--themeC-alt);
-        direction: rtl;
     }
 
     .note {
@@ -99,7 +110,6 @@ import Layout from '../layouts/Layout.astro';
         margin-bottom: 10px;
     }
 
-    /* Toast */
     .toast-notif {
         position: fixed;
         bottom: 30px;
@@ -140,20 +150,19 @@ function toastNotif(msg) {
 }
 
 var renderUI = function(target, icons) {
-    target.innerHTML = (
+    target.innerHTML =
         '<p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>' +
         '<div style="position: relative; display: flex; align-items: center;">' +
             '<input placeholder="ابحث بين ' + icons.length + ' أيقونه..." class="icons-input" id="__icons_input_query" type="text" style="width: 100%;"/>' +
             '<button id="clear_search" style="position: absolute; left: 0px; top: 12px; background: transparent; border: none; cursor: pointer; display: none;">' +
-                '<svg class="line" viewBox="0 0 24 24" style="width: 33px; height: 33px; opacity: 0.5; color: var(--themeC-alt); stroke: currentColor; fill: none;">' +
+                '<svg class="line" viewBox="0 0 24 24" style="width: 33px; height: 33px; opacity: 0.5; stroke: var(--themeC-alt); fill: none; filter: none !important;">' +
                     '<path d="M9.16998 14.83L14.83 9.17004"></path>' +
                     '<path d="M14.83 14.83L9.16998 9.17004"></path>' +
                 '</svg>' +
             '</button>' +
         '</div>' +
         '<div id="__icons_header"></div>' +
-        '<div class="icons-container" id="__icons_container"></div>'
-    );
+        '<div class="icons-container" id="__icons_container"></div>';
 
     var input = document.getElementById("__icons_input_query");
     var clearButton = document.getElementById("clear_search");
