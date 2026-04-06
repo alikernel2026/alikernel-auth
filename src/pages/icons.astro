@@ -1,8 +1,3 @@
----
-// IconsGallery.astro
-// لا نحتاج لكتابة أي كود JavaScript خاص بالخادم هنا لهذا المكون
----
-
 <div id="__icons" class="icons-wrapper">
   <p class='note'>يتم تحميل الأيقونه. الرجاء الانتظار..</p>
 </div>
@@ -84,8 +79,7 @@
 }
 </style>
 
-<script>
-// في أسترو، وسوم السكريبت يتم معالجتها تلقائياً كـ module ولا داعي لكتابة type="module"
+<script type="module">
 const renderUI = (target, icons) => {
   target.innerHTML = (`
     <p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>
@@ -131,18 +125,10 @@ const renderUI = (target, icons) => {
           navigator.clipboard.writeText(icon.svg)
             .then(() => {
               // التعديل هنا: إظهار الاسم فقط في التوست
-              if (typeof toastNotif === "function") {
-                  toastNotif(`تم نسخ: ${icon.code}`);
-              } else {
-                  alert(`تم نسخ: ${icon.code}`); // حل بديل في حال لم يكن التوست متاحاً
-              }
+              toastNotif(`تم نسخ: ${icon.code}`);
             })
             .catch(err => {
-               if (typeof toastNotif === "function") {
-                  toastNotif(`فشل النسخ!`);
-               } else {
-                  alert(`فشل النسخ!`);
-               }
+              toastNotif(`فشل النسخ!`);
             });
         });
         iconsContainer.appendChild(button);
@@ -167,19 +153,12 @@ const renderUI = (target, icons) => {
 
 const onGetIcons = (icons) => {
   if (!icons) return null;
-  const target = document.getElementById("__icons");
-  if (target) {
-      renderUI(target, icons);
-  }
+  renderUI(document.getElementById("__icons"), icons);
 };
 
 (async (options) => {
-  try {
-      const icons = await fetch(options.url).then(res => res.ok ? res.json() : null);
-      onGetIcons(icons);
-  } catch (error) {
-      console.error("Error fetching icons:", error);
-  }
+  const icons = await fetch(options.url).then(res => res.ok ? res.json() : null);
+  onGetIcons(icons);
 })({
   url: "https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt"
 });
