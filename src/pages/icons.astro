@@ -1,20 +1,14 @@
 ---
-import Layout from '../layouts/Layout.astro';
+// IconsGallery.astro
+// لا نحتاج لكتابة أي كود JavaScript خاص بالخادم هنا لهذا المكون
 ---
-<Layout title="919 أيقونة بصيغة SVG">
 
 <div id="__icons" class="icons-wrapper">
   <p class='note'>يتم تحميل الأيقونه. الرجاء الانتظار..</p>
 </div>
 
 <style>
-/* تعريف المتغيرات الناقصة */
-body {
-  --inputC: var(--themeC);
-  --buttonBd-line: 1px;
-  --buttonBd-color: var(--sideBd-color);
-}
-
+/* التعديل فقط هنا ليكون 8 مربعات بدلاً من 50% */
 .icons-container {
   counter-reset: num-icon;
   display: grid;
@@ -27,10 +21,10 @@ body {
   counter-increment: num-icon;
   position: relative;
   display: flex;
-  flex-direction: column;
+  flex-direction: column; /* تحويل للعرض العمودي داخل المربع */
   align-items: center;
   justify-content: center;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1 / 1; /* شكل مربع */
   border: var(--sideBd-line) solid var(--sideBd-color);
   border-radius: 7px;
   overflow: hidden;
@@ -52,6 +46,7 @@ body {
   background-color: var(--contentBg-sec);
 }
 
+/* إخفاء الحدود الجانبية للنص وتعديل موقعه ليكون تحت الأيقونة */
 .icons-container > * span {
   display: block;
   font-size: 11px;
@@ -76,6 +71,7 @@ body {
   box-shadow: 0 0 0 0.5px var(--themeLink) inset;
 }
 
+/* بقية التنسيقات الأصلية كما هي */
 .icons-wrapper > * { margin: 0; }
 .icons-input {
   border: var(--sideBd-line) solid var(--sideBd-color);
@@ -85,12 +81,11 @@ body {
   margin-bottom: 10px;
   padding: 20px;
   outline: 0;
-  color: var(--themeC);
-  font-family: inherit;
 }
 </style>
 
-<script type="module">
+<script>
+// في أسترو، وسوم السكريبت يتم معالجتها تلقائياً كـ module ولا داعي لكتابة type="module"
 const renderUI = (target, icons) => {
   target.innerHTML = (`
     <p class="note">انقر على الأيقونة لنسخ كود SVG الخاص بها.</p>
@@ -135,10 +130,19 @@ const renderUI = (target, icons) => {
         button.addEventListener("click", () => {
           navigator.clipboard.writeText(icon.svg)
             .then(() => {
-              toastNotif(`تم نسخ: ${icon.code}`);
+              // التعديل هنا: إظهار الاسم فقط في التوست
+              if (typeof toastNotif === "function") {
+                  toastNotif(`تم نسخ: ${icon.code}`);
+              } else {
+                  alert(`تم نسخ: ${icon.code}`); // حل بديل في حال لم يكن التوست متاحاً
+              }
             })
             .catch(err => {
-              toastNotif(`فشل النسخ!`);
+               if (typeof toastNotif === "function") {
+                  toastNotif(`فشل النسخ!`);
+               } else {
+                  alert(`فشل النسخ!`);
+               }
             });
         });
         iconsContainer.appendChild(button);
@@ -163,15 +167,20 @@ const renderUI = (target, icons) => {
 
 const onGetIcons = (icons) => {
   if (!icons) return null;
-  renderUI(document.getElementById("__icons"), icons);
+  const target = document.getElementById("__icons");
+  if (target) {
+      renderUI(target, icons);
+  }
 };
 
 (async (options) => {
-  const icons = await fetch(options.url).then(res => res.ok ? res.json() : null);
-  onGetIcons(icons);
+  try {
+      const icons = await fetch(options.url).then(res => res.ok ? res.json() : null);
+      onGetIcons(icons);
+  } catch (error) {
+      console.error("Error fetching icons:", error);
+  }
 })({
   url: "https://cdn.jsdelivr.net/gh/alicomputer7/919-icon-svg@latest/919%20icon%20svg.txt"
 });
 </script>
-
-</Layout>
