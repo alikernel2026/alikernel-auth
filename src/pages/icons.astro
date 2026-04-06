@@ -8,6 +8,13 @@ import Layout from '../layouts/Layout.astro';
 </div>
 
 <style>
+/* تعريف المتغيرات الناقصة */
+body {
+  --inputC: var(--themeC);
+  --buttonBd-line: 1px;
+  --buttonBd-color: var(--sideBd-color);
+}
+
 .icons-container {
   counter-reset: num-icon;
   display: grid;
@@ -78,6 +85,8 @@ import Layout from '../layouts/Layout.astro';
   margin-bottom: 10px;
   padding: 20px;
   outline: 0;
+  color: var(--themeC);
+  font-family: inherit;
 }
 </style>
 
