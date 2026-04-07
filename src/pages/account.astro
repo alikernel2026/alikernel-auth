@@ -12,31 +12,112 @@ import '../styles/style.css';
     <link href='https://github.com/alikernel2026/favicon.ico/blob/main/favicon.ico?raw=true' rel='shortcut icon'/>
     <link href='https://github.com/alikernel2026/favicon.ico/blob/main/apple-touch-icon.png?raw=true' rel='apple-touch-icon' sizes='180x180'/>
     <link href='https://github.com/alikernel2026/favicon.ico/blob/main/site.webmanifest?raw=true' rel='manifest'/>
-    <style>
-        ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
-        ::view-transition-new(root){z-index:2}
+    
+    <style is:global>
+        :root { --fontBody: 'Noto Sans', 'Tajawal', sans-serif; --fontBody-alt: 'Noto Sans', 'Tajawal', sans-serif; --fontHead: 'Noto Sans', 'Tajawal', sans-serif; --sideBd-line: 1px; --content-maxWidth: 1024px; --contentPadding: 22px; --head-fontWg: 500; }
 
-        /* --- الشعار: يتغير مع الثيم --- */
-        .ak-logo-bg { fill: #94f27f; }
-        .ak-logo-fg { fill: #000000; }
-        [data-theme="light"] .ak-logo-bg { fill: #1976d2; }
-        [data-theme="light"] .ak-logo-fg { fill: #ffffff; }
-        @media (prefers-color-scheme: light) {
-            [data-theme="default"] .ak-logo-bg { fill: #1976d2; }
-            [data-theme="default"] .ak-logo-fg { fill: #ffffff; }
+        /* --- إعدادات السكرول بار --- */
+        @media screen and (min-width: 768px) {
+            ::-webkit-scrollbar {
+                -webkit-appearance: none;
+                width: 5px;
+                height: 5px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: var(--sideBd-color);
+                border-radius: 0px;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: transparent;
+            }
         }
+
+        /* --- إعدادات تحديد النصوص --- */
+        ::selection {
+            color: var(--selectC, #ffffff);
+            background-color: var(--selectBg, #3b82f6);
+            opacity: .85;
+        }
+
+        /* === الوضع المظلم (افتراضي) === */
+        body {
+            --themeBg: #100f10;
+            --postBg: #1b1b1b;
+            --headerBg: #1b1b1b;
+            --contentBg-sec: #252526;
+            --themeLink: #94f27f;
+            --themeC: #d9e2f0;
+            --themeC-alt: #a0a0a0;
+            --sideBd-color: #3a3c3d;
+            --alikernelBg: #ffffff;
+            --alikernelC: #171717;
+            --darkBg: #171717;
+            --logoFg: #000000;
+            --selectC: #000000;
+            --selectBg: #94f27f;
+            --headerBd-color: #3a3c3d;
+        }
+
+        /* === الوضع النهاري === */
+        body[data-theme="light"], [data-theme="light"] body {
+            --themeBg: #f6f8fa;
+            --postBg: #ffffff;
+            --headerBg: #ffffff;
+            --contentBg-sec: #f5f3f2;
+            --themeLink: #1976d2;
+            --themeC: #0e2045;
+            --themeC-alt: #666666;
+            --sideBd-color: #d2d3d7;
+            --alikernelBg: #171717;
+            --alikernelC: #ffffff;
+            --darkBg: #171717;
+            --logoFg: #ffffff;
+            --selectC: #ffffff;
+            --selectBg: #1976d2;
+            --headerBd-color: #d2d3d7;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body[data-theme="default"], [data-theme="default"] body {
+                --themeBg: #100f10; --postBg: #1b1b1b; --headerBg: #1b1b1b; --contentBg-sec: #252526;
+                --themeLink: #94f27f; --themeC: #d9e2f0; --themeC-alt: #a0a0a0; --sideBd-color: #3a3c3d;
+                --alikernelBg: #ffffff; --alikernelC: #171717; --darkBg: #171717; --logoFg: #000000;
+                --selectC: #000000; --selectBg: #94f27f; --headerBd-color: #3a3c3d;
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            body[data-theme="default"], [data-theme="default"] body {
+                --themeBg: #f6f8fa; --postBg: #ffffff; --headerBg: #ffffff; --contentBg-sec: #f5f3f2;
+                --themeLink: #1976d2; --themeC: #0e2045; --themeC-alt: #666666; --sideBd-color: #d2d3d7;
+                --alikernelBg: #171717; --alikernelC: #ffffff; --darkBg: #171717; --logoFg: #ffffff;
+                --selectC: #ffffff; --selectBg: #1976d2; --headerBd-color: #d2d3d7;
+            }
+        }
+
+        /* --- View Transitions --- */
+        ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+        ::view-transition-new(root) { z-index: 2; }
+
+        /* --- Logo Colors --- */
+        .ak-logo-bg { fill: var(--alikernelBg); }
+        .ak-logo-fg { fill: var(--logoFg); }
+        body[data-theme="light"] .ak-logo-bg, [data-theme="light"] .ak-logo-bg { fill: var(--alikernelBg); }
+        body[data-theme="light"] .ak-logo-fg, [data-theme="light"] .ak-logo-fg { fill: #ffffff; }
     </style>
+
     <script is:inline>
         (function() {
             var theme = localStorage.getItem('theme') || 'default';
             document.documentElement.setAttribute('data-theme', theme);
+            document.body ? document.body.setAttribute('data-theme', theme) : null;
             if (!localStorage.getItem('last_uid')) {
                 document.documentElement.style.visibility = 'hidden';
             }
         })();
     </script>
 </head>
-<body data-theme="dark">
+<body id="nB" class="nB page" data-theme="dark">
 
     <div class="page-wrapper">
 
@@ -142,7 +223,6 @@ import '../styles/style.css';
     </div>
 
     <script is:inline>
-    /* ... (نفس كود الجافاسكريبت الأصلي الذي أرسلته أنت) ... */
     function setTheme(theme, animate) {
         function applyTheme() {
             document.body.setAttribute('data-theme', theme);
