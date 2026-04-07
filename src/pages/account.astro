@@ -3,44 +3,42 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="حسابي">
-    <main class="page-content">
-        <div class="account-container">
+    <div class="account-container">
 
-            <div class="account-header">
-                <h2>حساب</h2>
-                <p>عرض وإدارة حسابك</p>
-            </div>
-
-            <section class="user-details">
-                <div class="user-info">
-                    <h3 id="account-name">...</h3>
-                    <p id="account-email"></p>
-                    <p id="account-joined-date"></p>
-                </div>
-                <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
-            </section>
-
-            <div class="sessions-title">الأجهزة المتصلة</div>
-            <div class="sessions-list" id="sessions-list">
-                <div class="loading-text">جاري التحميل...</div>
-            </div>
-
-            <div class="account-actions">
-                <button class="account-btn primary" id="logout-btn">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
-                    <span>الخروج</span>
-                </button>
-                <a href="https://www.alikernel.com" class="account-btn secondary">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                        <polyline points="9 22 9 12 15 12 15 22"/>
-                    </svg>
-                    <span>الرئيسية</span>
-                </a>
-            </div>
-
+        <div class="account-header">
+            <h2>حساب</h2>
+            <p>عرض وإدارة حسابك</p>
         </div>
-    </main>
+
+        <section class="user-details">
+            <div class="user-info">
+                <h3 id="account-name">...</h3>
+                <p id="account-email"></p>
+                <p id="account-joined-date"></p>
+            </div>
+            <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
+        </section>
+
+        <div class="sessions-title">الأجهزة المتصلة</div>
+        <div class="sessions-list" id="sessions-list">
+            <div class="loading-text">جاري التحميل...</div>
+        </div>
+
+        <div class="account-actions">
+            <button class="account-btn primary" id="logout-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
+                <span>الخروج</span>
+            </button>
+            <a href="https://www.alikernel.com" class="account-btn secondary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>الرئيسية</span>
+            </a>
+        </div>
+
+    </div>
 
     <div id="custom-confirm-modal" class="custom-modal-overlay hidden">
         <div class="custom-modal-content">
@@ -57,40 +55,203 @@ import Layout from '../layouts/Layout.astro';
         </div>
     </div>
 
-    <script is:inline>
-    /* ... (نفس كود الجافاسكريبت الأصلي الذي أرسلته أنت) ... */
-    function setTheme(theme, animate) {
-        function applyTheme() {
-            document.body.setAttribute('data-theme', theme);
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            document.querySelectorAll('.theme-btn').forEach(function(btn) { btn.classList.remove('active'); });
-            if (theme === 'dark') document.getElementById('theme-btn-dark').classList.add('active');
-            else if (theme === 'light') document.getElementById('theme-btn-light').classList.add('active');
-            else document.getElementById('theme-btn-system').classList.add('active');
-        }
-        if (!animate || !document.startViewTransition) { applyTheme(); return; }
-        try {
-            var btn = document.activeElement;
-            var x = window.innerWidth/2, y = window.innerHeight/2;
-            if (btn && btn.classList && btn.classList.contains('theme-btn')) {
-                var r = btn.getBoundingClientRect();
-                x = r.left + r.width/2;
-                y = r.top + r.height/2;
-            }
-            var radius = Math.hypot(Math.max(x, window.innerWidth-x), Math.max(y, window.innerHeight-y));
-            var transition = document.startViewTransition(applyTheme);
-            transition.ready.then(function() {
-                document.documentElement.animate(
-                    { clipPath: ['circle(0px at '+x+'px '+y+'px)', 'circle('+radius+'px at '+x+'px '+y+'px)'] },
-                    { duration: 800, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
-                );
-            });
-        } catch(e) { applyTheme(); }
+<style is:global>
+    /* --- تنسيقات صفحة الحساب (التصميم المفقود) --- */
+    .account-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px 20px 80px;
     }
-    var savedTheme = localStorage.getItem('theme') || 'default';
-    setTheme(savedTheme, false);
+    .account-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    .account-header h2 {
+        font-size: 24px;
+        color: var(--themeC);
+        margin-bottom: 8px;
+    }
+    .account-header p {
+        color: var(--themeC-alt);
+        font-size: 14px;
+    }
+    .user-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        padding: 25px;
+        background: var(--postBg);
+        border: var(--sideBd-line) solid var(--sideBd-color);
+        border-radius: 0;
+        margin-bottom: 30px;
+    }
+    .user-info {
+        flex: 1;
+    }
+    .user-info h3 {
+        font-size: 22px;
+        color: var(--themeC);
+        margin-bottom: 8px;
+    }
+    .user-info p {
+        font-size: 14px;
+        color: var(--themeC-alt);
+        margin: 4px 0;
+    }
+    #account-avatar {
+        width: 85px;
+        height: 85px;
+        border-radius: 0;
+        border: 2px solid var(--sideBd-color);
+        object-fit: cover;
+        background-color: var(--contentBg-sec);
+    }
+    .sessions-title {
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--themeC);
+        margin-bottom: 16px;
+    }
+    .sessions-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 40px;
+    }
+    .loading-text {
+        text-align: center;
+        color: var(--themeC-alt);
+        padding: 40px;
+    }
+    .session-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background: var(--postBg);
+        border: var(--sideBd-line) solid var(--sideBd-color);
+        border-radius: 0;
+    }
+    .session-details {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    .session-detail-line {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: var(--themeC-alt);
+    }
+    .session-detail-line svg {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+    }
+    .current-session-indicator {
+        color: var(--themeLink) !important;
+        font-weight: 600;
+        margin-top: 4px;
+    }
+    .terminate-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 0;
+        cursor: pointer;
+        transition: all 0.2s;
+        border: var(--sideBd-line) solid var(--sideBd-color);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .icon-terminate { background: rgba(255,68,68,0.05); }
+    .icon-terminate:hover { background: rgba(255,68,68,0.15); border-color: #ff4444; }
+    .icon-current { background: rgba(0,200,0,0.05); }
+    
+    /* تعديل ايقونات الأزرار الجانبية */
+    .terminate-btn::before {
+        display: none; /* إخفاء النص الافتراضي */
+    }
+    .icon-terminate {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ff4444' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='3 6 5 6 21 6'%3E%3C/polyline%3E%3Cpath d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'%3E%3C/path%3E%3Cline x1='10' y1='11' x2='10' y2='17'%3E%3C/line%3E%3Cline x1='14' y1='11' x2='14' y2='17'%3E%3C/line%3E%3C/svg%3E");
+        background-size: 18px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+    .icon-current {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300c800' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' transform='scale(-1 1)'%3E%3Cpath d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9'/%3E%3C/svg%3E");
+        background-size: 18px;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
 
+    .account-actions {
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    .account-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 14px 30px;
+        border-radius: 0;
+        font-size: 15px;
+        font-weight: 700;
+        transition: all 0.2s;
+        cursor: pointer;
+        min-width: 160px;
+    }
+    .account-btn svg { width: 18px; height: 18px; }
+    
+    .account-btn.primary {
+        background: var(--themeC);
+        color: var(--themeBg);
+        border: none;
+    }
+    .account-btn.primary:hover { opacity: 0.85; }
+    
+    .account-btn.secondary {
+        background: transparent;
+        color: var(--themeC);
+        border: var(--sideBd-line) solid var(--sideBd-color);
+    }
+    .account-btn.secondary:hover { background: var(--contentBg-sec); }
+
+    /* Modal Styles */
+    .custom-modal-overlay {
+        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 1000;
+        backdrop-filter: blur(4px);
+    }
+    .custom-modal-overlay.hidden { display: none; }
+    .custom-modal-content {
+        background: var(--postBg); border: var(--sideBd-line) solid var(--sideBd-color);
+        border-radius: 0; padding: 30px; max-width: 400px; width: 90%;
+    }
+    .modal-body { margin-bottom: 25px; }
+    .modal-body h2 { font-size: 20px; color: var(--themeC); margin-bottom: 12px; }
+    .modal-body p { font-size: 15px; color: var(--themeC-alt); line-height: 1.6; }
+    .custom-modal-actions { display: flex; gap: 12px; justify-content: flex-end; }
+    .modal-btn {
+        padding: 12px 24px; border-radius: 0; font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+    }
+    .modal-btn.primary { background: var(--themeC); color: var(--themeBg); border: none; }
+    .modal-btn.secondary { background: transparent; color: var(--themeC); border: var(--sideBd-line) solid var(--sideBd-color); }
+    .modal-btn:hover { opacity: 0.85; }
+
+    @media (max-width: 600px) {
+        .user-details { flex-direction: column; text-align: center; }
+        .account-actions { flex-direction: column; }
+        .account-btn { width: 100%; }
+    }
+</style>
+
+<script is:inline>
     var icons = {
         clock: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>',
         device: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg>',
@@ -272,5 +433,5 @@ import Layout from '../layouts/Layout.astro';
             });
         });
     })();
-    </script>
+</script>
 </Layout>
