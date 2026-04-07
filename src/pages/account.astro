@@ -1,74 +1,46 @@
 ---
-import '../styles/style.css';
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="حسابي - علي كيرنل">
-    <style>
-        ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
-        ::view-transition-new(root){z-index:2}
+<Layout title="حسابي">
+    <main class="page-content">
+        <div class="account-container">
 
-        /* --- الشعار: يتغير مع الثيم --- */
-        .ak-logo-bg { fill: #94f27f; }
-        .ak-logo-fg { fill: #000000; }
-        [data-theme="light"] .ak-logo-bg { fill: #1976d2; }
-        [data-theme="light"] .ak-logo-fg { fill: #ffffff; }
-        @media (prefers-color-scheme: light) {
-            [data-theme="default"] .ak-logo-bg { fill: #1976d2; }
-            [data-theme="default"] .ak-logo-fg { fill: #ffffff; }
-        }
-    </style>
-
-    <script is:inline>
-        (function() {
-            var theme = localStorage.getItem('theme') || 'default';
-            document.documentElement.setAttribute('data-theme', theme);
-            if (!localStorage.getItem('last_uid')) {
-                document.documentElement.style.visibility = 'hidden';
-            }
-        })();
-    </script>
-
-    <div class="page-wrapper">
-        <main class="page-content">
-            <div class="account-container">
-
-                <div class="account-header">
-                    <h2>حساب</h2>
-                    <p>عرض وإدارة حسابك</p>
-                </div>
-
-                <section class="user-details">
-                    <div class="user-info">
-                        <h3 id="account-name">...</h3>
-                        <p id="account-email"></p>
-                        <p id="account-joined-date"></p>
-                    </div>
-                    <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
-                </section>
-
-                <div class="sessions-title">الأجهزة المتصلة</div>
-                <div class="sessions-list" id="sessions-list">
-                    <div class="loading-text">جاري التحميل...</div>
-                </div>
-
-                <div class="account-actions">
-                    <button class="account-btn primary" id="logout-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
-                        <span>الخروج</span>
-                    </button>
-                    <a href="https://www.alikernel.com" class="account-btn secondary">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                            <polyline points="9 22 9 12 15 12 15 22"/>
-                        </svg>
-                        <span>الرئيسية</span>
-                    </a>
-                </div>
-
+            <div class="account-header">
+                <h2>حساب</h2>
+                <p>عرض وإدارة حسابك</p>
             </div>
-        </main>
-    </div>
+
+            <section class="user-details">
+                <div class="user-info">
+                    <h3 id="account-name">...</h3>
+                    <p id="account-email"></p>
+                    <p id="account-joined-date"></p>
+                </div>
+                <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
+            </section>
+
+            <div class="sessions-title">الأجهزة المتصلة</div>
+            <div class="sessions-list" id="sessions-list">
+                <div class="loading-text">جاري التحميل...</div>
+            </div>
+
+            <div class="account-actions">
+                <button class="account-btn primary" id="logout-btn">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
+                    <span>الخروج</span>
+                </button>
+                <a href="https://www.alikernel.com" class="account-btn secondary">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9 22 9 12 15 12 15 22"/>
+                    </svg>
+                    <span>الرئيسية</span>
+                </a>
+            </div>
+
+        </div>
+    </main>
 
     <div id="custom-confirm-modal" class="custom-modal-overlay hidden">
         <div class="custom-modal-content">
