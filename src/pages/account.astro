@@ -1,43 +1,73 @@
 ---
+import '../styles/style.css';
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="حسابي">
-    <div class="account-container">
+<Layout title="حسابي - علي كيرنل">
+    <style>
+        ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+        ::view-transition-new(root){z-index:2}
 
-        <div class="account-header">
-            <h2>حساب</h2>
-            <p>عرض وإدارة حسابك</p>
-        </div>
+        /* --- الشعار: يتغير مع الثيم --- */
+        .ak-logo-bg { fill: #94f27f; }
+        .ak-logo-fg { fill: #000000; }
+        [data-theme="light"] .ak-logo-bg { fill: #1976d2; }
+        [data-theme="light"] .ak-logo-fg { fill: #ffffff; }
+        @media (prefers-color-scheme: light) {
+            [data-theme="default"] .ak-logo-bg { fill: #1976d2; }
+            [data-theme="default"] .ak-logo-fg { fill: #ffffff; }
+        }
+    </style>
 
-        <section class="user-details">
-            <div class="user-info">
-                <h3 id="account-name">...</h3>
-                <p id="account-email"></p>
-                <p id="account-joined-date"></p>
+    <script is:inline>
+        (function() {
+            var theme = localStorage.getItem('theme') || 'default';
+            document.documentElement.setAttribute('data-theme', theme);
+            if (!localStorage.getItem('last_uid')) {
+                document.documentElement.style.visibility = 'hidden';
+            }
+        })();
+    </script>
+
+    <div class="page-wrapper">
+        <main class="page-content">
+            <div class="account-container">
+
+                <div class="account-header">
+                    <h2>حساب</h2>
+                    <p>عرض وإدارة حسابك</p>
+                </div>
+
+                <section class="user-details">
+                    <div class="user-info">
+                        <h3 id="account-name">...</h3>
+                        <p id="account-email"></p>
+                        <p id="account-joined-date"></p>
+                    </div>
+                    <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
+                </section>
+
+                <div class="sessions-title">الأجهزة المتصلة</div>
+                <div class="sessions-list" id="sessions-list">
+                    <div class="loading-text">جاري التحميل...</div>
+                </div>
+
+                <div class="account-actions">
+                    <button class="account-btn primary" id="logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
+                        <span>الخروج</span>
+                    </button>
+                    <a href="https://www.alikernel.com" class="account-btn secondary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        <span>الرئيسية</span>
+                    </a>
+                </div>
+
             </div>
-            <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
-        </section>
-
-        <div class="sessions-title">الأجهزة المتصلة</div>
-        <div class="sessions-list" id="sessions-list">
-            <div class="loading-text">جاري التحميل...</div>
-        </div>
-
-        <div class="account-actions">
-            <button class="account-btn primary" id="logout-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
-                <span>الخروج</span>
-            </button>
-            <a href="https://www.alikernel.com" class="account-btn secondary">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-                <span>الرئيسية</span>
-            </a>
-        </div>
-
+        </main>
     </div>
 
     <div id="custom-confirm-modal" class="custom-modal-overlay hidden">
@@ -55,164 +85,40 @@ import Layout from '../layouts/Layout.astro';
         </div>
     </div>
 
-<style is:global>
-    /* تنسيقات صفحة الحساب - حواف مربعة بالكامل */
-    .account-container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 0 20px 60px;
+    <script is:inline>
+    /* ... (نفس كود الجافاسكريبت الأصلي الذي أرسلته أنت) ... */
+    function setTheme(theme, animate) {
+        function applyTheme() {
+            document.body.setAttribute('data-theme', theme);
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            document.querySelectorAll('.theme-btn').forEach(function(btn) { btn.classList.remove('active'); });
+            if (theme === 'dark') document.getElementById('theme-btn-dark').classList.add('active');
+            else if (theme === 'light') document.getElementById('theme-btn-light').classList.add('active');
+            else document.getElementById('theme-btn-system').classList.add('active');
+        }
+        if (!animate || !document.startViewTransition) { applyTheme(); return; }
+        try {
+            var btn = document.activeElement;
+            var x = window.innerWidth/2, y = window.innerHeight/2;
+            if (btn && btn.classList && btn.classList.contains('theme-btn')) {
+                var r = btn.getBoundingClientRect();
+                x = r.left + r.width/2;
+                y = r.top + r.height/2;
+            }
+            var radius = Math.hypot(Math.max(x, window.innerWidth-x), Math.max(y, window.innerHeight-y));
+            var transition = document.startViewTransition(applyTheme);
+            transition.ready.then(function() {
+                document.documentElement.animate(
+                    { clipPath: ['circle(0px at '+x+'px '+y+'px)', 'circle('+radius+'px at '+x+'px '+y+'px)'] },
+                    { duration: 800, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
+                );
+            });
+        } catch(e) { applyTheme(); }
     }
-    .account-header {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    .account-header h2 {
-        font-size: 24px;
-        color: var(--themeC);
-        margin-bottom: 8px;
-    }
-    .account-header p {
-        color: var(--themeC-alt);
-        font-size: 14px;
-    }
-    .user-details {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        padding: 20px;
-        background: var(--postBg);
-        border: var(--sideBd-line) solid var(--sideBd-color);
-        border-radius: 0; /* مربعة بالكامل */
-        margin-bottom: 24px;
-    }
-    .user-info {
-        flex: 1;
-    }
-    .user-info h3 {
-        font-size: 20px;
-        color: var(--themeC);
-        margin-bottom: 8px;
-    }
-    .user-info p {
-        font-size: 14px;
-        color: var(--themeC-alt);
-        margin: 4px 0;
-    }
-    #account-avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 0; /* تم إزالة الدائرة لجعل صورة المستخدم مربعة */
-        border: 3px solid var(--sideBd-color);
-        object-fit: cover;
-    }
-    .sessions-title {
-        font-size: 18px;
-        font-weight: 600;
-        color: var(--themeC);
-        margin-bottom: 16px;
-    }
-    .sessions-list {
-        margin-bottom: 30px;
-    }
-    .loading-text {
-        text-align: center;
-        color: var(--themeC-alt);
-        padding: 40px;
-    }
-    .session-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 20px;
-        background: var(--postBg);
-        border: var(--sideBd-line) solid var(--sideBd-color);
-        border-radius: 0; /* مربعة بالكامل */
-        margin-bottom: 10px;
-    }
-    .session-details {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-    .session-detail-line {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        color: var(--themeC-alt);
-    }
-    .session-detail-line svg {
-        width: 14px;
-        height: 14px;
-        flex-shrink: 0;
-    }
-    .current-session-indicator {
-        color: var(--themeLink) !important;
-        font-weight: 600;
-    }
-    .terminate-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 0; /* مربعة بالكامل */
-        cursor: pointer;
-        transition: all 0.2s;
-        border: 1px solid var(--sideBd-color);
-    }
-    .icon-terminate { background: rgba(255,68,68,0.1); }
-    .icon-terminate:hover { background: rgba(255,68,68,0.2); }
-    .icon-current { background: rgba(0,200,0,0.1); }
-    .terminate-btn::before { content: '×'; font-size: 20px; font-weight: bold; }
-    .icon-terminate::before { color: #ff4444; }
-    .icon-current::before { color: #00c800; }
-    .account-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-    }
-    .account-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 24px;
-        border-radius: 0; /* مربعة بالكامل */
-        font-size: 14px;
-        font-weight: 600;
-        transition: all 0.2s;
-        cursor: pointer;
-    }
-    .account-btn svg { width: 18px; height: 18px; }
-    .account-btn.primary { background: var(--themeLink); color: var(--contentBg-sec); border: none; }
-    .account-btn.primary:hover { opacity: 0.85; }
-    .account-btn.secondary { background: var(--postBg); color: var(--themeC); border: var(--sideBd-line) solid var(--sideBd-color); }
-    .account-btn.secondary:hover { background: var(--contentBg-sec); }
-    .custom-modal-overlay {
-        position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-        background: rgba(0,0,0,0.7); display: flex; align-items: center; justify-content: center; z-index: 1000;
-    }
-    .custom-modal-overlay.hidden { display: none; }
-    .custom-modal-content {
-        background: var(--postBg); border: var(--sideBd-line) solid var(--sideBd-color);
-        border-radius: 0; /* مربعة بالكامل */
-        padding: 24px; max-width: 400px; width: 90%;
-    }
-    .modal-body { margin-bottom: 20px; }
-    .modal-body h2 { font-size: 18px; color: var(--themeC); margin-bottom: 12px; }
-    .modal-body p { font-size: 14px; color: var(--themeC-alt); line-height: 1.6; }
-    .custom-modal-actions { display: flex; gap: 12px; justify-content: flex-end; }
-    .modal-btn {
-        padding: 10px 20px; border-radius: 0; /* مربعة بالكامل */
-        font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
-    }
-    .modal-btn.primary { background: var(--themeLink); color: var(--contentBg-sec); border: none; }
-    .modal-btn.secondary { background: var(--contentBg-sec); color: var(--themeC); border: var(--sideBd-line) solid var(--sideBd-color); }
-    .modal-btn:hover { opacity: 0.85; }
-    @media (max-width: 600px) {
-        .user-details { flex-direction: column; text-align: center; }
-        .account-actions { flex-direction: column; }
-    }
-</style>
+    var savedTheme = localStorage.getItem('theme') || 'default';
+    setTheme(savedTheme, false);
 
-<script is:inline>
     var icons = {
         clock: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>',
         device: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg>',
@@ -394,5 +300,5 @@ import Layout from '../layouts/Layout.astro';
             });
         });
     })();
-</script>
+    </script>
 </Layout>
