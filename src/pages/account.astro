@@ -1,128 +1,42 @@
 ---
-import '../styles/style.css';
+import Layout from '../layouts/Layout.astro';
 ---
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حسابي - علي كيرنل</title>
-    <link href='https://github.com/alikernel2026/favicon.ico/blob/main/favicon-96x96.png?raw=true' rel='icon' sizes='96x96' type='image/png'/>
-    <link href='https://github.com/alikernel2026/favicon.ico/blob/main/favicon.svg?raw=true' rel='icon' type='image/svg+xml'/>
-    <link href='https://github.com/alikernel2026/favicon.ico/blob/main/favicon.ico?raw=true' rel='shortcut icon'/>
-    <link href='https://github.com/alikernel2026/favicon.ico/blob/main/apple-touch-icon.png?raw=true' rel='apple-touch-icon' sizes='180x180'/>
-    <link href='https://github.com/alikernel2026/favicon.ico/blob/main/site.webmanifest?raw=true' rel='manifest'/>
-    <style>
-        ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
-        ::view-transition-new(root){z-index:2}
 
-        /* --- الشعار: يتغير مع الثيم --- */
-        .ak-logo-bg { fill: #94f27f; }
-        .ak-logo-fg { fill: #000000; }
-        [data-theme="light"] .ak-logo-bg { fill: #1976d2; }
-        [data-theme="light"] .ak-logo-fg { fill: #ffffff; }
-        @media (prefers-color-scheme: light) {
-            [data-theme="default"] .ak-logo-bg { fill: #1976d2; }
-            [data-theme="default"] .ak-logo-fg { fill: #ffffff; }
-        }
-    </style>
-    <script is:inline>
-        (function() {
-            var theme = localStorage.getItem('theme') || 'default';
-            document.documentElement.setAttribute('data-theme', theme);
-            if (!localStorage.getItem('last_uid')) {
-                document.documentElement.style.visibility = 'hidden';
-            }
-        })();
-    </script>
-</head>
-<body data-theme="dark">
+<Layout title="حسابي - علي كيرنل">
+    <div class="account-container">
 
-    <div class="page-wrapper">
+        <div class="account-header">
+            <h2>حساب</h2>
+            <p>عرض وإدارة حسابك</p>
+        </div>
 
-        <header class="site-header">
-            <div class="header-content">
-                <a href="https://www.alikernel.com" class="header-logo-link">
-                    <svg class="header-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
-                        <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
-                        <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
-                        <path class="ak-logo-fg" d="M3092.35,2332.03l667.24,916.6c.5.67.36,1.61-.3,2.11-.26.19-.58.3-.91.3h-678.14c-.47,0-.92-.22-1.2-.6l-674.73-921.43c-.4-.53-.4-1.27,0-1.81l673.17-910.88c.28-.38.73-.6,1.2-.6h681.81c.83,0,1.51.68,1.51,1.51,0,.33-.1.65-.3.91l-669.35,912.09c-.4.53-.4,1.27,0,1.81h0Z"/>
-                    </svg>
-                    <span>علي كيرنل</span>
-                </a>
+        <section class="user-details">
+            <div class="user-info">
+                <h3 id="account-name">...</h3>
+                <p id="account-email"></p>
+                <p id="account-joined-date"></p>
             </div>
-        </header>
+            <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
+        </section>
 
-        <main class="page-content">
-            <div class="account-container">
+        <div class="sessions-title">الأجهزة المتصلة</div>
+        <div class="sessions-list" id="sessions-list">
+            <div class="loading-text">جاري التحميل...</div>
+        </div>
 
-                <div class="account-header">
-                    <h2>حساب</h2>
-                    <p>عرض وإدارة حسابك</p>
-                </div>
-
-                <section class="user-details">
-                    <div class="user-info">
-                        <h3 id="account-name">...</h3>
-                        <p id="account-email"></p>
-                        <p id="account-joined-date"></p>
-                    </div>
-                    <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
-                </section>
-
-                <div class="sessions-title">الأجهزة المتصلة</div>
-                <div class="sessions-list" id="sessions-list">
-                    <div class="loading-text">جاري التحميل...</div>
-                </div>
-
-                <div class="account-actions">
-                    <button class="account-btn primary" id="logout-btn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
-                        <span>الخروج</span>
-                    </button>
-                    <a href="https://www.alikernel.com" class="account-btn secondary">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                            <polyline points="9 22 9 12 15 12 15 22"/>
-                        </svg>
-                        <span>الرئيسية</span>
-                    </a>
-                </div>
-
-            </div>
-        </main>
-
-        <footer class="site-footer">
-            <div class="footer-content">
-                <div class="footer-logo-section">
-                    <a href="https://www.alikernel.com" class="footer-logo-link">
-                        <svg class="footer-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
-                            <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
-                            <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
-                            <path class="ak-logo-fg" d="M3092.35,2332.03l667.24,916.6c.5.67.36,1.61-.3,2.11-.26.19-.58.3-.91.3h-678.14c-.47,0-.92-.22-1.2-.6l-674.73-921.43c-.4-.53-.4-1.27,0-1.81l673.17-910.88c.28-.38.73-.6,1.2-.6h681.81c.83,0,1.51.68,1.51,1.51,0,.33-.1.65-.3.91l-669.35,912.09c-.4.53-.4,1.27,0,1.81h0Z"/>
-                        </svg>
-                        <span>علي كيرنل</span>
-                    </a>
-                    <a href="/privacy">الخصوصية</a>
-                    <a href="/terms">الشروط</a>
-                </div>
-
-                <div class="theme-controls">
-                    <button class="theme-btn" id="theme-btn-dark" onclick="setTheme('dark', true)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/></svg>
-                        <div class="tooltip-box">مظلم<div class="tooltip-arrow"></div></div>
-                    </button>
-                    <button class="theme-btn" id="theme-btn-light" onclick="setTheme('light', true)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                        <div class="tooltip-box">نهار<div class="tooltip-arrow"></div></div>
-                    </button>
-                    <button class="theme-btn" id="theme-btn-system" onclick="setTheme('default', true)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                        <div class="tooltip-box">تلقائي<div class="tooltip-arrow"></div></div>
-                    </button>
-                </div>
-            </div>
-        </footer>
+        <div class="account-actions">
+            <button class="account-btn primary" id="logout-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
+                <span>الخروج</span>
+            </button>
+            <a href="https://www.alikernel.com" class="account-btn secondary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                    <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+                <span>الرئيسية</span>
+            </a>
+        </div>
 
     </div>
 
@@ -140,141 +54,105 @@ import '../styles/style.css';
             </div>
         </div>
     </div>
+</Layout>
 
-    <script is:inline>
-    /* ... (نفس كود الجافاسكريبت الأصلي الذي أرسلته أنت) ... */
-    function setTheme(theme, animate) {
-        function applyTheme() {
-            document.body.setAttribute('data-theme', theme);
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            document.querySelectorAll('.theme-btn').forEach(function(btn) { btn.classList.remove('active'); });
-            if (theme === 'dark') document.getElementById('theme-btn-dark').classList.add('active');
-            else if (theme === 'light') document.getElementById('theme-btn-light').classList.add('active');
-            else document.getElementById('theme-btn-system').classList.add('active');
-        }
-        if (!animate || !document.startViewTransition) { applyTheme(); return; }
-        try {
-            var btn = document.activeElement;
-            var x = window.innerWidth/2, y = window.innerHeight/2;
-            if (btn && btn.classList && btn.classList.contains('theme-btn')) {
-                var r = btn.getBoundingClientRect();
-                x = r.left + r.width/2;
-                y = r.top + r.height/2;
-            }
-            var radius = Math.hypot(Math.max(x, window.innerWidth-x), Math.max(y, window.innerHeight-y));
-            var transition = document.startViewTransition(applyTheme);
-            transition.ready.then(function() {
-                document.documentElement.animate(
-                    { clipPath: ['circle(0px at '+x+'px '+y+'px)', 'circle('+radius+'px at '+x+'px '+y+'px)'] },
-                    { duration: 800, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
-                );
-            });
-        } catch(e) { applyTheme(); }
+<style>
+    /* التنسيق الأصلي مالتك اللي يركب على الثيم */
+    .account-container { max-width: 800px; margin: 0 auto; padding: var(--contentPadding); }
+    .account-header { margin-bottom: 30px; }
+    .account-header h2 { font-size: 24px; font-weight: 700; color: var(--themeC); }
+    .account-header p { color: var(--themeC-alt); font-size: 14px; }
+    
+    .user-details { 
+        display: flex; justify-content: space-between; align-items: center; 
+        background: var(--postBg); padding: 25px; border-radius: 16px; 
+        border: var(--sideBd-line) solid var(--sideBd-color); margin-bottom: 30px;
     }
-    var savedTheme = localStorage.getItem('theme') || 'default';
-    setTheme(savedTheme, false);
+    .user-info h3 { font-size: 20px; color: var(--themeC); margin-bottom: 5px; }
+    .user-info p { font-size: 14px; color: var(--themeC-alt); }
+    #account-avatar { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--sideBd-color); }
 
-    var icons = {
-        clock: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>',
-        device: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg>',
-        location: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>',
-        globe: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M7.99998 3H8.99998C7.04998 8.84 7.04998 15.16 8.99998 21H7.99998"></path><path d="M15 3C16.95 8.84 16.95 15.16 15 21"></path><path d="M3 16V15C8.84 16.95 15.16 16.95 21 15V16"></path><path d="M3 9C8.84 7.05 15.16 7.05 21 9"></path></svg>',
-        check: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4L9 15"></path><path d="M21 19L3 19"></path><path d="M9 15L4 10"></path></svg>'
-    };
-
-    function getOS(userAgent) {
-        if (!userAgent) return "غير معروف";
-        if (/Android/i.test(userAgent)) return "أندرويد";
-        if (/iPhone/i.test(userAgent)) return "آيفون";
-        if (/iPad/i.test(userAgent)) return "آيباد";
-        if (/Windows/i.test(userAgent)) return "ويندوز";
-        if (/Mac/i.test(userAgent)) return "ماك";
-        if (/Linux/i.test(userAgent)) return "لينكس";
-        return "غير معروف";
+    .sessions-title { font-weight: 700; color: var(--themeC); margin-bottom: 15px; font-size: 16px; }
+    .sessions-list { background: var(--postBg); border-radius: 16px; border: var(--sideBd-line) solid var(--sideBd-color); overflow: hidden; }
+    
+    .account-actions { display: flex; gap: 12px; margin-top: 30px; }
+    .account-btn { 
+        display: flex; align-items: center; gap: 8px; padding: 12px 24px; 
+        border-radius: 10px; cursor: pointer; border: none; font-weight: 700; font-size: 14px; transition: 0.2s;
     }
+    .account-btn svg { width: 18px; height: 18px; }
+    .account-btn.primary { background: #ef4444; color: #fff; }
+    .account-btn.secondary { background: var(--contentBg-sec); color: var(--themeC); border: var(--sideBd-line) solid var(--sideBd-color); }
 
-    function escapeHtml(text) {
-        var div = document.createElement('div');
-        div.textContent = text || '';
-        return div.innerHTML;
-    }
+    /* Modal Styles */
+    .custom-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 9999; backdrop-filter: blur(4px); }
+    .custom-modal-overlay.hidden { display: none; }
+    .custom-modal-content { background: var(--postBg); padding: 30px; border-radius: 20px; max-width: 400px; width: 90%; border: var(--sideBd-line) solid var(--sideBd-color); text-align: center; }
+    .modal-btn { padding: 10px 20px; border-radius: 8px; cursor: pointer; border: none; font-weight: 700; margin: 0 5px; }
+    .modal-btn.primary { background: var(--themeLink); color: #000; }
+    .modal-btn.secondary { background: var(--contentBg-sec); color: var(--themeC); }
+</style>
 
-    function showModal(msg, cb) {
-        var modal = document.getElementById("custom-confirm-modal");
-        var text = document.getElementById("custom-modal-text");
-        var confirmBtn = document.getElementById("custom-modal-confirm-btn");
-        var cancelBtn = document.getElementById("custom-modal-cancel-btn");
-        if (!modal) { if (confirm(msg) && cb) cb(); return; }
-        text.textContent = msg;
-        modal.classList.remove("hidden");
-        var newC = confirmBtn.cloneNode(true);
-        var newX = cancelBtn.cloneNode(true);
-        confirmBtn.parentNode.replaceChild(newC, confirmBtn);
-        cancelBtn.parentNode.replaceChild(newX, cancelBtn);
-        newC.onclick = function() { modal.classList.add("hidden"); if (cb) cb(); };
-        newX.onclick = function() { modal.classList.add("hidden"); };
-    }
-
+<script is:inline>
     (function() {
         var API = "/api/auth";
         var LOGIN = "/login";
         var currentSessionToken = null;
 
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'auth_event' && (e.newValue || '').startsWith('signout')) {
-                localStorage.clear();
-                window.location.href = LOGIN;
-            }
-        });
+        var icons = {
+            clock: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>',
+            device: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg>',
+            location: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+            globe: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M7.99998 3H8.99998C7.04998 8.84 7.04998 15.16 8.99998 21H7.99998"></path><path d="M15 3C16.95 8.84 16.95 15.16 15 21"></path><path d="M3 16V15C8.84 16.95 15.16 16.95 21 15V16"></path><path d="M3 9C8.84 7.05 15.16 7.05 21 9"></path></svg>',
+            check: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4L9 15"></path><path d="M21 19L3 19"></path><path d="M9 15L4 10"></path></svg>'
+        };
 
-        try {
-            var photoURL = localStorage.getItem("userPhotoURL");
-            var lastUid = localStorage.getItem("last_uid");
-            var av = document.getElementById("account-avatar");
-            if (lastUid && photoURL && av) av.src = photoURL;
-            var cachedName = localStorage.getItem("userDisplayName");
-            var cachedEmail = localStorage.getItem("userEmail");
-            var cachedJoined = localStorage.getItem("userJoinedDate");
-            var cachedSessions = localStorage.getItem("userSessionsHTMLCache");
-            if (cachedName) document.getElementById("account-name").textContent = cachedName;
-            if (cachedEmail) document.getElementById("account-email").textContent = cachedEmail;
-            if (cachedJoined) document.getElementById("account-joined-date").textContent = cachedJoined;
-            if (cachedSessions) document.getElementById("sessions-list").innerHTML = cachedSessions;
-        } catch(e) {}
+        function getOS(userAgent) {
+            if (!userAgent) return "غير معروف";
+            if (/Android/i.test(userAgent)) return "أندرويد";
+            if (/iPhone/i.test(userAgent)) return "آيفون";
+            if (/iPad/i.test(userAgent)) return "آيباد";
+            if (/Windows/i.test(userAgent)) return "ويندوز";
+            if (/Mac/i.test(userAgent)) return "ماك";
+            if (/Linux/i.test(userAgent)) return "لينكس";
+            return "غير معروف";
+        }
 
+        function escapeHtml(text) {
+            var div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+
+        function showModal(msg, cb) {
+            var modal = document.getElementById("custom-confirm-modal");
+            var text = document.getElementById("custom-modal-text");
+            var confirmBtn = document.getElementById("custom-modal-confirm-btn");
+            var cancelBtn = document.getElementById("custom-modal-cancel-btn");
+            text.textContent = msg;
+            modal.classList.remove("hidden");
+            var newC = confirmBtn.cloneNode(true);
+            var newX = cancelBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newC, confirmBtn);
+            cancelBtn.parentNode.replaceChild(newX, cancelBtn);
+            newC.onclick = function() { modal.classList.add("hidden"); if (cb) cb(); };
+            newX.onclick = function() { modal.classList.add("hidden"); };
+        }
+
+        // Fetch User Data
         fetch(API + "/get-session", { credentials: "include" })
             .then(function(r) { return r.json(); })
             .then(function(data) {
                 if (!data || !data.user) { window.location.href = LOGIN; return; }
                 var user = data.user;
                 currentSessionToken = data.session ? data.session.token : null;
-                var name = user.name || "مستخدم";
-                var email = user.email || "";
-                document.getElementById('account-name').textContent = name;
-                document.getElementById('account-email').textContent = email;
-                if (user.image) {
-                    document.getElementById('account-avatar').src = user.image;
-                    localStorage.setItem("userPhotoURL", user.image);
-                }
-                var prevUid = localStorage.getItem("last_uid");
-                localStorage.setItem("userDisplayName", name);
-                localStorage.setItem("userEmail", email);
-                localStorage.setItem("last_uid", user.id);
-                if (!prevUid) {
-                    localStorage.setItem('auth_event', 'signin_' + Date.now());
-                    setTimeout(function() { window.location.href = 'https://www.alikernel.com'; }, 300);
-                    return;
-                }
-                document.documentElement.style.visibility = 'visible';
+                document.getElementById('account-name').textContent = user.name || "مستخدم";
+                document.getElementById('account-email').textContent = user.email || "";
+                if (user.image) document.getElementById('account-avatar').src = user.image;
+                
                 if (user.createdAt) {
                     var date = new Date(user.createdAt);
-                    var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
-                        year: 'numeric', month: 'numeric', day: 'numeric',
-                        hour: 'numeric', minute: 'numeric', hour12: true
-                    }).replace('ص', 'صباحاً').replace('م', 'مساءً');
-                    document.getElementById('account-joined-date').textContent = formatted;
-                    localStorage.setItem("userJoinedDate", formatted);
+                    document.getElementById('account-joined-date').textContent = "انضم في: " + date.toLocaleDateString('ar-u-nu-latn');
                 }
                 loadSessions();
             })
@@ -282,45 +160,30 @@ import '../styles/style.css';
 
         function loadSessions() {
             var list = document.getElementById("sessions-list");
-            if (!list) return;
             fetch(API + "/list-sessions", { credentials: "include" })
                 .then(function(r) { return r.json(); })
                 .then(function(sessions) {
                     if (!sessions || sessions.length === 0) {
-                        list.innerHTML = '<p style="text-align:center;color:#888;">لا توجد جلسات نشطة</p>';
+                        list.innerHTML = '<p style="padding:20px;text-align:center;color:#888;">لا توجد جلسات نشطة</p>';
                         return;
                     }
-                    var htmlContent = sessions.map(function(s) {
+                    list.innerHTML = sessions.map(function(s) {
                         var isCurr = s.token === currentSessionToken;
-                        var time = new Date(s.createdAt).toLocaleString('ar-u-nu-latn', {
-                            hour: 'numeric', minute: 'numeric', hour12: true
-                        }).replace('ص', 'AM').replace('م', 'PM');
                         var os = getOS(s.userAgent);
-                        var domainLine = s.userAgent ?
-                            '<div class="session-detail-line">' + icons.globe + ' <span>الموقع: ' + escapeHtml(window.location.hostname) + '</span></div>' : '';
-
-                        return '<div class="session-item" id="session-' + escapeHtml(s.token) + '">' +
-                            '<div class="session-details">' +
-                                '<div class="session-detail-line">' + icons.clock + ' <span>الوقت: ' + time + '</span></div>' +
-                                '<div class="session-detail-line">' + icons.device + ' <span>نظام التشغيل: ' + os + '</span></div>' +
-                                '<div class="session-detail-line">' + icons.location + ' <span>العنوان: ' + escapeHtml(s.ipAddress || 'غير معروف') + '</span></div>' +
-                                domainLine +
-                                (isCurr ? '<div class="session-detail-line current-session-indicator">' + icons.check + ' <span>جلستك الحالية</span></div>' : '') +
+                        return '<div style="padding:15px; border-bottom:1px solid var(--sideBd-color); display:flex; justify-content:space-between; align-items:center;">' +
+                            '<div>' +
+                                '<div style="display:flex; align-items:center; gap:8px; font-size:13px;">' + icons.device + ' <span>' + os + '</span></div>' +
+                                '<div style="font-size:11px; color:var(--themeC-alt); margin-top:4px;">' + (s.ipAddress || 'IP غير معروف') + '</div>' +
+                                (isCurr ? '<div style="color:var(--themeLink); font-size:11px; font-weight:700; margin-top:4px;">هذه الجلسة حالياً</div>' : '') +
                             '</div>' +
-                            '<button class="terminate-btn ' + (isCurr ? 'icon-current' : 'icon-terminate') + '" onclick="deleteSession(\'' + escapeHtml(s.token) + '\', ' + isCurr + ')"></button>' +
+                            '<button onclick="deleteSession(\'' + escapeHtml(s.token) + '\', ' + isCurr + ')" style="background:#ef444420; color:#ef4444; border:none; padding:5px 10px; border-radius:6px; cursor:pointer; font-size:12px;">حذف</button>' +
                         '</div>';
                     }).join('');
-
-                    localStorage.setItem("userSessionsHTMLCache", htmlContent);
-                    list.innerHTML = htmlContent;
-                })
-                .catch(function() {
-                    list.innerHTML = '<p style="text-align:center;color:#888;">تعذر تحميل الجلسات</p>';
                 });
         }
 
-        window.deleteSession = function(token, isCurrent) {
-            var msg = isCurrent ? "لا يمكن التراجع عن هذا الإجراء. أنت على وشك إلغاء جلستك الحالية، مما سيؤدي إلى تسجيل خروجك فوراً." : "لا يمكن التراجع عن هذا الإجراء. سيؤدي إلغاء هذه الجلسة إلى إزالة صلاحيات الوصول الخاصة بها.";
+        window.deleteSession = function(token, isCurr) {
+            var msg = isCurr ? "سيتم تسجيل خروجك فوراً إذا حذفت الجلسة الحالية." : "هل تريد إغلاق هذه الجلسة؟";
             showModal(msg, function() {
                 fetch(API + "/revoke-session", {
                     method: "POST",
@@ -328,34 +191,17 @@ import '../styles/style.css';
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ token: token })
                 }).then(function() {
-                    if (isCurrent) {
-                        localStorage.setItem('auth_event', 'signout_' + Date.now());
-                        localStorage.clear();
-                        window.location.href = LOGIN;
-                    } else {
-                        loadSessions();
-                    }
+                    if (isCurr) { localStorage.clear(); window.location.href = LOGIN; }
+                    else loadSessions();
                 });
             });
         };
 
         document.getElementById('logout-btn').addEventListener('click', function() {
             showModal("هل تريد تسجيل الخروج؟", function() {
-                fetch(API + "/sign-out", {
-                    method: "POST",
-                    credentials: "include",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({})
-                }).then(function() {
-                    localStorage.setItem('auth_event', 'signout_' + Date.now());
-                    setTimeout(function() {
-                        localStorage.clear();
-                        window.location.href = LOGIN;
-                    }, 300);
-                });
+                fetch(API + "/sign-out", { method: "POST", credentials: "include" })
+                .then(function() { localStorage.clear(); window.location.href = LOGIN; });
             });
         });
     })();
-    </script>
-</body>
-</html>
+</script>
