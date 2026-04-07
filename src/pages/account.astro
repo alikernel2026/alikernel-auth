@@ -1,41 +1,129 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import '../styles/style.css';
 ---
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حسابي - علي كيرنل</title>
+    <link href='https://github.com/alikernel2026/favicon.ico/blob/main/favicon-96x96.png?raw=true' rel='icon' sizes='96x96' type='image/png'/>
+    <link href='https://github.com/alikernel2026/favicon.ico/blob/main/favicon.svg?raw=true' rel='icon' type='image/svg+xml'/>
+    <link href='https://github.com/alikernel2026/favicon.ico/blob/main/favicon.ico?raw=true' rel='shortcut icon'/>
+    <link href='https://github.com/alikernel2026/favicon.ico/blob/main/apple-touch-icon.png?raw=true' rel='apple-touch-icon' sizes='180x180'/>
+    <link href='https://github.com/alikernel2026/favicon.ico/blob/main/site.webmanifest?raw=true' rel='manifest'/>
+    <style>
+        ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
+        ::view-transition-new(root){z-index:2}
 
-<Layout title="حسابي">
-    <div class="account-container">
-        <div class="account-header">
-            <h2>حساب</h2>
-            <p>عرض وإدارة حسابك</p>
-        </div>
+        /* --- الشعار: يتغير مع الثيم --- */
+        .ak-logo-bg { fill: #94f27f; }
+        .ak-logo-fg { fill: #000000; }
+        [data-theme="light"] .ak-logo-bg { fill: #1976d2; }
+        [data-theme="light"] .ak-logo-fg { fill: #ffffff; }
+        @media (prefers-color-scheme: light) {
+            [data-theme="default"] .ak-logo-bg { fill: #1976d2; }
+            [data-theme="default"] .ak-logo-fg { fill: #ffffff; }
+        }
+    </style>
+    <script is:inline>
+        (function() {
+            var theme = localStorage.getItem('theme') || 'default';
+            document.documentElement.setAttribute('data-theme', theme);
+            if (!localStorage.getItem('last_uid')) {
+                document.documentElement.style.visibility = 'hidden';
+            }
+        })();
+    </script>
+</head>
+<body data-theme="dark">
 
-        <section class="user-details">
-            <div class="user-info">
-                <h3 id="account-name">...</h3>
-                <p id="account-email"></p>
-                <p id="account-joined-date"></p>
+    <div class="page-wrapper">
+
+        <header class="site-header">
+            <div class="header-content">
+                <a href="https://www.alikernel.com" class="header-logo-link">
+                    <svg class="header-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
+                        <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
+                        <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
+                        <path class="ak-logo-fg" d="M3092.35,2332.03l667.24,916.6c.5.67.36,1.61-.3,2.11-.26.19-.58.3-.91.3h-678.14c-.47,0-.92-.22-1.2-.6l-674.73-921.43c-.4-.53-.4-1.27,0-1.81l673.17-910.88c.28-.38.73-.6,1.2-.6h681.81c.83,0,1.51.68,1.51,1.51,0,.33-.1.65-.3.91l-669.35,912.09c-.4.53-.4,1.27,0,1.81h0Z"/>
+                    </svg>
+                    <span>علي كيرنل</span>
+                </a>
             </div>
-            <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
-        </section>
+        </header>
 
-        <div class="sessions-title">الأجهزة المتصلة</div>
-        <div class="sessions-list" id="sessions-list">
-            <div class="loading-text">جاري التحميل...</div>
-        </div>
+        <main class="page-content">
+            <div class="account-container">
 
-        <div class="account-actions">
-            <button class="account-btn primary" id="logout-btn">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
-                <span>الخروج</span>
-            </button>
-            <a href="https://www.alikernel.com" class="account-btn secondary">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                    <polyline points="9 22 9 12 15 12 15 22"/>
-                </svg>
-                <span>الرئيسية</span>
-            </a>
-        </div>
+                <div class="account-header">
+                    <h2>حساب</h2>
+                    <p>عرض وإدارة حسابك</p>
+                </div>
+
+                <section class="user-details">
+                    <div class="user-info">
+                        <h3 id="account-name">...</h3>
+                        <p id="account-email"></p>
+                        <p id="account-joined-date"></p>
+                    </div>
+                    <img id="account-avatar" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="صورة المستخدم">
+                </section>
+
+                <div class="sessions-title">الأجهزة المتصلة</div>
+                <div class="sessions-list" id="sessions-list">
+                    <div class="loading-text">جاري التحميل...</div>
+                </div>
+
+                <div class="account-actions">
+                    <button class="account-btn primary" id="logout-btn">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" transform="scale(-1 1)"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4m7 14 5-5-5-5m5 5H9"/></svg>
+                        <span>الخروج</span>
+                    </button>
+                    <a href="https://www.alikernel.com" class="account-btn secondary">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                        <span>الرئيسية</span>
+                    </a>
+                </div>
+
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="footer-content">
+                <div class="footer-logo-section">
+                    <a href="https://www.alikernel.com" class="footer-logo-link">
+                        <svg class="footer-logo-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4667.08 4667.08">
+                            <rect class="ak-logo-bg" width="4667.08" height="4667.08" rx="1004" ry="1004"/>
+                            <path class="ak-logo-fg" d="M2055.99,2617.1h404.27c.56,0,1.08.26,1.4.71l291.49,401.96c.59.78.42,1.88-.35,2.46-.32.24-.71.36-1.11.35h-994.49c-.56,0-1.08.26-1.4.71l-165.46,226.36c-.33.45-.85.71-1.4.71l-682.1,1c-.97,0-1.76-.79-1.76-1.76,0-.38.13-.75.35-1.05l1339.51-1832.1c.33-.45.85-.71,1.4-.71h680.2c.97,0,1.76.79,1.76,1.76,0,.38-.13.75-.35,1.05l-873.37,1195.74c-.58.78-.42,1.88.35,2.46.3.23.68.35,1.05.35h0Z"/>
+                            <path class="ak-logo-fg" d="M3092.35,2332.03l667.24,916.6c.5.67.36,1.61-.3,2.11-.26.19-.58.3-.91.3h-678.14c-.47,0-.92-.22-1.2-.6l-674.73-921.43c-.4-.53-.4-1.27,0-1.81l673.17-910.88c.28-.38.73-.6,1.2-.6h681.81c.83,0,1.51.68,1.51,1.51,0,.33-.1.65-.3.91l-669.35,912.09c-.4.53-.4,1.27,0,1.81h0Z"/>
+                        </svg>
+                        <span>علي كيرنل</span>
+                    </a>
+                    <a href="/privacy">الخصوصية</a>
+                    <a href="/terms">الشروط</a>
+                </div>
+
+                <div class="theme-controls">
+                    <button class="theme-btn" id="theme-btn-dark" onclick="setTheme('dark', true)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/></svg>
+                        <div class="tooltip-box">مظلم<div class="tooltip-arrow"></div></div>
+                    </button>
+                    <button class="theme-btn" id="theme-btn-light" onclick="setTheme('light', true)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                        <div class="tooltip-box">نهار<div class="tooltip-arrow"></div></div>
+                    </button>
+                    <button class="theme-btn" id="theme-btn-system" onclick="setTheme('default', true)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <div class="tooltip-box">تلقائي<div class="tooltip-arrow"></div></div>
+                    </button>
+                </div>
+            </div>
+        </footer>
+
     </div>
 
     <div id="custom-confirm-modal" class="custom-modal-overlay hidden">
@@ -52,236 +140,41 @@ import Layout from '../layouts/Layout.astro';
             </div>
         </div>
     </div>
-</Layout>
 
-<style is:global>
-    .account-container {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 0 20px 60px;
-    }
-    .account-header {
-        text-align: center;
-        margin-bottom: 30px;
-    }
-    .account-header h2 {
-        font-size: 24px;
-        color: var(--themeC);
-        margin-bottom: 8px;
-    }
-    .account-header p {
-        color: var(--themeC-alt);
-        font-size: 14px;
-    }
-    .user-details {
-        display: flex;
-        align-items: center;
-        gap: 20px;
-        padding: 20px;
-        background: var(--postBg);
-        border: var(--sideBd-line) solid var(--sideBd-color);
-        border-radius: 12px;
-        margin-bottom: 24px;
-    }
-    .user-info {
-        flex: 1;
-    }
-    .user-info h3 {
-        font-size: 20px;
-        color: var(--themeC);
-        margin-bottom: 8px;
-    }
-    .user-info p {
-        font-size: 14px;
-        color: var(--themeC-alt);
-        margin: 4px 0;
-    }
-    #account-avatar {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        border: 3px solid var(--sideBd-color);
-        object-fit: cover;
-    }
-    .sessions-title {
-        font-size: 18px;
-font-weight: 600;
-        color: var(--themeC);
-        margin-bottom: 16px;
-    }
-    .sessions-list {
-        margin-bottom: 30px;
-    }
-    .loading-text {
-        text-align: center;
-        color: var(--themeC-alt);
-        padding: 40px;
-    }
-    .session-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 16px 20px;
-        background: var(--postBg);
-        border: var(--sideBd-line) solid var(--sideBd-color);
-        border-radius: 10px;
-        margin-bottom: 10px;
-    }
-    .session-details {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-    .session-detail-line {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 13px;
-        color: var(--themeC-alt);
-    }
-    .session-detail-line svg {
-        width: 14px;
-        height: 14px;
-        flex-shrink: 0;
-    }
-    .current-session-indicator {
-        color: var(--themeLink) !important;
-        font-weight: 600;
-    }
-    .terminate-btn {
-        width: 36px;
-        height: 36px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.2s;
-        border: 1px solid var(--sideBd-color);
-    }
-    .icon-terminate {
-        background: rgba(255,68,68,0.1);
-    }
-    .icon-terminate:hover {
-        background: rgba(255,68,68,0.2);
-    }
-    .icon-current {
-        background: rgba(0,200,0,0.1);
-    }
-    .terminate-btn::before {
-        content: '×';
-        font-size: 20px;
-        font-weight: bold;
-    }
-    .icon-terminate::before { color: #ff4444; }
-    .icon-current::before { color: #00c800; }
-    .account-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-    }
-    .account-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 12px 24px;
-        border-radius: 10px;
-        font-size: 14px;
-        font-weight: 600;
-        transition: all 0.2s;
-        cursor: pointer;
-    }
-    .account-btn svg {
-        width: 18px;
-        height: 18px;
-    }
-    .account-btn.primary {
-        background: var(--themeLink);
-        color: var(--contentBg-sec);
-        border: none;
-    }
-    .account-btn.primary:hover {
-        opacity: 0.85;
-    }
-    .account-btn.secondary {
-        background: var(--postBg);
-        color: var(--themeC);
-        border: var(--sideBd-line) solid var(--sideBd-color);
-    }
-    .account-btn.secondary:hover {
-        background: var(--contentBg-sec);
-    }
-    .custom-modal-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0,0,0,0.7);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-    }
-    .custom-modal-overlay.hidden {
-        display: none;
-    }
-    .custom-modal-content {
-        background: var(--postBg);
-        border: var(--sideBd-line) solid var(--sideBd-color);
-        border-radius: 16px;
-        padding: 24px;
-        max-width: 400px;
-        width: 90%;
-    }
-    .modal-body {
-        margin-bottom: 20px;
-    }
-    .modal-body h2 {
-        font-size: 18px;
-        color: var(--themeC);
-        margin-bottom: 12px;
-    }
-    .modal-body p {
-        font-size: 14px;
-        color: var(--themeC-alt);
-        line-height: 1.6;
-    }
-    .custom-modal-actions {
-        display: flex;
-        gap: 12px;
-        justify-content: flex-end;
-    }
-    .modal-btn {
-        padding: 10px 20px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-    .modal-btn.primary {
-        background: var(--themeLink);
-        color: var(--contentBg-sec);
-        border: none;
-    }
-    .modal-btn.secondary {
-        background: var(--contentBg-sec);
-        color: var(--themeC);
-        border: var(--sideBd-line) solid var(--sideBd-color);
-    }
-    .modal-btn:hover {
-        opacity: 0.85;
-    }
-    @media (max-width: 600px) {
-        .user-details {
-            flex-direction: column;
-            text-align: center;
+    <script is:inline>
+    /* ... (نفس كود الجافاسكريبت الأصلي الذي أرسلته أنت) ... */
+    function setTheme(theme, animate) {
+        function applyTheme() {
+            document.body.setAttribute('data-theme', theme);
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            document.querySelectorAll('.theme-btn').forEach(function(btn) { btn.classList.remove('active'); });
+            if (theme === 'dark') document.getElementById('theme-btn-dark').classList.add('active');
+            else if (theme === 'light') document.getElementById('theme-btn-light').classList.add('active');
+            else document.getElementById('theme-btn-system').classList.add('active');
         }
-        .account-actions {
-            flex-direction: column;
-        }
+        if (!animate || !document.startViewTransition) { applyTheme(); return; }
+        try {
+            var btn = document.activeElement;
+            var x = window.innerWidth/2, y = window.innerHeight/2;
+            if (btn && btn.classList && btn.classList.contains('theme-btn')) {
+                var r = btn.getBoundingClientRect();
+                x = r.left + r.width/2;
+                y = r.top + r.height/2;
+            }
+            var radius = Math.hypot(Math.max(x, window.innerWidth-x), Math.max(y, window.innerHeight-y));
+            var transition = document.startViewTransition(applyTheme);
+            transition.ready.then(function() {
+                document.documentElement.animate(
+                    { clipPath: ['circle(0px at '+x+'px '+y+'px)', 'circle('+radius+'px at '+x+'px '+y+'px)'] },
+                    { duration: 800, easing: 'ease-out', pseudoElement: '::view-transition-new(root)' }
+                );
+            });
+        } catch(e) { applyTheme(); }
     }
-</style>
+    var savedTheme = localStorage.getItem('theme') || 'default';
+    setTheme(savedTheme, false);
 
-<script is:inline>
     var icons = {
         clock: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>',
         device: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg>',
@@ -364,7 +257,6 @@ font-weight: 600;
                     document.getElementById('account-avatar').src = user.image;
                     localStorage.setItem("userPhotoURL", user.image);
                 }
-
                 var prevUid = localStorage.getItem("last_uid");
                 localStorage.setItem("userDisplayName", name);
                 localStorage.setItem("userEmail", email);
@@ -374,7 +266,6 @@ font-weight: 600;
                     setTimeout(function() { window.location.href = 'https://www.alikernel.com'; }, 300);
                     return;
                 }
-
                 document.documentElement.style.visibility = 'visible';
                 if (user.createdAt) {
                     var date = new Date(user.createdAt);
@@ -465,4 +356,6 @@ font-weight: 600;
             });
         });
     })();
-</script>
+    </script>
+</body>
+</html>
