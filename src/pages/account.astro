@@ -1,10 +1,13 @@
 ---
+import '../styles/style.css';
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="حسابي">
+<Layout title="حسابي" showBreadcrumb={false}>
 
     <script is:inline>
         (function() {
+            var theme = localStorage.getItem('theme') || 'default';
+            document.documentElement.setAttribute('data-theme', theme);
             if (!localStorage.getItem('last_uid')) {
                 document.documentElement.style.visibility = 'hidden';
             }
