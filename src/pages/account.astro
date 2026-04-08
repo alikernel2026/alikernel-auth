@@ -13,6 +13,23 @@ import '../styles/style.css';
     <link href='https://github.com/alikernel2026/favicon.ico/blob/main/apple-touch-icon.png?raw=true' rel='apple-touch-icon' sizes='180x180'/>
     <link href='https://github.com/alikernel2026/favicon.ico/blob/main/site.webmanifest?raw=true' rel='manifest'/>
     <style>
+
+        /* --- إعدادات السكرول بار (نفس موقعك الأصلي) --- */
+        @media screen and (min-width: 768px) {
+            ::-webkit-scrollbar {
+                -webkit-appearance: none;
+                width: 5px;
+                height: 5px;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color:  var(--sideBd-color);
+                border-radius: 0px;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: transparent;
+            }
+        }
+
         ::view-transition-old(root),::view-transition-new(root){animation:none;mix-blend-mode:normal}
         ::view-transition-new(root){z-index:2}
 
