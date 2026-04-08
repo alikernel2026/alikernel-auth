@@ -26,7 +26,6 @@ const { title } = Astro.props;
 
         ::selection { color: var(--selectC, #ffffff); background-color: var(--selectBg, #3b82f6); opacity: .85; }
 
-        /* === الثيمات === */
         body {
             --themeBg: #100f10; --postBg: #1b1b1b; --headerBg: #1b1b1b; --contentBg-sec: #252526;
             --themeLink: #94f27f; --themeC: #d9e2f0; --themeC-alt: #a0a0a0; --sideBd-color: #3a3c3d;
@@ -109,29 +108,19 @@ const { title } = Astro.props;
         .footer-logo-section a:not(.footer-logo-link) { font-size: 11px; font-weight: 600; opacity: 0.85; display: inline-flex; align-items: center; }
         .footer-logo-section a:not(.footer-logo-link):hover { text-decoration-line: underline !important; }
 
-        /* ===== إصلاح أزرار الثيم (اللون والأيقونات) ===== */
-        .theme-controls { 
-            display: flex; 
-            border-radius: 9px; 
-            border: 1px solid var(--sideBd-color); 
-            background-color: transparent; /* خليته شفاف حتى ما تضيع الأيقونات */
-            overflow: hidden;
-        }
-        .theme-btn { 
-            position: relative; 
-            padding: 8px 9px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            cursor: pointer; 
-            background-color: transparent;
-            color: var(--themeC-alt); /* الأيقونات حتاخذ هلون وتتغير حسب الثيم */
-            transition: all 0.2s ease;
-        }
+        /* ===== Theme Controls الأصلي (بدون التكرار المخرب) ===== */
+        .theme-controls { display: flex; border-radius: 9px; border: 1px solid var(--sideBd-color); background-color: var(--alikernelC); }
+        .theme-btn { position: relative; padding: 8px 9px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .theme-btn:first-child { border-start-start-radius: 8px; border-end-start-radius: 8px; }
+        .theme-btn:last-child { border-start-end-radius: 8px; border-end-end-radius: 8px; }
         .theme-btn:not(:first-child) { border-right: 1px solid var(--sideBd-color); }
-        .theme-btn svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 2; }
-        .theme-btn.active { background-color: var(--contentBg-sec); color: var(--themeC); }
-        .theme-btn:hover { color: var(--themeC); }
+        .theme-btn svg { width: 15px; height: 15px; fill: none; }
+        .theme-btn.active { background-color: var(--contentBg-sec); }
+        .theme-btn:not(.active) svg { opacity: 0.8; }
+        .theme-btn.active svg, .theme-btn:hover svg { opacity: 1; }
+
+        body[data-theme="dark"] .theme-btn svg, body[data-theme="default"] .theme-btn:hover svg { color: #fff; }
+        body[data-theme="light"] .theme-btn svg, body[data-theme="light"] .theme-btn:hover svg { color: #1a1a1a; }
 
         @keyframes slideUp { 0% { opacity: 0; transform: translateX(-50%) translateY(10px); } 100% { opacity: 1; transform: translateX(-50%) translateY(0); } }
         .theme-btn .tooltip-box { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 10px; background-color: var(--alikernelBg); color: var(--alikernelC); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap; opacity: 0; visibility: hidden; pointer-events: none; z-index: 20; }
@@ -156,7 +145,7 @@ const { title } = Astro.props;
         body[data-theme="light"] .ak-logo-bg { fill: var(--alikernelBg); }
         body[data-theme="light"] .ak-logo-fg { fill: #ffffff; }
 
-        /* ===== إصلاح مشكلة النافذة (المودال) CSS اللي نسيته ===== */
+        /* ===== CSS النافذة (المودال) ===== */
         .custom-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 1; transition: opacity 0.2s ease; }
         .custom-modal-overlay.hidden { opacity: 0; pointer-events: none; visibility: hidden; }
         .custom-modal-content { background: var(--postBg); border: 1px solid var(--sideBd-color); border-radius: 12px; width: 90%; max-width: 400px; padding: 24px; box-shadow: 0 10px 30px rgba(0,0,0,0.3); transform: scale(1); transition: transform 0.2s ease; direction: rtl; }
@@ -167,7 +156,7 @@ const { title } = Astro.props;
         .modal-btn { padding: 8px 16px; border-radius: 8px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
         .modal-btn.secondary { background: transparent; border: 1px solid var(--sideBd-color); color: var(--themeC); }
         .modal-btn.secondary:hover { background: var(--contentBg-sec); }
-        .modal-btn.primary { background: var(--themeC); border: none; color: var(--themeBg); } /* زر أبيض بالمظلم، وأسود بالنهاري */
+        .modal-btn.primary { background: var(--themeC); border: none; color: var(--themeBg); }
         .modal-btn.primary:hover { opacity: 0.9; }
     </style>
 </head>
@@ -238,15 +227,15 @@ const { title } = Astro.props;
 
                 <div class="theme-controls">
                     <button class="theme-btn" id="theme-btn-dark" onclick="setTheme('dark', true)">
-                        <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/></svg>
                         <div class="tooltip-box">مظلم<div class="tooltip-arrow"></div></div>
                     </button>
                     <button class="theme-btn" id="theme-btn-light" onclick="setTheme('light', true)">
-                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
                         <div class="tooltip-box">نهار<div class="tooltip-arrow"></div></div>
                     </button>
                     <button class="theme-btn" id="theme-btn-system" onclick="setTheme('default', true)">
-                        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                         <div class="tooltip-box">تلقائي<div class="tooltip-arrow"></div></div>
                     </button>
                 </div>
@@ -299,7 +288,6 @@ const { title } = Astro.props;
     var savedTheme = localStorage.getItem('theme') || 'default';
     setTheme(savedTheme, false);
 
-    /* سكربت تشغيل المودال */
     function showModal(msg, cb) {
         var modal = document.getElementById("custom-confirm-modal");
         var text = document.getElementById("custom-modal-text");
