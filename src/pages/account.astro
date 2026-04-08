@@ -1,8 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="حسابي" noWrapper={true}>
 
+<Layout title="حسابي" noWrapper={true}>
     <script is:inline>
         /* إخفاء الصفحة فوراً إن لم يكن المستخدم مسجلاً دخوله */
         (function() {
@@ -13,7 +13,6 @@ import Layout from '../layouts/Layout.astro';
     </script>
 
     <div class="account-container">
-
         <div class="account-header">
             <h2>حساب</h2>
             <p>عرض وإدارة حسابك</p>
@@ -46,7 +45,6 @@ import Layout from '../layouts/Layout.astro';
                 <span>الرئيسية</span>
             </a>
         </div>
-
     </div>
 
     <div id="custom-confirm-modal" class="custom-modal-overlay hidden">
@@ -64,360 +62,187 @@ import Layout from '../layouts/Layout.astro';
         </div>
     </div>
 
-    <style>
-        /* ===== تخطيط صفحة الحساب ===== */
-        .account-container {
-            width: 100%;
-            max-width: var(--content-maxWidth);
-            margin-inline: auto;
-            padding: var(--contentPadding);
-            padding-top: 40px;
-        }
-        .account-header {
-            margin-bottom: 24px;
-        }
-        .account-header h2 {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--themeC);
-        }
-        .account-header p {
-            font-size: 14px;
-            color: var(--themeC-alt);
-            margin-top: 4px;
-        }
-
-        /* ===== قسم معلومات المستخدم ===== */
-        .user-details {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 16px;
-            background-color: var(--postBg);
-            border: var(--sideBd-line) solid var(--sideBd-color);
-            border-radius: 10px;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        .user-info { display: flex; flex-direction: column; gap: 4px; }
-        .user-info h3 { font-size: 18px; font-weight: 600; color: var(--themeC); }
-        .user-info p { font-size: 13px; color: var(--themeC-alt); }
-        #account-avatar {
-            width: 64px;
-            height: 64px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--sideBd-color);
-            flex-shrink: 0;
-        }
-
-        /* ===== قائمة الجلسات ===== */
-        .sessions-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--themeC);
-            margin-bottom: 10px;
-        }
-        .sessions-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 24px;
-        }
-        .loading-text { font-size: 14px; color: var(--themeC-alt); text-align: center; padding: 20px; }
-        .session-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: var(--postBg);
-            border: var(--sideBd-line) solid var(--sideBd-color);
-            border-radius: 8px;
-            padding: 14px 16px;
-            gap: 12px;
-        }
-        .session-details { display: flex; flex-direction: column; gap: 5px; }
-        .session-detail-line {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            color: var(--themeC-alt);
-        }
-        .session-detail-line svg { flex-shrink: 0; }
-        .current-session-indicator { color: var(--themeLink); }
-        .terminate-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            transition: opacity 0.2s;
-            cursor: pointer;
-            border: 1px solid var(--sideBd-color);
-            background-color: transparent;
-        }
-        .terminate-btn:hover { opacity: 0.7; }
-        .icon-terminate::before { content: "✕"; font-size: 13px; color: #e05c5c; }
-        .icon-current::before { content: "→"; font-size: 13px; color: var(--themeLink); }
-
-        /* ===== أزرار الإجراءات ===== */
-        .account-actions {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-        .account-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            border: 1px solid var(--sideBd-color);
-            transition: opacity 0.2s;
-            text-decoration: none;
-        }
-        .account-btn:hover { opacity: 0.8; }
-        .account-btn svg { width: 16px; height: 16px; }
-        .account-btn.primary {
-            background-color: var(--alikernelBg);
-            color: var(--alikernelC);
-        }
-        .account-btn.secondary {
-            background-color: var(--contentBg-sec);
-            color: var(--themeC);
-        }
-
-        /* ===== المودال ===== */
-        .custom-modal-overlay {
-            position: fixed;
-            inset: 0;
-            background-color: rgba(0,0,0,0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 999;
-            padding: 20px;
-        }
-        .custom-modal-overlay.hidden { display: none; }
-        .custom-modal-content {
-            background-color: var(--postBg);
-            border: var(--sideBd-line) solid var(--sideBd-color);
-            border-radius: 12px;
-            width: 100%;
-            max-width: 420px;
-            overflow: hidden;
-        }
-        .modal-body { padding: 24px; }
-        .modal-body h2 { font-size: 17px; font-weight: 700; color: var(--themeC); margin-bottom: 10px; }
-        .modal-body p { font-size: 14px; color: var(--themeC-alt); line-height: 1.6; }
-        .modal-footer {
-            padding: 16px 24px;
-            border-top: var(--sideBd-line) solid var(--sideBd-color);
-            background-color: var(--contentBg-sec);
-        }
-        .custom-modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
-        .modal-btn {
-            padding: 8px 18px;
-            border-radius: 7px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            border: 1px solid var(--sideBd-color);
-            transition: opacity 0.2s;
-            font-family: inherit;
-        }
-        .modal-btn:hover { opacity: 0.8; }
-        .modal-btn.primary { background-color: var(--alikernelBg); color: var(--alikernelC); }
-        .modal-btn.secondary { background-color: transparent; color: var(--themeC); }
-    </style>
-
     <script is:inline>
-    var icons = {
-        clock: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>',
-        device: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg>',
-        location: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>',
-        globe: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M7.99998 3H8.99998C7.04998 8.84 7.04998 15.16 8.99998 21H7.99998"></path><path d="M15 3C16.95 8.84 16.95 15.16 15 21"></path><path d="M3 16V15C8.84 16.95 15.16 16.95 21 15V16"></path><path d="M3 9C8.84 7.05 15.16 7.05 21 9"></path></svg>',
-        check: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4L9 15"></path><path d="M21 19L3 19"></path><path d="M9 15L4 10"></path></svg>'
-    };
-
-    function getOS(userAgent) {
-        if (!userAgent) return "غير معروف";
-        if (/Android/i.test(userAgent)) return "أندرويد";
-        if (/iPhone/i.test(userAgent)) return "آيفون";
-        if (/iPad/i.test(userAgent)) return "آيباد";
-        if (/Windows/i.test(userAgent)) return "ويندوز";
-        if (/Mac/i.test(userAgent)) return "ماك";
-        if (/Linux/i.test(userAgent)) return "لينكس";
-        return "غير معروف";
-    }
-
-    function escapeHtml(text) {
-        var div = document.createElement('div');
-        div.textContent = text || '';
-        return div.innerHTML;
-    }
-
-    function showModal(msg, cb) {
-        var modal = document.getElementById("custom-confirm-modal");
-        var text = document.getElementById("custom-modal-text");
-        var confirmBtn = document.getElementById("custom-modal-confirm-btn");
-        var cancelBtn = document.getElementById("custom-modal-cancel-btn");
-        if (!modal) { if (confirm(msg) && cb) cb(); return; }
-        text.textContent = msg;
-        modal.classList.remove("hidden");
-        var newC = confirmBtn.cloneNode(true);
-        var newX = cancelBtn.cloneNode(true);
-        confirmBtn.parentNode.replaceChild(newC, confirmBtn);
-        cancelBtn.parentNode.replaceChild(newX, cancelBtn);
-        newC.onclick = function() { modal.classList.add("hidden"); if (cb) cb(); };
-        newX.onclick = function() { modal.classList.add("hidden"); };
-    }
-
-    (function() {
-        var API = "/api/auth";
-        var LOGIN = "/login";
-        var currentSessionToken = null;
-
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'auth_event' && (e.newValue || '').startsWith('signout')) {
-                localStorage.clear();
-                window.location.href = LOGIN;
-            }
-        });
-
-        try {
-            var photoURL = localStorage.getItem("userPhotoURL");
-            var lastUid = localStorage.getItem("last_uid");
-            var av = document.getElementById("account-avatar");
-            if (lastUid && photoURL && av) av.src = photoURL;
-            var cachedName = localStorage.getItem("userDisplayName");
-            var cachedEmail = localStorage.getItem("userEmail");
-            var cachedJoined = localStorage.getItem("userJoinedDate");
-            var cachedSessions = localStorage.getItem("userSessionsHTMLCache");
-            if (cachedName) document.getElementById("account-name").textContent = cachedName;
-            if (cachedEmail) document.getElementById("account-email").textContent = cachedEmail;
-            if (cachedJoined) document.getElementById("account-joined-date").textContent = cachedJoined;
-            if (cachedSessions) document.getElementById("sessions-list").innerHTML = cachedSessions;
-        } catch(e) {}
-
-        fetch(API + "/get-session", { credentials: "include" })
-            .then(function(r) { return r.json(); })
-            .then(function(data) {
-                if (!data || !data.user) { window.location.href = LOGIN; return; }
-                var user = data.user;
-                currentSessionToken = data.session ? data.session.token : null;
-                var name = user.name || "مستخدم";
-                var email = user.email || "";
-                document.getElementById('account-name').textContent = name;
-                document.getElementById('account-email').textContent = email;
-                if (user.image) {
-                    document.getElementById('account-avatar').src = user.image;
-                    localStorage.setItem("userPhotoURL", user.image);
-                }
-                var prevUid = localStorage.getItem("last_uid");
-                localStorage.setItem("userDisplayName", name);
-                localStorage.setItem("userEmail", email);
-                localStorage.setItem("last_uid", user.id);
-                if (!prevUid) {
-                    localStorage.setItem('auth_event', 'signin_' + Date.now());
-                    setTimeout(function() { window.location.href = 'https://www.alikernel.com'; }, 300);
-                    return;
-                }
-                document.documentElement.style.visibility = 'visible';
-                if (user.createdAt) {
-                    var date = new Date(user.createdAt);
-                    var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
-                        year: 'numeric', month: 'numeric', day: 'numeric',
-                        hour: 'numeric', minute: 'numeric', hour12: true
-                    }).replace('ص', 'صباحاً').replace('م', 'مساءً');
-                    document.getElementById('account-joined-date').textContent = formatted;
-                    localStorage.setItem("userJoinedDate", formatted);
-                }
-                loadSessions();
-            })
-            .catch(function() { window.location.href = LOGIN; });
-
-        function loadSessions() {
-            var list = document.getElementById("sessions-list");
-            if (!list) return;
-            fetch(API + "/list-sessions", { credentials: "include" })
-                .then(function(r) { return r.json(); })
-                .then(function(sessions) {
-                    if (!sessions || sessions.length === 0) {
-                        list.innerHTML = '<p style="text-align:center;color:#888;">لا توجد جلسات نشطة</p>';
-                        return;
-                    }
-                    var htmlContent = sessions.map(function(s) {
-                        var isCurr = s.token === currentSessionToken;
-                        var time = new Date(s.createdAt).toLocaleString('ar-u-nu-latn', {
-                            hour: 'numeric', minute: 'numeric', hour12: true
-                        }).replace('ص', 'AM').replace('م', 'PM');
-                        var os = getOS(s.userAgent);
-                        var domainLine = s.userAgent ?
-                            '<div class="session-detail-line">' + icons.globe + ' <span>الموقع: ' + escapeHtml(window.location.hostname) + '</span></div>' : '';
-
-                        return '<div class="session-item" id="session-' + escapeHtml(s.token) + '">' +
-                            '<div class="session-details">' +
-                                '<div class="session-detail-line">' + icons.clock + ' <span>الوقت: ' + time + '</span></div>' +
-                                '<div class="session-detail-line">' + icons.device + ' <span>نظام التشغيل: ' + os + '</span></div>' +
-                                '<div class="session-detail-line">' + icons.location + ' <span>العنوان: ' + escapeHtml(s.ipAddress || 'غير معروف') + '</span></div>' +
-                                domainLine +
-                                (isCurr ? '<div class="session-detail-line current-session-indicator">' + icons.check + ' <span>جلستك الحالية</span></div>' : '') +
-                            '</div>' +
-                            '<button class="terminate-btn ' + (isCurr ? 'icon-current' : 'icon-terminate') + '" onclick="deleteSession(\'' + escapeHtml(s.token) + '\', ' + isCurr + ')"></button>' +
-                        '</div>';
-                    }).join('');
-
-                    localStorage.setItem("userSessionsHTMLCache", htmlContent);
-                    list.innerHTML = htmlContent;
-                })
-                .catch(function() {
-                    list.innerHTML = '<p style="text-align:center;color:#888;">تعذر تحميل الجلسات</p>';
-                });
-        }
-
-        window.deleteSession = function(token, isCurrent) {
-            var msg = isCurrent ? "لا يمكن التراجع عن هذا الإجراء. أنت على وشك إلغاء جلستك الحالية، مما سيؤدي إلى تسجيل خروجك فوراً." : "لا يمكن التراجع عن هذا الإجراء. سيؤدي إلغاء هذه الجلسة إلى إزالة صلاحيات الوصول الخاصة بها.";
-            showModal(msg, function() {
-                fetch(API + "/revoke-session", {
-                    method: "POST",
-                    credentials: "include",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ token: token })
-                }).then(function() {
-                    if (isCurrent) {
-                        localStorage.setItem('auth_event', 'signout_' + Date.now());
-                        localStorage.clear();
-                        window.location.href = LOGIN;
-                    } else {
-                        loadSessions();
-                    }
-                });
-            });
+        var icons = {
+            clock: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 6v6l4 2"></path><circle cx="12" cy="12" r="10"></circle></svg>',
+            device: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h8"></path><rect width="6" height="10" x="16" y="12" rx="2"></rect></svg>',
+            location: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>',
+            globe: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M7.99998 3H8.99998C7.04998 8.84 7.04998 15.16 8.99998 21H7.99998"></path><path d="M15 3C16.95 8.84 16.95 15.16 15 21"></path><path d="M3 16V15C8.84 16.95 15.16 16.95 21 15V16"></path><path d="M3 9C8.84 7.05 15.16 7.05 21 9"></path></svg>',
+            check: '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 4L9 15"></path><path d="M21 19L3 19"></path><path d="M9 15L4 10"></path></svg>'
         };
 
-        document.getElementById('logout-btn').addEventListener('click', function() {
-            showModal("هل تريد تسجيل الخروج؟", function() {
-                fetch(API + "/sign-out", {
-                    method: "POST",
-                    credentials: "include",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({})
-                }).then(function() {
-                    localStorage.setItem('auth_event', 'signout_' + Date.now());
-                    setTimeout(function() {
-                        localStorage.clear();
-                        window.location.href = LOGIN;
-                    }, 300);
+        function getOS(userAgent) {
+            if (!userAgent) return "غير معروف";
+            if (/Android/i.test(userAgent)) return "أندرويد";
+            if (/iPhone/i.test(userAgent)) return "آيفون";
+            if (/iPad/i.test(userAgent)) return "آيباد";
+            if (/Windows/i.test(userAgent)) return "ويندوز";
+            if (/Mac/i.test(userAgent)) return "ماك";
+            if (/Linux/i.test(userAgent)) return "لينكس";
+            return "غير معروف";
+        }
+
+        function escapeHtml(text) {
+            var div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+
+        function showModal(msg, cb) {
+            var modal = document.getElementById("custom-confirm-modal");
+            var text = document.getElementById("custom-modal-text");
+            var confirmBtn = document.getElementById("custom-modal-confirm-btn");
+            var cancelBtn = document.getElementById("custom-modal-cancel-btn");
+            if (!modal) { if (confirm(msg) && cb) cb(); return; }
+            text.textContent = msg;
+            modal.classList.remove("hidden");
+            var newC = confirmBtn.cloneNode(true);
+            var newX = cancelBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newC, confirmBtn);
+            cancelBtn.parentNode.replaceChild(newX, cancelBtn);
+            newC.onclick = function() { modal.classList.add("hidden"); if (cb) cb(); };
+            newX.onclick = function() { modal.classList.add("hidden"); };
+        }
+
+        (function() {
+            var API = "/api/auth";
+            var LOGIN = "/login";
+            var currentSessionToken = null;
+
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'auth_event' && (e.newValue || '').startsWith('signout')) {
+                    localStorage.clear();
+                    window.location.href = LOGIN;
+                }
+            });
+
+            try {
+                var photoURL = localStorage.getItem("userPhotoURL");
+                var lastUid = localStorage.getItem("last_uid");
+                var av = document.getElementById("account-avatar");
+                if (lastUid && photoURL && av) av.src = photoURL;
+                var cachedName = localStorage.getItem("userDisplayName");
+                var cachedEmail = localStorage.getItem("userEmail");
+                var cachedJoined = localStorage.getItem("userJoinedDate");
+                var cachedSessions = localStorage.getItem("userSessionsHTMLCache");
+                if (cachedName) document.getElementById("account-name").textContent = cachedName;
+                if (cachedEmail) document.getElementById("account-email").textContent = cachedEmail;
+                if (cachedJoined) document.getElementById("account-joined-date").textContent = cachedJoined;
+                if (cachedSessions) document.getElementById("sessions-list").innerHTML = cachedSessions;
+            } catch(e) {}
+
+            fetch(API + "/get-session", { credentials: "include" })
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    if (!data || !data.user) { window.location.href = LOGIN; return; }
+                    var user = data.user;
+                    currentSessionToken = data.session ? data.session.token : null;
+                    var name = user.name || "مستخدم";
+                    var email = user.email || "";
+                    document.getElementById('account-name').textContent = name;
+                    document.getElementById('account-email').textContent = email;
+                    if (user.image) {
+                        document.getElementById('account-avatar').src = user.image;
+                        localStorage.setItem("userPhotoURL", user.image);
+                    }
+                    var prevUid = localStorage.getItem("last_uid");
+                    localStorage.setItem("userDisplayName", name);
+                    localStorage.setItem("userEmail", email);
+                    localStorage.setItem("last_uid", user.id);
+                    if (!prevUid) {
+                        localStorage.setItem('auth_event', 'signin_' + Date.now());
+                        setTimeout(function() { window.location.href = 'https://www.alikernel.com'; }, 300);
+                        return;
+                    }
+                    document.documentElement.style.visibility = 'visible';
+                    if (user.createdAt) {
+                        var date = new Date(user.createdAt);
+                        var formatted = "انضم في: " + date.toLocaleString('ar-u-nu-latn', {
+                            year: 'numeric', month: 'numeric', day: 'numeric',
+                            hour: 'numeric', minute: 'numeric', hour12: true
+                        }).replace('ص', 'صباحاً').replace('م', 'مساءً');
+                        document.getElementById('account-joined-date').textContent = formatted;
+                        localStorage.setItem("userJoinedDate", formatted);
+                    }
+                    loadSessions();
+                })
+                .catch(function() { window.location.href = LOGIN; });
+
+            function loadSessions() {
+                var list = document.getElementById("sessions-list");
+                if (!list) return;
+                fetch(API + "/list-sessions", { credentials: "include" })
+                    .then(function(r) { return r.json(); })
+                    .then(function(sessions) {
+                        if (!sessions || sessions.length === 0) {
+                            list.innerHTML = '<p style="text-align:center;color:#888;">لا توجد جلسات نشطة</p>';
+                            return;
+                        }
+                        var htmlContent = sessions.map(function(s) {
+                            var isCurr = s.token === currentSessionToken;
+                            var time = new Date(s.createdAt).toLocaleString('ar-u-nu-latn', {
+                                hour: 'numeric', minute: 'numeric', hour12: true
+                            }).replace('ص', 'AM').replace('م', 'PM');
+                            var os = getOS(s.userAgent);
+                            var domainLine = s.userAgent ?
+                                '<div class="session-detail-line">' + icons.globe + ' <span>الموقع: ' + escapeHtml(window.location.hostname) + '</span></div>' : '';
+
+                            return '<div class="session-item" id="session-' + escapeHtml(s.token) + '">' +
+                                '<div class="session-details">' +
+                                    '<div class="session-detail-line">' + icons.clock + ' <span>الوقت: ' + time + '</span></div>' +
+                                    '<div class="session-detail-line">' + icons.device + ' <span>نظام التشغيل: ' + os + '</span></div>' +
+                                    '<div class="session-detail-line">' + icons.location + ' <span>العنوان: ' + escapeHtml(s.ipAddress || 'غير معروف') + '</span></div>' +
+                                    domainLine +
+                                    (isCurr ? '<div class="session-detail-line current-session-indicator">' + icons.check + ' <span>جلستك الحالية</span></div>' : '') +
+                                '</div>' +
+                                '<button class="terminate-btn ' + (isCurr ? 'icon-current' : 'icon-terminate') + '" onclick="deleteSession(\'' + escapeHtml(s.token) + '\', ' + isCurr + ')"></button>' +
+                            '</div>';
+                        }).join('');
+
+                        localStorage.setItem("userSessionsHTMLCache", htmlContent);
+                        list.innerHTML = htmlContent;
+                    })
+                    .catch(function() {
+                        list.innerHTML = '<p style="text-align:center;color:#888;">تعذر تحميل الجلسات</p>';
+                    });
+            }
+
+            window.deleteSession = function(token, isCurrent) {
+                var msg = isCurrent ? "لا يمكن التراجع عن هذا الإجراء. أنت على وشك إلغاء جلستك الحالية، مما سيؤدي إلى تسجيل خروجك فوراً." : "لا يمكن التراجع عن هذا الإجراء. سيؤدي إلغاء هذه الجلسة إلى إزالة صلاحيات الوصول الخاصة بها.";
+                showModal(msg, function() {
+                    fetch(API + "/revoke-session", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ token: token })
+                    }).then(function() {
+                        if (isCurrent) {
+                            localStorage.setItem('auth_event', 'signout_' + Date.now());
+                            localStorage.clear();
+                            window.location.href = LOGIN;
+                        } else {
+                            loadSessions();
+                        }
+                    });
+                });
+            };
+
+            document.getElementById('logout-btn').addEventListener('click', function() {
+                showModal("هل تريد تسجيل الخروج؟", function() {
+                    fetch(API + "/sign-out", {
+                        method: "POST",
+                        credentials: "include",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({})
+                    }).then(function() {
+                        localStorage.setItem('auth_event', 'signout_' + Date.now());
+                        setTimeout(function() {
+                            localStorage.clear();
+                            window.location.href = LOGIN;
+                        }, 300);
+                    });
                 });
             });
-        });
-    })();
+        })();
     </script>
-
 </Layout>
