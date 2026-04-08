@@ -1,5 +1,6 @@
 ---
 const { title } = Astro.props;
+import '../styles/style.css';
 ---
 
 <!DOCTYPE html>
@@ -108,7 +109,6 @@ const { title } = Astro.props;
         .footer-logo-section a:not(.footer-logo-link) { font-size: 11px; font-weight: 600; opacity: 0.85; display: inline-flex; align-items: center; }
         .footer-logo-section a:not(.footer-logo-link):hover { text-decoration-line: underline !important; }
 
-        /* ===== Theme Controls الأصلي (بدون التكرار المخرب) ===== */
         .theme-controls { display: flex; border-radius: 9px; border: 1px solid var(--sideBd-color); background-color: var(--alikernelC); }
         .theme-btn { position: relative; padding: 8px 9px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
         .theme-btn:first-child { border-start-start-radius: 8px; border-end-start-radius: 8px; }
@@ -227,15 +227,15 @@ const { title } = Astro.props;
 
                 <div class="theme-controls">
                     <button class="theme-btn" id="theme-btn-dark" onclick="setTheme('dark', true)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/></svg>
+                        <svg viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/></svg>
                         <div class="tooltip-box">مظلم<div class="tooltip-arrow"></div></div>
                     </button>
                     <button class="theme-btn" id="theme-btn-light" onclick="setTheme('light', true)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
                         <div class="tooltip-box">نهار<div class="tooltip-arrow"></div></div>
                     </button>
                     <button class="theme-btn" id="theme-btn-system" onclick="setTheme('default', true)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                         <div class="tooltip-box">تلقائي<div class="tooltip-arrow"></div></div>
                     </button>
                 </div>
@@ -288,6 +288,7 @@ const { title } = Astro.props;
     var savedTheme = localStorage.getItem('theme') || 'default';
     setTheme(savedTheme, false);
 
+    /* سكربت تشغيل المودال */
     function showModal(msg, cb) {
         var modal = document.getElementById("custom-confirm-modal");
         var text = document.getElementById("custom-modal-text");
