@@ -414,7 +414,7 @@ body[data-theme="light"] .terminate-btn.icon-terminate {
     align-items: center;
     gap: 6px;
     color: var(--themeC);
-    font-weight: 700;
+    font-weight: 500;
     font-size: 14px;
 }
 
