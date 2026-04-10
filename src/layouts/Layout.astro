@@ -190,15 +190,11 @@ const { title, noWrapper = false } = Astro.props;
 </head>
 <body id="nB" class="nB">
     <script is:inline>
+        // هنا خلينا بس كود قراءة الثيم حتى ميصير وميض أبيض أول متفتح الصفحة
         (function() {
             var theme = localStorage.getItem('theme') || 'default';
             document.body.setAttribute('data-theme', theme);
         })();
-        window.addEventListener('storage', function(e) {
-            if (e.key === 'theme' && e.newValue) {
-                document.body.setAttribute('data-theme', e.newValue);
-            }
-        });
     </script>
 
     <div class="page-wrapper">
@@ -301,8 +297,16 @@ const { title, noWrapper = false } = Astro.props;
             });
         } catch(e) { applyTheme(); }
     }
+    
     var savedTheme = localStorage.getItem('theme') || 'default';
     setTheme(savedTheme, false);
+
+    // الإضافة السحرية هنا: مراقبة التبويبات الأخرى وتحديث الأزرار بدون ريفريش
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'theme' && e.newValue) {
+            setTheme(e.newValue, false);
+        }
+    });
     </script>
 </body>
 </html>
