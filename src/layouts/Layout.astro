@@ -163,6 +163,11 @@ const { title, noWrapper = false } = Astro.props;
         .theme-btn:not(:last-child) { border-left: 1px solid var(--sideBd-color); }
         .theme-btn:hover { color: var(--alikernelBg); }
         .theme-btn.active { background-color: var(--contentBg-sec); }
+.theme-btn.active svg {
+    color: var(--alikernelBg);
+    opacity: 1;
+}
+
         .theme-btn svg { width: 15px; height: 15px; stroke: currentColor; fill: none; }
         @keyframes slideUp { 0% { opacity: 0; transform: translateX(-50%) translateY(10px); } 100% { opacity: 1; transform: translateX(-50%) translateY(0); } }
         .theme-btn .tooltip-box { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); margin-bottom: 10px; background-color: var(--alikernelBg); color: var(--alikernelC); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 600; white-space: nowrap; opacity: 0; visibility: hidden; pointer-events: none; z-index: 20; }
